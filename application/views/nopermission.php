@@ -1,0 +1,2 @@
+<h1>Access Denied</h1>
+<p>You do not have permission to view this page. You can <a href="<?php echo base_url();?>index.php/login/login">login</a> or <a href="<?php echo base_url();?>index.php/login/signup">create an account</a>.</p>
