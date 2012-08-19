@@ -29,6 +29,11 @@
 		<script src="<?php echo base_url();?>js/libs/jquery-1.6.1.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<?php echo base_url();?>js/mylibs/core-jquery.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<?php echo base_url();?>js/mylibs/sandbox.js" type="text/javascript" charset="utf-8"></script>
+
+		<script src="<?php echo base_url();?>js/libs/underscore-min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="<?php echo base_url();?>js/libs/backbone-min.js" type="text/javascript" charset="utf-8"></script>
+
+
 		<script src="<?php echo base_url();?>js/script.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<?php echo base_url();?>js/raphael-min.js"></script>
 	   	<script src="<?php echo base_url();?>js/g.raphael-min.js"></script>

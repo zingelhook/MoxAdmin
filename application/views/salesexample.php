@@ -99,7 +99,7 @@
 		            type: 'GET',
 		            dataType: 'jsonp',
 		            jsonpCallback: "moxsvc",
-		            url: "http://24.171.26.35:8000?id=1",
+		            url: "http://localhost:8000?id=1",
 		            success: function(data) {
 		                //console.dir(data);
 		                buildTable(data);
