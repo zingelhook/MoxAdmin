@@ -87,7 +87,51 @@ hr.soften {
 
 /* Base class
 ------------------------- */
-.jumbotron {
+
+.jumbotron{
+    position: relative;
+  padding: 40px 0;
+  color: #444;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0,0,0,.4), 0 0 30px rgba(1,0,0,.070);
+
+
+background: rgb(205,235,142); /* Old browsers */
+background: -moz-linear-gradient(left,  rgba(205,235,142,1) 0%, rgba(165,201,86,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(205,235,142,1)), color-stop(100%,rgba(165,201,86,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(left,  rgba(205,235,142,1) 0%,rgba(165,201,86,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(left,  rgba(205,235,142,1) 0%,rgba(165,201,86,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(left,  rgba(205,235,142,1) 0%,rgba(165,201,86,1) 100%); /* IE10+ */
+background: linear-gradient(to right,  rgba(205,235,142,1) 0%,rgba(165,201,86,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cdeb8e', endColorstr='#a5c956',GradientType=1 ); /* IE6-9 */
+
+}
+
+
+
+
+
+
+.jumbotron_old2{
+    position: relative;
+  padding: 40px 0;
+  color: #fff;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 30px rgba(0,0,0,.075);
+
+
+background: #ff3019; /* Old browsers */
+background: -moz-linear-gradient(left,  #ff3019 0%, #cf0404 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, right top, color-stop(0%,#ff3019), color-stop(100%,#cf0404)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(left,  #ff3019 0%,#cf0404 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(left,  #ff3019 0%,#cf0404 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(left,  #ff3019 0%,#cf0404 100%); /* IE10+ */
+background: linear-gradient(to right,  #ff3019 0%,#cf0404 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff3019', endColorstr='#cf0404',GradientType=1 ); /* IE6-9 */
+
+}
+.jumbotron_old {
+
   position: relative;
   padding: 40px 0;
   color: #fff;
