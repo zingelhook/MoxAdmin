@@ -19,8 +19,9 @@
 
 
   		<!-- CSS: implied media="all" -->
-  		<link rel="stylesheet" href="<?php echo base_url();?>CSS/style.css">
-
+  		<link rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap.min.css">
+  		<link rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap-responsive.min.css">
+  		<link rel="stylesheet" href="<?php echo base_url();?>assets/css/index.css">
   		<!-- Uncomment if you are specifically targeting less enabled mobile browsers
   		<link rel="stylesheet" media="handheld" href="css/handheld.css?v=2">  -->
 
@@ -34,7 +35,8 @@
 
 		<script src="<?php echo base_url();?>app/namespace.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<?php echo base_url();?>app/modules/home.js" type="text/javascript" charset="utf-8"></script>
-				<script src="<?php echo base_url();?>app/modules/tour.js" type="text/javascript" charset="utf-8"></script>
+		<script src="<?php echo base_url();?>app/modules/login.js" type="text/javascript" charset="utf-8"></script>
+		<script src="<?php echo base_url();?>app/modules/tour.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<?php echo base_url();?>app/Home_index.js" type="text/javascript" charset="utf-8"></script>
 
 		<script src="<?php echo base_url();?>js/raphael-min.js"></script>
@@ -53,24 +55,33 @@
 		<input type="hidden" id="roleId" value="<?php echo $this->session->userdata('roleId');?>">
 		<input type="hidden" id="firstName" value="<?php echo $this->session->userdata('firstname');?>">
 		<input type="hidden" id="lastName" value="<?php echo $this->session->userdata('lastname');?>">
-		<div id="wrapper">
-			<div id="container">
+		<div class="navbar navbar-inverse navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+				<ul class="nav">
+					<li><a href="#home">Home</a></li>
+					<li><a href="#tour">Tour</a></li>
+					<li><a href="<?php echo base_url();?>index.php/documentation">Documentation</a></li>	
+					<li><a href="<?php echo base_url();?>index.php/pricing">Pricing</a></li>
+					<li><a href="#login">Sign In</a></li>
+				</ul>
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+
+
+
+
+
+		
 	    		<header>
-					<div id="header-cap">
-						<a href="#" id="signInLink">Sign In</a>
-						<a href="#" style='display:none;' id="logOutLink">Log Out</a>
-						<span id="welcometext"></span>
-					</div>
-					<a id="logo" href="<?php echo base_url();?>index.php"><img src="<?php echo base_url();?>images/logo.png" alt="MoxSVC"/></a>
-					
-					<div id="top-nav-guest" class="topNav">
-						<ul>
-							<li><a href="#tour">Tour</a></li>
-							<li><a href="<?php echo base_url();?>index.php/documentation">Documentation</a></li>	
-							<li><a href="<?php echo base_url();?>index.php/pricing">Pricing</a></li>
-							<li><a href="http://kgaddy.com">Blog</a></li>
-						</ul>
-					</div>
+
+
 					<div id="top-nav-member" class="topNav" style="display:none">
 						<ul>
 							<li><a href="<?php echo base_url();?>index.php/members">My Mocks</a></li>

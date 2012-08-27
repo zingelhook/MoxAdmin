@@ -1,17 +1,10 @@
  </div>
-<footer id="footer">
-        <nav>
-            <a href="#">Facebook</a>
-            <a href="#">Twitter</a>
-            <a href="#">Flickr</a>
-            <a href="#">Dribbble</a>
-            <a href="#">Forrst</a>
-        </nav>
-	<p>All content © 2011 MoxSVC &amp; Kevin Gaddy. All rights reserved.</p>
+<footer class="footer">
+      <div class="container">
+        <p class="pull-right"><a href="#">Back to top</a></p>
+   
+      </div>
     </footer>
-  </div> <!--! end of #container -->
-
-</div>
 
 
 

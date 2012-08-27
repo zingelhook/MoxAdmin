@@ -10,20 +10,39 @@ jQuery(function ($) {
 
     var home = Suds.module("home");
     var tour = Suds.module("tour");
+    var login = Suds.module("login");
 
-console.log(home);
     // Defining the application router, you can attach sub routers here.
     var Router = Backbone.Router.extend({
         routes: {
             "": "index",
             "index": "index",
-            "tour": "tour"
+            "home": "index",
+            "tour": "tour",
+            "login": "login"
   
         },
-        tour:function(hash){
-            alert('tour');
+        login:function(hash){
+    
             var route = this;
-            console.log(tour);
+            var loginPage = new login.Views.Main();
+            // Attach the tutorial to the DOM
+            loginPage.render(function (el) {
+                $("#main").html(el);
+                // Fix for hashes in pushState and hash fragment
+                if (hash && !route._alreadyTriggered) {
+                    // Reset to home, pushState support automatically converts hashes
+                    Backbone.history.navigate("", false);
+                    // Trigger the default browser behavior
+                    location.hash = hash;
+                    // Set an internal flag to stop recursive looping
+                    route._alreadyTriggered = true;
+                }
+            });
+        },
+        tour:function(hash){
+    
+            var route = this;
             var tourPage = new tour.Views.Main();
             // Attach the tutorial to the DOM
             tourPage.render(function (el) {
@@ -40,7 +59,7 @@ console.log(home);
             });
         },
         index: function (hash) {
-            alert('index')
+  
             var route = this;
             var mainPage = new home.Views.MainPage();
             // Attach the tutorial to the DOM
