@@ -7,7 +7,7 @@ jQuery(function ($) {
     var app = Suds.app;
 
     // Include the modules
-
+    var shared = Suds.module("shared");
     var home = Suds.module("home");
     var tour = Suds.module("tour");
     var login = Suds.module("login");

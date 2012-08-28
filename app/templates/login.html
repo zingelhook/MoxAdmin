@@ -1,19 +1,36 @@
-<fieldset>
-					<legend>Login</legend>
-					<ul>
-						<li>
-							<label for="username">User Name:</label>
+<header class="jumbotron subhead" id="overview">
+  <div class="container">
+    <h1>Login</h1>
+  </div>
+</header>
+
+<div class="row-fluid">
+	<div class="span12">
+		<div class="container">
+			<form class="form-horizontal">
+				<fieldset>
+					<legend></legend>
+					<div class="control-group">
+						<label for="username" class="control-label">User Name:</label>
+						<div class="controls">
 							<input type="text" id="username" class="username" name="username"/>	
-						</li>
-						<li>
-							<label for="password">Password:</label>
-							<input type="password" id="password" class="password" name="password"/>
-						</li>
-						<li class="button-list">
-							<div>
-								<a href="#" class="login_btn" id="login_btn">Login</a>
-								<a href="<?php echo base_url();?>index.php/login/signup" id="SignUp_btn">Sign Up</a>
+						</div>
+					</div>
+					<div class="control-group">
+							<label for="password"  class="control-label">Password:</label>
+							<div class="controls">
+								<input type="password" id="password" class="password" name="password"/>
 							</div>
-						</li>
-					</ul>
+					</div>
+					<div class="control-group">
+			    		<div class="controls">
+							<button type="submit" id="login_btn" class="btn">Sign in</button>
+
+							<a href="<?php echo base_url();?>index.php/login/signup" id="SignUp_btn">Sign Up</a>
+						</div>
+					</div>
 				</fieldset>
+			</form>
+		</div>
+	</div>
+</div>

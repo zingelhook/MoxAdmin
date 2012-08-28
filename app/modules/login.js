@@ -7,7 +7,12 @@
     // This will fetch the tutorial template and render it.
     Login.Views.Main = Backbone.View.extend({
         template: "app/templates/login.html",
-
+         events: {
+            "click #login_btn":          "login"
+        },
+        login:function(){
+            alert('dd');
+        },
         render: function (done) {
 
             var view = this;
@@ -18,5 +23,4 @@
             });
         }
     });
-
 })(Suds.module("login"));
