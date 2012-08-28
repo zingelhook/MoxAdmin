@@ -1,7 +1,7 @@
 // Treat the jQuery ready function as the entry point to the application.
 // Inside this function, kick-off all initialization, everything up to this
 // point should be definitions.
-jQuery(function ($) {
+jQuery(function($) {
 
     // Shorthand the application namespace
     var app = Suds.app;
@@ -20,14 +20,14 @@ jQuery(function ($) {
             "home": "index",
             "tour": "tour",
             "login": "login"
-  
+
         },
-        login:function(hash){
-    
+        login: function(hash) {
+
             var route = this;
             var loginPage = new login.Views.Main();
             // Attach the tutorial to the DOM
-            loginPage.render(function (el) {
+            loginPage.render(function(el) {
                 $("#main").html(el);
                 // Fix for hashes in pushState and hash fragment
                 if (hash && !route._alreadyTriggered) {
@@ -40,12 +40,12 @@ jQuery(function ($) {
                 }
             });
         },
-        tour:function(hash){
-    
+        tour: function(hash) {
+
             var route = this;
             var tourPage = new tour.Views.Main();
             // Attach the tutorial to the DOM
-            tourPage.render(function (el) {
+            tourPage.render(function(el) {
                 $("#main").html(el);
                 // Fix for hashes in pushState and hash fragment
                 if (hash && !route._alreadyTriggered) {
@@ -58,12 +58,12 @@ jQuery(function ($) {
                 }
             });
         },
-        index: function (hash) {
-  
+        index: function(hash) {
+
             var route = this;
             var mainPage = new home.Views.MainPage();
             // Attach the tutorial to the DOM
-            mainPage.render(function (el) {
+            mainPage.render(function(el) {
                 $("#main").html(el);
                 // Fix for hashes in pushState and hash fragment
                 if (hash && !route._alreadyTriggered) {
@@ -83,22 +83,16 @@ jQuery(function ($) {
     app.router = new Router();
 
     // Trigger the initial route and enable HTML5 History API support
-    Backbone.history.start({ pushState: false });
-
-
-
-
-
-
-
-
+    Backbone.history.start({
+        pushState: false
+    });
 
 
     // All navigation that is relative should be passed through the navigate
     // method, to be processed by the router.  If the link has a data-bypass
     // attribute, bypass the delegation completely.
-    $(document).on("click", "a:not([data-bypass])", function (evt) {
-        if($(this).hasClass('backbone')){
+    $(document).on("click", "a:not([data-bypass])", function(evt) {
+        if ($(this).hasClass('backbone')) {
             // Get the anchor href and protcol
             var href = $(this).attr("href");
             var protocol = this.protocol + "//";
