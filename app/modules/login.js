@@ -36,6 +36,15 @@
                 data: form_data,
                 success: function(msg) {
                     console.log(msg);
+                    console.log(Suds.app.currentUser);
+                    Suds.app.currentUser.set({
+                        userId:msg.UserInfo.userid,
+                        firstName: msg.UserInfo.firstname,
+                        isLoggedIn: msg.UserInfo.isLoggedIn,
+                        lastName:msg.UserInfo.lastname,
+                        roleId:msg.UserInfo.roleId
+                    });
+                    console.log(Suds.app.currentUser);
                     if (msg.UserInfo.isLoggedIn !== false) {
                         $('#welcometext').html('Welcome ' + msg.UserInfo.firstname + ' ' + msg.UserInfo.lastname + '!');
                         $('#signInForm').fadeOut(400);
@@ -59,7 +68,6 @@
 
         },
         render: function(done) {
-
             var view = this;
             // Fetch the template, render it to the View element and call done.
             Suds.fetchTemplate(this.template, function(tmpl) {

@@ -7,10 +7,11 @@ jQuery(function($) {
     var app = Suds.app;
 
     // Include the modules
-    var shared = Suds.module("shared");
-    var home   = Suds.module("home");
-    var tour   = Suds.module("tour");
-    var login  = Suds.module("login");
+    var shared      = Suds.module("shared");
+    var home        = Suds.module("home");
+    var tour        = Suds.module("tour");
+    var login       = Suds.module("login");
+    Suds.app.currentUser = new shared.Model.User({});
 
     // Defining the application router, you can attach sub routers here.
     var Router = Backbone.Router.extend({

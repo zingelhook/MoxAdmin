@@ -1,6 +1,21 @@
 <?php
 
 class mock extends CI_Controller{
+
+
+	function GetUserMocks(){
+
+		//load the user's model
+		$this->load->model('Users');
+		//use the model's validate function
+		$query = $this->Users->validate();
+		$this->session->set_userdata($query);
+		$data["UserInfo"] = $query;
+	
+		$this->session->set_userdata($data);
+
+		echo json_encode($data);
+	}
 	
 	function index(){
 		$hasAccess = $this->session->userdata('isLoggedIn');

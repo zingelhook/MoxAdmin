@@ -7,11 +7,13 @@
     Shared.Model.User = Backbone.Model.extend(
     {
         defaults: {
-            "pager_number": 1
+            "userId": 0
         },
         Login:function(userName,pwd){
 
         }
     });
+
+
 
 })(Suds.module("shared"));
