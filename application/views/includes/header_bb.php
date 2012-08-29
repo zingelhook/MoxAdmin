@@ -45,7 +45,7 @@
 	    <script src="<?php echo base_url();?>js/g.pie-min.js"></script>
 		<script src="<?php echo base_url();?>js/libs/jquery.growl.js"></script>
 		 <script type="text/javascript">
-	        var base = "<?php echo base_url();?>;"
+	        var base = "<?php echo base_url();?>"
 	    </script>
 	</head>
 
