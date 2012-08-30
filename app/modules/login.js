@@ -12,9 +12,9 @@
         },
         login: function() {
 
-            
+
             var user = this.$('#username').val();
-           
+
             if (user.length === 0) {
                 user = $('#username2').val();
             }
@@ -22,7 +22,7 @@
             if (pwd.length === 0) {
                 pwd = $('#password2').val();
             }
-            
+
             var form_data = {
                 username: user,
                 password: pwd,
@@ -35,23 +35,30 @@
                 url: base + "index.php/login/validate_credentials",
                 data: form_data,
                 success: function(msg) {
-                    console.log(msg);
-                    console.log(Suds.app.currentUser);
-                    Suds.app.currentUser.set({
-                        userId:msg.UserInfo.userid,
-                        firstName: msg.UserInfo.firstname,
-                        isLoggedIn: msg.UserInfo.isLoggedIn,
-                        lastName:msg.UserInfo.lastname,
-                        roleId:msg.UserInfo.roleId
-                    });
-                    console.log(Suds.app.currentUser);
+
+
+
                     if (msg.UserInfo.isLoggedIn !== false) {
+
+                        Suds.app.currentUser.set({
+                            userId: msg.UserInfo.userid,
+                            firstName: msg.UserInfo.firstname,
+                            isLoggedIn: msg.UserInfo.isLoggedIn,
+                            lastName: msg.UserInfo.lastname,
+                            roleId: msg.UserInfo.roleId
+                        });
+                        Suds.app.router.navigate("#dashboard", {
+                            trigger: true
+                        });
+                        /*
                         $('#welcometext').html('Welcome ' + msg.UserInfo.firstname + ' ' + msg.UserInfo.lastname + '!');
                         $('#signInForm').fadeOut(400);
                         $('#signInLink').hide();
                         $('#top-nav-guest').hide();
                         $('#top-nav-member').show();
+                        */
                     } else {
+                        /*
                         $('#welcometext').html('');
                         $.Growl.show("Invalid login or password.", {
                             //settings
@@ -61,6 +68,7 @@
                             "speed": 500,
                             "timeout": 4000
                         });
+                        */
                     }
                 }
             });

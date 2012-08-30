@@ -11,6 +11,7 @@ jQuery(function($) {
     var home        = Suds.module("home");
     var tour        = Suds.module("tour");
     var login       = Suds.module("login");
+    var dashboard       = Suds.module("dashboard");
     Suds.app.currentUser = new shared.Model.User({});
 
     // Defining the application router, you can attach sub routers here.
@@ -20,8 +21,26 @@ jQuery(function($) {
             "index": "index",
             "home": "index",
             "tour": "tour",
-            "login": "login"
+            "login": "login",
+            "dashboard": "dashboard"
 
+        },
+        dashboard:function(hash){
+            var route = this;
+            var dashPage = new dashboard.Views.MainPage();
+            // Attach the tutorial to the DOM
+            dashPage.render(function(el) {
+                $("#main").html(el);
+                // Fix for hashes in pushState and hash fragment
+                if (hash && !route._alreadyTriggered) {
+                    // Reset to home, pushState support automatically converts hashes
+                    Backbone.history.navigate("", false);
+                    // Trigger the default browser behavior
+                    location.hash = hash;
+                    // Set an internal flag to stop recursive looping
+                    route._alreadyTriggered = true;
+                }
+            });
         },
         login: function(hash) {
 
