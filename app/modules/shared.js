@@ -1,5 +1,4 @@
 (function (Shared) {
-
     Shared.Model = Backbone.Model.extend({});
     Shared.Collection = Backbone.Collection.extend({});
     Shared.Router = Backbone.Router.extend({});
@@ -13,7 +12,4 @@
 
         }
     });
-
-
-
 })(Suds.module("shared"));

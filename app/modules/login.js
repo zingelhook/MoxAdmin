@@ -37,7 +37,7 @@
                 success: function(msg) {
 
 
-
+                    console.log(msg);
                     if (msg.UserInfo.isLoggedIn !== false) {
 
                         Suds.app.currentUser.set({
@@ -50,25 +50,9 @@
                         Suds.app.router.navigate("#dashboard", {
                             trigger: true
                         });
-                        /*
-                        $('#welcometext').html('Welcome ' + msg.UserInfo.firstname + ' ' + msg.UserInfo.lastname + '!');
-                        $('#signInForm').fadeOut(400);
-                        $('#signInLink').hide();
-                        $('#top-nav-guest').hide();
-                        $('#top-nav-member').show();
-                        */
+                  
                     } else {
-                        /*
-                        $('#welcometext').html('');
-                        $.Growl.show("Invalid login or password.", {
-                            //settings
-                            "icon": false,
-                            "title": false,
-                            "cls": "",
-                            "speed": 500,
-                            "timeout": 4000
-                        });
-                        */
+
                     }
                 }
             });

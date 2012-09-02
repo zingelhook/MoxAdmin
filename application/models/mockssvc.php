@@ -1,15 +1,12 @@
 <?php
+ini_set('display_errors', 'On');
 
 class mockssvc extends CI_Model{
 	
 	//get user's mocks
 	function getUserServices($userid){
-
 		$sql = "SELECT id,name,min,max FROM Service_DataTemplates WHERE userId = ?";
-
 		return $this->db->query($sql, array($userid))->result();
-
-
 	}
 	
 	

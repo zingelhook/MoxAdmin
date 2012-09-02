@@ -34,6 +34,7 @@
 
 
 		<script src="<?php echo base_url();?>app/namespace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="<?php echo base_url();?>app/modules/mock.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<?php echo base_url();?>app/modules/dashboard.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<?php echo base_url();?>app/modules/shared.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<?php echo base_url();?>app/modules/home.js" type="text/javascript" charset="utf-8"></script>

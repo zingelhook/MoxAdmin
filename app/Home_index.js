@@ -12,6 +12,7 @@ jQuery(function($) {
     var tour        = Suds.module("tour");
     var login       = Suds.module("login");
     var dashboard       = Suds.module("dashboard");
+     var mock       = Suds.module("mock");
     Suds.app.currentUser = new shared.Model.User({});
 
     // Defining the application router, you can attach sub routers here.
