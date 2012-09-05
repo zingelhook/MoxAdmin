@@ -8,7 +8,7 @@
         defaults: {
             "userId": 0
         },
-        Login:function(userName,pwd){
+  	  	Login:function(userName,pwd){
 
         }
     });
