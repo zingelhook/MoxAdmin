@@ -22,12 +22,9 @@
                 jsonpCallback: "moxsvc",
                 url: "http://97.91.145.243:8000?id=1",
                 success: function(data) {
-                    //console.dir(data);
                     if (callback) {
                         callback(data);
                     }
-                    // buildTable(data);
-                    //console.dir(data);
                 },
                 error: function(e) {
                     console.log('Error!');
@@ -69,7 +66,6 @@
 
                     r.g.txtattr.font = "12px 'Fontin Sans', Fontin-Sans, sans-serif";
 
-                    //r.g.text(180, 100, "Sales Data").attr({ "font-size": 20 });
                     var pie = r.g.piechart(210, 120, 100, sales, {
                         legend: legends,
                         legendpos: "west",
