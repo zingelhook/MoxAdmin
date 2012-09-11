@@ -35,9 +35,6 @@
                 url: base + "index.php/login/validate_credentials",
                 data: form_data,
                 success: function(msg) {
-
-
-                    console.log(msg);
                     if (msg.UserInfo.isLoggedIn !== false) {
 
                         Suds.app.currentUser.set({
