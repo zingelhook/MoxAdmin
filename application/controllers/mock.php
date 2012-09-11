@@ -2,13 +2,24 @@
 
 class mock extends CI_Controller{
 
-
+	//get the user's defined mocks
 	function GetUserMocks(){
 		//load the user's mocks.
 		$uid = $this->session->userdata('userid');
 		$this->load->model('Mockssvc');
 		$query = $this->Mockssvc->getUserServices($uid);
 		$data["UserMocks"] = $query;
+		echo json_encode($data);
+	}
+	
+	//get the fields used to make up a mock
+	function GetMocksFields(){
+		//load the mocks' fields.
+		$uid = $this->session->userdata('userid');
+		$id = $this->input->get("id");
+		$this->load->model('Mockssvc');
+		$query = $this->Mockssvc->getMockFields($id,$uid);
+		$data["MockFields"] = $query;
 		echo json_encode($data);
 	}
 
