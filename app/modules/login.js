@@ -18,6 +18,7 @@
             if (user.length === 0) {
                 user = $('#username2').val();
             }
+			
             var pwd = this.$('#password').val();
             if (pwd.length === 0) {
                 pwd = $('#password2').val();

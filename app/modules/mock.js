@@ -177,13 +177,18 @@
 	
 	
 	Mock.Views.MockInfo  = Backbone.View.extend({
-		template: _.template("<div class='info'><ul class='unstyled'><li><h2>Name: <%=name%></h2></li><li>Min: <%=min%></li><li>Max: <%=max%></li></ul><h3>Fields</h3><table id='mock-fields' class='table table-bordered'><thead><tr><th>Name</th><th>Options</th><th>Type</th><th>Sample Data</th></thead><tbody><tbody></table></div>"),
+		template: _.template("<div class='info'><ul class='unstyled'><li><h2>Name: <%=name%></h2></li><li>Min: <%=min%></li><li>Max: <%=max%></li></ul><div id='code-example'></div><h3>Fields</h3><table id='mock-fields' class='table table-bordered'><thead><tr><th>Name</th><th>Options</th><th>Type</th><th>Sample Data</th></thead><tbody><tbody></table></div>"),
 	    initialize: function () {
 	        _.bindAll(this, "render");
 	    },
-		_getMockFields:function(){
-			var userId = Suds.app.currentUser.get('userId');
+		_buildJSONPExample:function(){
 	
+			var code = "$.ajax({ type: 'GET',dataType: 'jsonp',jsonpCallback: 'moxsvc',url: '" + Suds.app.externalMoxURL + "?id=" + this.model.get('id') + "',success: function(data) {console.log(data)}});";
+			
+			
+			var html="<code>" + code + "</code>";
+	
+			$('#code-example').html(html);
 		},
 	    render: function (done) {
 			var view=this;
@@ -191,7 +196,7 @@
             view.el.innerHTML = view.template(view.model.toJSON());
             done(view.el);
 			
-			view._getMockFields();
+			view._buildJSONPExample();
 	        return this;
 	    }
 	});

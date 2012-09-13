@@ -11,9 +11,12 @@ jQuery(function($) {
     var home        = Suds.module("home");
     var tour        = Suds.module("tour");
     var login       = Suds.module("login");
-    var dashboard       = Suds.module("dashboard");
-     var mock       = Suds.module("mock");
+    var dashboard   = Suds.module("dashboard");
+    var mock        = Suds.module("mock");
+	
+	//App Global Vars
     Suds.app.currentUser = new shared.Model.User({});
+	Suds.app.externalMoxURL = 'http://97.91.145.243:8000'
 
     // Defining the application router, you can attach sub routers here.
     var Router = Backbone.Router.extend({

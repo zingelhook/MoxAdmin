@@ -16,11 +16,13 @@
     Tour.Model.SalesDataItems = Backbone.Collection.extend({
         model: Tour.Model.SalesDataItem,
         loadData: function(callback, failcallback) {
+			var url = Suds.app.externalMoxURL + "?id=1";
+			console.log(url);
             $.ajax({
                 type: 'GET',
                 dataType: 'jsonp',
                 jsonpCallback: "moxsvc",
-                url: "http://97.91.145.243:8000?id=1",
+                url: Suds.app.externalMoxURL + "?id=1",
                 success: function(data) {
                     if (callback) {
                         callback(data);
