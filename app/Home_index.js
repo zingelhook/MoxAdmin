@@ -13,10 +13,18 @@ jQuery(function($) {
     var login       = Suds.module("login");
     var dashboard   = Suds.module("dashboard");
     var mock        = Suds.module("mock");
+	var menu        = Suds.module("menu");
 	
 	//App Global Vars
+	Suds.app.MenuLoaded = false;
     Suds.app.currentUser = new shared.Model.User({});
+	Suds.app.currentManinMenu = new menu.Collection.MenuItems();
 	Suds.app.externalMoxURL = 'http://97.91.145.243:8000'
+	
+	
+	//loads the default - not signed in menu
+	Suds.app.currentManinMenu.loadDefaultMenu();
+
 
     // Defining the application router, you can attach sub routers here.
     var Router = Backbone.Router.extend({
@@ -27,14 +35,25 @@ jQuery(function($) {
             "tour": "tour",
             "login": "login",
             "dashboard": "dashboard"
-
         },
+		_loadMainMenu:function(){
+			if(Suds.app.MenuLoaded===false){
+				Suds.app.MenuLoaded=true;
+				var mainMenu = new menu.Views.MainMenu({
+					collection:Suds.app.currentManinMenu
+				});
+	            mainMenu.render(function(el) {
+	                $("#top-nav-guest").html(el);
+	            });
+			}
+		},
         dashboard:function(hash){
             var route = this;
             var dashPage = new dashboard.Views.MainPage();
             // Attach the tutorial to the DOM
             dashPage.render(function(el) {
                 $("#main").html(el);
+				route._loadMainMenu();
                 // Fix for hashes in pushState and hash fragment
                 if (hash && !route._alreadyTriggered) {
                     // Reset to home, pushState support automatically converts hashes
@@ -53,6 +72,7 @@ jQuery(function($) {
             // Attach the tutorial to the DOM
             loginPage.render(function(el) {
                 $("#main").html(el);
+				route._loadMainMenu();
                 // Fix for hashes in pushState and hash fragment
                 if (hash && !route._alreadyTriggered) {
                     // Reset to home, pushState support automatically converts hashes
@@ -71,6 +91,7 @@ jQuery(function($) {
             // Attach the tutorial to the DOM
             tourPage.render(function(el) {
                 $("#main").html(el);
+				route._loadMainMenu();
                 // Fix for hashes in pushState and hash fragment
                 if (hash && !route._alreadyTriggered) {
                     // Reset to home, pushState support automatically converts hashes
@@ -89,6 +110,7 @@ jQuery(function($) {
             // Attach the tutorial to the DOM
             mainPage.render(function(el) {
                 $("#main").html(el);
+				route._loadMainMenu();
                 // Fix for hashes in pushState and hash fragment
                 if (hash && !route._alreadyTriggered) {
                     // Reset to home, pushState support automatically converts hashes

@@ -34,6 +34,7 @@
 
 
 		<script src="<?php echo base_url();?>app/namespace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="<?php echo base_url();?>app/modules/menu.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<?php echo base_url();?>app/modules/mock.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<?php echo base_url();?>app/modules/dashboard.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<?php echo base_url();?>app/modules/shared.js" type="text/javascript" charset="utf-8"></script>
@@ -58,33 +59,23 @@
 		<input type="hidden" id="roleId" value="<?php echo $this->session->userdata('roleId');?>">
 		<input type="hidden" id="firstName" value="<?php echo $this->session->userdata('firstname');?>">
 		<input type="hidden" id="lastName" value="<?php echo $this->session->userdata('lastname');?>">
-		<div class="navbar navbar-inverse navbar-fixed-top">
-			<div class="navbar-inner">
-				<div class="container">
-				<ul class="nav">
-					<li><a href="#home">Home</a></li>
-					<li><a href="#tour">Tour</a></li>
-					<li><a href="<?php echo base_url();?>index.php/documentation">Documentation</a></li>	
-					<li><a href="<?php echo base_url();?>index.php/pricing">Pricing</a></li>
-					<li><a href="#login">Sign In</a></li>
-				</ul>
-				</div>
-			</div>
-		</div>
-
-
-
-
-
-
-
-
-
-
 		
+		
+		
+		
+		<div class="navbar navbar-inverse navbar-fixed-top">
+		      <div class="navbar-inner">
+		        <div class="container">
+		  
+		          <a class="brand" href="./index.html">Bootstrap</a>
+		          <div  class="nav-collapse collapse">
+		    		  <ul id="main-menu" class="nav">
+					  </ul>
+		          </div>
+		        </div>
+		      </div>
+		    </div>
 	    		<header>
-
-
 					<div id="top-nav-member" class="topNav" style="display:none">
 						<ul>
 							<li><a href="<?php echo base_url();?>index.php/members">My Mocks</a></li>
