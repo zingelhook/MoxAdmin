@@ -37,7 +37,6 @@
                 data: form_data,
                 success: function(msg) {
                     if (msg.UserInfo.isLoggedIn !== false) {
-
                         Suds.app.currentUser.set({
                             userId: msg.UserInfo.userid,
                             firstName: msg.UserInfo.firstname,

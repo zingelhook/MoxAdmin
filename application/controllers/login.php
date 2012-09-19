@@ -17,6 +17,8 @@ class Login extends CI_Controller{
 		$query = $this->Users->validate();
 		$this->session->set_userdata($query);
 		$data["UserInfo"] = $query;
+		
+		
 	
 		$this->session->set_userdata($data);
 

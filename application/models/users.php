@@ -35,6 +35,10 @@ class users extends CI_Model{
 			$isLoggedIn=true;
 		
 		};	
+		
+		
+		
+		
 		$result['isLoggedIn']=$isLoggedIn;
 		$result['userid']=$userId;
 		$result['roleId']=$roleId;
