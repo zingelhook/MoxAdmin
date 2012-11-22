@@ -60,61 +60,19 @@
 		<input type="hidden" id="firstName" value="<?php echo $this->session->userdata('firstname');?>">
 		<input type="hidden" id="lastName" value="<?php echo $this->session->userdata('lastname');?>">
 		
-		
-		
-		
+	
 		<div class="navbar navbar-inverse navbar-fixed-top">
-		      <div class="navbar-inner">
-		        <div class="container">
-		  
-		          <a class="brand" href="./index.html">Bootstrap</a>
-		          <div  class="nav-collapse collapse">
-		    		  <ul id="main-menu" class="nav">
-					  </ul>
-		          </div>
-		        </div>
-		      </div>
-		    </div>
-	    		<header>
-					<div id="top-nav-member" class="topNav" style="display:none">
-						<ul>
-							<li><a href="<?php echo base_url();?>index.php/members">My Mocks</a></li>
-							<li><a href="<?php echo base_url();?>index.php/documentation">Documentation</a></li>	
-							<li><a href="<?php echo base_url();?>index.php/account">Account</a></li>
-							<li><a href="http://kgaddy.com">Blog</a></li>
-						</ul>
+			<div class="navbar-inner">
+				<div class="container">
+					<a class="brand" href="./index.html">Bootstrap</a>
+					<div  class="nav-collapse collapse">
+						<ul id="main-menu" class="nav"></ul>
 					</div>
-					<div id="top-nav-admin" class="topNav" style="display:none">
-						<ul>
-							<li><a href="<?php echo base_url();?>index.php/members">My Mocks</a></li>
-							<li><a href="<?php echo base_url();?>index.php/documentation">Documentation</a></li>	
-							<li><a href="<?php echo base_url();?>index.php/account">Account</a></li>
-							<li><a href="<?php echo base_url();?>index.php/reports">Reports</a></li>
-						</ul>
-					</div>
+				</div>
+		     </div>
+		</div>
+		
+		<div id="main">
 
-	    		</header>
-				<div id="signInForm" style="display:none">
-				<fieldset>
-					<legend>Login</legend>
-					<ul>
-						<li>
-							<label for="username">User Name:</label>
-							<input type="text" id="username" class="username" name="username"/>	
-						</li>
-						<li>
-							<label for="password">Password:</label>
-							<input type="password" id="password" class="password" name="password"/>
-						</li>
-						<li class="button-list">
-							<div>
-								<a href="#" class="login_btn" id="login_btn">Login</a>
-								<a href="<?php echo base_url();?>index.php/login/signup" id="SignUp_btn">Sign Up</a>
-							</div>
-						</li>
-					</ul>
-				</fieldset>
-			</div>
-			<div id="main" role="main">
 
 

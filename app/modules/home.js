@@ -9,9 +9,7 @@
     // This will fetch the tutorial template and render it.
     Home.Views.MainPage = Backbone.View.extend({
         template: "app/templates/Home.html",
-
         render: function (done) {
-
             var view = this;
             // Fetch the template, render it to the View element and call done.
             Suds.fetchTemplate(this.template, function (tmpl) {
