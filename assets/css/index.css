@@ -991,6 +991,11 @@ form.bs-docs-example {
   }
 }
 
+#main{
+  min-height:800px;
+}
+
+
 /* Landscape phones
 ------------------------- */
 @media (max-width: 480px) {
