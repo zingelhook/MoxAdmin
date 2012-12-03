@@ -140,7 +140,7 @@
 	
 	Mock.Views.FieldTableRow  = Backbone.View.extend({
 	    tagName: "tr",
-		template: _.template("<td class='field' id='<%=id%>'><%=name%></td><td><%=fieldoptions%></td><td><%=predefefinedSampleDataType%></td><td><%=sampleData%></td>"),
+		template: _.template("<td class='field' id='<%=id%>'><%=name%></td><td><%=fieldoptions%></td><td><%=predefefinedSampleDataType%></td><td><%=sampleData%></td><td><button type='button' id='edit_<%=id%>' class='btn btn-primary btn-small'>Edit</button>&nbsp;<button type='button' id='del_<%=id%>' class='btn btn-danger btn-small'>Delete</button></td>"),
 
 	    initialize: function () {
 	        _.bindAll(this, "render");
@@ -173,7 +173,7 @@
 	
 	
 	Mock.Views.MockInfo  = Backbone.View.extend({
-		template: _.template("<div class='info'><ul class='unstyled'><li><h2>Name: <%=name%></h2></li><li>Min: <%=min%></li><li>Max: <%=max%></li></ul><p id='code-example'></p><p><button class='btn btn-primary btn-small' type='button'>Add Field</button></p><table id='mock-fields' class='table table-bordered'><thead><tr><th>Name</th><th>Options</th><th>Type</th><th>Sample Data</th></thead><tbody><tbody></table></div>"),
+		template: _.template("<div class='info'><ul class='unstyled'><li><h2>Name: <%=name%></h2><p><button class='btn btn-primary' id='edit-mock_<%=id%>' type='button'>Edit Mock</button>&nbsp;&nbsp;<button class='btn btn-danger' id='delete-mock_<%=id%>' type='button'>Delete Mock</button></p></li><li>Min: <%=min%></li><li>Max: <%=max%></li></ul><p id='code-example'></p><p><button class='btn btn-primary btn-small' type='button'>Add Field</button></p><table id='mock-fields' class='table table-bordered'><thead><tr><th>Name</th><th>Options</th><th>Type</th><th>Sample Data</th></thead><tbody><tbody></table></div>"),
 	    initialize: function () {
 	        _.bindAll(this, "render");
 	    },
