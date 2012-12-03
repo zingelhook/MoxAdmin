@@ -12,7 +12,7 @@
         },
         login: function() {
 
-
+            $('#invalid-login').hide();
             var user = this.$('#username').val();
 
             if (user.length === 0) {
@@ -49,6 +49,8 @@
                         });
                   
                     } else {
+                        //display error here
+                        $('#invalid-login').show();
 
                     }
                 }
