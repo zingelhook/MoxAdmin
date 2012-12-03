@@ -72,7 +72,8 @@
 		     </div>
 		</div>
 		
-		<div id="main">
+		<div id="main" class="container-fluid">
+			<div class="row-fluid">
 
 
 
