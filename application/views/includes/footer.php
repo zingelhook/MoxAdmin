@@ -1,9 +1,8 @@
-
 </div>
 </div>
 <footer class="footer">
       <div class="container">
-        <p class="pull-right"><a href="#">Back to top</a></p>
+        <p class="pull-right"><a href="#"></a></p>
    
       </div>
     </footer>
