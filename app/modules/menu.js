@@ -12,10 +12,13 @@
 		model: Menu.Model.MenuItem,
 		loadDefaultMenu:function(){
 			this.add([
-  			  	{title: "Home", url: "#home"},
-  				{title: "Tour", url: "#tour"},
-				{title: "Documentation", url: "#docs"},
-				{title: "Sign In", url: "#login"}
+  			  	{title: "Home", url: "#home", id: "1"},
+  				{title: "Tour", url: "#tour", id: "2"},
+				{title: "Documentation", url: "#docs", id: "3"},
+				{title: "Mocks", url: "#dashboard", id: "4"},
+				{title: "Sign In", url: "#login", id: "5"},
+				{title: "Sign Out", url: "#logout", id: "6"}
+			
 			]);
 		}
 	});
@@ -34,6 +37,18 @@
 	            var item = new Menu.Views.MainMenuItem({ model: mainMenuItem });
 	            list.append(item.render().el);
 	        });
+	        var userId = Suds.app.currentUser.get('userId');
+	        if(userId>0){//logged in
+	        	$('#menu_5').hide();//login
+	        	$('#menu_4').show();//mocks
+	        	$('#menu_6').show();//logout
+	        }
+	        else{//not logged in
+	        	$('#menu_5').show();//login
+	        	$('#menu_4').hide();//mocks
+	        	$('#menu_6').hide();//logout
+	        }
+
 	        return this;
         }
     });
@@ -41,7 +56,7 @@
 	
 	Menu.Views.MainMenuItem  = Backbone.View.extend({
 		 tagName: "li",
-		template: _.template("<a href='<%=url%>'><%=title%></a>"),
+		template: _.template("<a href='<%=url%>' id='menu_<%=id%>'><%=title%></a>"),
 	    initialize: function () {
 	        _.bindAll(this, "render");
 	    },
