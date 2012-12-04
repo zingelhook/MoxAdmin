@@ -58,6 +58,14 @@ class CI_Form_validation {
 
 		log_message('debug', "Form Validation Class Initialized");
 	}
+	
+	
+	public function getErrorsArray()
+	{
+		return $this->_error_array;
+	}
+		
+		
 
 	// --------------------------------------------------------------------
 

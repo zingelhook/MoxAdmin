@@ -30,7 +30,6 @@
                     Suds.app.router.navigate("#dashboard", {
                         trigger: true
                     });
-						
 		        	$('#menu_5').hide();//login
 		        	$('#menu_4').show();//mocks
 		        	$('#menu_6').show();//logout

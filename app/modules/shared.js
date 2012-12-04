@@ -44,8 +44,35 @@
                 }
             });
         },
-		Register:function(firstName,lastName,email,userName,pwd,confirmPwd){
+		Register:function(firstName,lastName,email,userName,pwd,confirmPwd,callback){
+			//todo:validate pwd and confirm pwd works
+				
+            var form_data = {
+                firstname: firstName,
+                lastname: lastName,
+				email:email,
+				username: userName,
+				password:pwd,
+				password2:confirmPwd,
+                ajax: '1'
+            };
 			
+			
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: base + "index.php/login/createMember",
+                data: form_data,
+                success: function(msg) {
+               
+					if(callback!=null){
+						callback(msg);
+					}
+                },
+				error:function(msg){
+					console.log(msg);
+				}
+            });
 		}
     });
 })(Suds.module("shared"));

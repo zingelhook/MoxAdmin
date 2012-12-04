@@ -43,11 +43,8 @@ class Login extends CI_Controller{
 	
 	
 	//create a new account.
-	function create_member(){
+	function createMember(){
 		//Make this a ajax post
-		
-
-		
 		
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('firstname', 'Name', 'trim|required');
@@ -61,8 +58,11 @@ class Login extends CI_Controller{
 		
 		if($this->form_validation->run()==FALSE)
 		{
-			$data['main_content']='signup';
-			$this->load->view('includes/template',$data);
+			$data['hasError']=true;
+			$data['errors']=$this->form_validation->getErrorsArray();
+			//echo json_encode(form_validation->getErrorsArray());
+		//	$data['main_content']='signup';
+		//	$this->load->view('includes/template',$data);
 		}
 		
 		else
@@ -72,15 +72,19 @@ class Login extends CI_Controller{
 			$query = $this->users->create_member();
 			if($query)
 			{
-				$data['main_content']='signup_success';
-				$this->load->view('includes/template',$data);	
+				$data['hasError']=false;
+				//$data['main_content']='signup_success';
+				//$this->load->view('includes/template',$data);	
 			}
 			else
 			{
-			 	$data['main_content']='signup';
-				$this->load->view('includes/template',$data);
+				$data['hasError']=true;
+			 	//$data['main_content']='signup';
+				//$this->load->view('includes/template',$data);
 			}
 		}
+		
+		echo json_encode($data);
 	}
 	
 }
