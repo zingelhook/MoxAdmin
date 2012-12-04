@@ -34,7 +34,7 @@
 					$('#invalid-signup').show();
 				}
 				else{
-					
+					Suds.app.router.navigate("#docs", true)
 				}
 				
 			}
