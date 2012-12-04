@@ -38,6 +38,7 @@
 	            list.append(item.render().el);
 	        });
 	        var userId = Suds.app.currentUser.get('userId');
+			
 	        if(userId>0){//logged in
 	        	$('#menu_5').hide();//login
 	        	$('#menu_4').show();//mocks

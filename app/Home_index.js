@@ -159,6 +159,7 @@ jQuery(function($) {
     // method, to be processed by the router.  If the link has a data-bypass
     // attribute, bypass the delegation completely.
     $(document).on("click", "a:not([data-bypass])", function(evt) {
+
         if ($(this).hasClass('backbone')) {
             // Get the anchor href and protcol
             var href = $(this).attr("href");
