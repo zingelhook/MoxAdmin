@@ -23,6 +23,24 @@ jQuery(function($) {
 	Suds.app.currentManinMenu = new menu.Collection.MenuItems();
 	Suds.app.externalMoxURL = 'http://localhost:8000';//'http://97.91.145.243:8000';
 	
+	//check populated user
+	var userId = $('#userId').val();
+	if(userId>0){
+        Suds.app.currentUser.set({
+            userId: userId,
+            firstName: $('#firstName').val(),
+            isLoggedIn: true,
+            lastName: $('#lastName').val(),
+            roleId: $('#roleId').val()
+        });
+	}
+	else{
+        Suds.app.currentUser.set({
+            userId: 0
+        });
+	}
+	
+	
 	
 	//loads the default - not signed in menu
 	Suds.app.currentManinMenu.loadDefaultMenu();

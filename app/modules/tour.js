@@ -17,7 +17,7 @@
         model: Tour.Model.SalesDataItem,
         loadData: function(callback, failcallback) {
 			var url = Suds.app.externalMoxURL + "?id=1";
-			console.log(url);
+
             $.ajax({
                 type: 'GET',
                 dataType: 'jsonp',
