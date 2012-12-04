@@ -23,44 +23,26 @@
             if (pwd.length === 0) {
                 pwd = $('#password2').val();
             }
-
-            var form_data = {
-                username: user,
-                password: pwd,
-                ajax: '1'
-            };
-
-            $.ajax({
-                type: "POST",
-                dataType: "json",
-                url: base + "index.php/login/validate_credentials",
-                data: form_data,
-                success: function(msg) {
-                    if (msg.UserInfo.isLoggedIn !== false) {
-                        Suds.app.currentUser.set({
-                            userId: msg.UserInfo.userid,
-                            firstName: msg.UserInfo.firstname,
-                            isLoggedIn: msg.UserInfo.isLoggedIn,
-                            lastName: msg.UserInfo.lastname,
-                            roleId: msg.UserInfo.roleId
-                        });
-                        Suds.app.router.navigate("#dashboard", {
-                            trigger: true
-                        });
+			
+			//one user is logged in
+			var callback = function(msg){
+				if (msg.UserInfo.isLoggedIn !== false) {
+                    Suds.app.router.navigate("#dashboard", {
+                        trigger: true
+                    });
 						
-			        	$('#menu_5').hide();//login
-			        	$('#menu_4').show();//mocks
-			        	$('#menu_6').show();//logout
-                  
-                    } else {
-                        //display error here
-                        $('#invalid-login').show();
-
-                    }
-                }
-            });
-
-
+		        	$('#menu_5').hide();//login
+		        	$('#menu_4').show();//mocks
+		        	$('#menu_6').show();//logout
+				}
+				else{
+                    //display error here
+                    $('#invalid-login').show();	
+				}
+			}
+			
+			Suds.app.currentUser.Login(user,pwd,callback);
+			
         },
         render: function(done) {
             var view = this;

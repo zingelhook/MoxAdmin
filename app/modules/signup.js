@@ -4,7 +4,9 @@
     SignUp.Collection = Backbone.Collection.extend({});
     SignUp.Router = Backbone.Router.extend({});
 
-    // This will fetch the tutorial template and render it.
+    
+	
+	//main signup form
     SignUp.Views.MainPage = Backbone.View.extend({
         template: "app/templates/signup.html",
         render: function (done) {
@@ -16,5 +18,8 @@
             });
         }
     });
+	
+	
+	
 
 })(Suds.module("signup"));
