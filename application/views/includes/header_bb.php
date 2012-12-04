@@ -42,6 +42,7 @@
 		<script src="<?php echo base_url();?>app/modules/login.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<?php echo base_url();?>app/modules/tour.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<?php echo base_url();?>app/modules/docs.js" type="text/javascript" charset="utf-8"></script>
+		<script src="<?php echo base_url();?>app/modules/signup.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<?php echo base_url();?>app/Home_index.js" type="text/javascript" charset="utf-8"></script>
 
 		<script src="<?php echo base_url();?>js/raphael-min.js"></script>
