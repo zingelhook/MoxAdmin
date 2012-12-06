@@ -56,7 +56,8 @@ jQuery(function($) {
 			"docs": "docs",
             "login": "login",
 			"signup": "signup",
-            "dashboard": "dashboard"
+            "dashboard": "dashboard",
+			"addmock": "addmock"
         },
 		_loadMainMenu:function(){
 			if(Suds.app.MenuLoaded===false){
@@ -69,6 +70,24 @@ jQuery(function($) {
 	            });
 			}
 		},
+        addmock:function(hash){
+            var route = this;
+            var addMockPage = new mock.Views.AddMock();
+            // Attach the tutorial to the DOM
+            addMockPage.render(function(el) {
+                $("#main").html(el);
+				route._loadMainMenu();
+                // Fix for hashes in pushState and hash fragment
+                if (hash && !route._alreadyTriggered) {
+                    // Reset to home, pushState support automatically converts hashes
+                    Backbone.history.navigate("", false);
+                    // Trigger the default browser behavior
+                    location.hash = hash;
+                    // Set an internal flag to stop recursive looping
+                    route._alreadyTriggered = true;
+                }
+            });
+        },
         dashboard:function(hash){
             var route = this;
             var dashPage = new dashboard.Views.MainPage();

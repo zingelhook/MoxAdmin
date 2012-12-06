@@ -44,11 +44,11 @@ class mock extends CI_Controller{
 
 	function create(){
 		$data = array(
-			'name'=>$this->input->post('mockName'),
+			'name'=>$this->input->post('name'),
 			'langVar'=>$this->input->post('langVar'),
-			'min' => $this->input->post('mockMin'),
-			'max'=>$this->input->post('mockMax'),
-			'userid'=>$this->input->post('mockuserId')	
+			'min' => $this->input->post('min'),
+			'max'=>$this->input->post('max'),
+			'userid'=>$this->session->userdata('userid')	
 		);
 		$this->load->model('Mockssvc');
 		$fieldId = $this->Mockssvc->insertServiceDataTemplate($data);

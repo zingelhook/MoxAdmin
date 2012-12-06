@@ -4,7 +4,7 @@
     Login.Collection = Backbone.Collection.extend({});
     Login.Router = Backbone.Router.extend({});
 
-    // This will fetch the tutorial template and render it.
+
     Login.Views.Main = Backbone.View.extend({
         template: "app/templates/login.html",
         events: {

@@ -16,19 +16,27 @@
 				data: form_data,
 				success: function(msg) {
 					callback(msg);
-					//console.log(msg);
-					/*
-					var count = msg.UserMocks.length;
-					for (var i = 0; i < count; i++) {
-						var um = new Mock.Model.Mock({
-							name: msg.UserMocks[i].name,
-							id:msg.UserMocks[i].id,
-							max:msg.UserMocks[i].max,
-							min: msg.UserMocks[i].min
-						});
-						col.add(um);
-					}
-					*/
+				},
+				error: function(msg) {
+					console.log(msg);
+				}
+			});
+		},
+		save:function(callback){	
+			var mdl = this;
+			var form_data = {
+				name: mdl.get('name'),
+				min:mdl.get('min'),
+				max:mdl.get('max')
+			};
+	
+			$.ajax({
+				type: "POST",
+				dataType: "json",
+				url: base + "index.php/mock/create",
+				data: form_data,
+				success: function(msg) {
+					callback(msg);
 				},
 				error: function(msg) {
 					console.log(msg);
@@ -192,6 +200,43 @@
 	        return this;
 	    }
 	});
+	
+	
+	
+
+    Mock.Views.AddMock = Backbone.View.extend({
+        template: "app/templates/addMock.html",
+		events:{
+			"click #submitMox": "_addMock"
+		},
+		_addMock:function(){
+	
+			var name = $('#mockName').val();
+			var min = $('#mockMin').val();
+			var max = $('#mockMax').val();
+			var newMock = new Mock.Model.Mock({
+				name:name,
+				min:min,
+				max:max
+			});
+			var callback = function(msg){
+				//console.log(msg);
+				
+			}
+			newMock.save(callback);
+	
+			Suds.app.router.navigate("#dashboard", true);
+			
+		},
+        render: function(done) {
+            var view = this;
+            // Fetch the template, render it to the View element and call done.
+            Suds.fetchTemplate(this.template, function(tmpl) {
+                view.el.innerHTML = tmpl({});
+                done(view.el);
+            });
+        }
+    });
 	
 
 })(Suds.module("mock"));
