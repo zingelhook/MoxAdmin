@@ -54,7 +54,6 @@
         loadSalesData: function() {
             var sd = new Tour.Model.SalesDataItems();
             var callback = function(data) {
-                    console.log(data);
                     var legends = new Array();
                     var sales = new Array();
                     var length = data.length;
