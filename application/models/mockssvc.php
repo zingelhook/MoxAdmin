@@ -48,7 +48,7 @@ class mockssvc extends CI_Model{
 			
 		);
 		$this->db->where('id',$Id);
-		 $this->db->update('Service_DataTemplates',$updateData);
+		$this->db->update('Service_DataTemplates',$updateData);
 		return $data;
 	}
 	

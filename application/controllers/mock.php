@@ -42,7 +42,10 @@ class mock extends CI_Controller{
 	}
 	
 
-	function create(){
+	function save(){
+		
+		$id = $this->input->post('id');
+		
 		$data = array(
 			'name'=>$this->input->post('name'),
 			'langVar'=>$this->input->post('langVar'),
@@ -50,8 +53,21 @@ class mock extends CI_Controller{
 			'max'=>$this->input->post('max'),
 			'userid'=>$this->session->userdata('userid')	
 		);
-		$this->load->model('Mockssvc');
-		$fieldId = $this->Mockssvc->insertServiceDataTemplate($data);
+		$fieldId=0;
+		
+		if($id>0){
+			$data['id']=$id;
+			$fieldId=$id;
+			$this->load->model('Mockssvc');	
+			$data = $this->Mockssvc->updateServiceDataTemplate($data);
+		}
+		else{
+			$this->load->model('Mockssvc');
+			$fieldId = $this->Mockssvc->insertServiceDataTemplate($data);
+			
+		}
+		
+		
 		echo json_encode($fieldId);
 		
 	}

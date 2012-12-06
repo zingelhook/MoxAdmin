@@ -25,6 +25,7 @@
 		save:function(callback){	
 			var mdl = this;
 			var form_data = {
+				id:mdl.get('id'),
 				name: mdl.get('name'),
 				min:mdl.get('min'),
 				max:mdl.get('max')
@@ -33,7 +34,7 @@
 			$.ajax({
 				type: "POST",
 				dataType: "json",
-				url: base + "index.php/mock/create",
+				url: base + "index.php/mock/save",
 				data: form_data,
 				success: function(msg) {
 					callback(msg);
@@ -42,6 +43,9 @@
 					console.log(msg);
 				}
 			});
+		},
+		delete:function(callback){
+			
 		}
 	});
 	Mock.Model.Field = Backbone.Model.extend({});
@@ -215,6 +219,7 @@
 			var min = $('#mockMin').val();
 			var max = $('#mockMax').val();
 			var newMock = new Mock.Model.Mock({
+				id:0,
 				name:name,
 				min:min,
 				max:max
