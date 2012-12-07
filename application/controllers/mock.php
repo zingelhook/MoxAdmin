@@ -43,9 +43,7 @@ class mock extends CI_Controller{
 	
 
 	function save(){
-		
 		$id = $this->input->post('id');
-		
 		$data = array(
 			'name'=>$this->input->post('name'),
 			'langVar'=>$this->input->post('langVar'),
@@ -66,10 +64,7 @@ class mock extends CI_Controller{
 			$fieldId = $this->Mockssvc->insertServiceDataTemplate($data);
 			
 		}
-		
-		
 		echo json_encode($fieldId);
-		
 	}
 		
 	function update(){
@@ -89,11 +84,11 @@ class mock extends CI_Controller{
 	
 	function delete(){
 			$data = array(
-				'id'=>$this->input->post('mockId')
+				'id'=>$this->input->post('id')
 			);
 			$this->load->model('Mockssvc');
-			$this->Mockssvc->deleteServiceDataTemplate($data);
-		
+			$newData = $this->Mockssvc->deleteServiceDataTemplate($data);
+			echo json_encode($newData);
 	}
 	
 	function updateServiceField(){

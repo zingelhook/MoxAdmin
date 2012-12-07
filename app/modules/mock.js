@@ -45,6 +45,26 @@
 			});
 		},
 		delete:function(callback){
+			var mdl = this;
+			var form_data = {
+				id:mdl.get('id')
+			};
+
+			$.ajax({
+				type: "POST",
+				dataType: "json",
+				url: base + "index.php/mock/delete",
+				data: form_data,
+				success: function(msg) {
+					shared.userMocks.remove(mdl);
+					callback(msg);
+
+				},
+				error: function(msg) {
+					console.log(msg);
+				}
+			});
+	
 			
 		}
 	});
@@ -157,7 +177,6 @@
 	    initialize: function () {
 	        _.bindAll(this, "render");
 	    },
-
 	    render: function () {
 			var view=this;
 			var html = view.template(view.model.toJSON());
@@ -185,9 +204,18 @@
 	
 	
 	Mock.Views.MockInfo  = Backbone.View.extend({
-		template: _.template("<div class='info'><ul class='unstyled'><li><h2>Name: <%=name%></h2><p><button class='btn btn-primary' id='edit-mock_<%=id%>' type='button'>Edit Mock</button>&nbsp;&nbsp;<button class='btn btn-danger' id='delete-mock_<%=id%>' type='button'>Delete Mock</button></p></li><li>Min: <%=min%></li><li>Max: <%=max%></li></ul><p id='code-example'></p><p><button class='btn btn-primary btn-small' type='button'>Add Field</button></p><table id='mock-fields' class='table table-bordered'><thead><tr><th>Name</th><th>Options</th><th>Type</th><th>Sample Data</th></thead><tbody><tbody></table></div>"),
+		template: _.template("<div class='info'><ul class='unstyled'><li><h2>Name: <%=name%></h2><p><button class='btn btn-primary' id='edit-mock_<%=id%>' type='button'>Edit Mock</button>&nbsp;&nbsp;<button class='btn btn-danger' id='delete-mock' type='button'>Delete Mock</button></p></li><li>Min: <%=min%></li><li>Max: <%=max%></li></ul><p id='code-example'></p><p><button class='btn btn-primary btn-small' type='button'>Add Field</button></p><table id='mock-fields' class='table table-bordered'><thead><tr><th>Name</th><th>Options</th><th>Type</th><th>Sample Data</th></thead><tbody><tbody></table></div>"),
 	    initialize: function () {
 	        _.bindAll(this, "render");
+	    },
+	    events:{
+	        "click #delete-mock": "_deleteMock"
+	    },
+	    _deleteMock:function(){
+	    	var callback = function(msg){
+	    		$('#mock-info').empty();
+	    	}
+	    	this.model.delete(callback);
 	    },
 		_buildJSONPExample:function(){
 			var code = "$.ajax({ type: 'GET',dataType: 'jsonp',jsonpCallback: 'moxsvc',url: '" + Suds.app.externalMoxURL + "?id=" + this.model.get('id') + "',success: function(data) {console.log(data)}});";
@@ -229,7 +257,6 @@
 				
 			}
 			newMock.save(callback);
-	
 			Suds.app.router.navigate("#dashboard", true);
 			
 		},
@@ -242,6 +269,4 @@
             });
         }
     });
-	
-
 })(Suds.module("mock"));

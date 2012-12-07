@@ -59,8 +59,19 @@ class mockssvc extends CI_Model{
 	}
 	
 	function deleteServiceDataTemplate($data){
-		$this->db->where(is,66);
-		$this->db->delete('Service_DataTemplates');
+		$data['error']='';
+		try
+			{
+			$id= $data['id'];
+			$this->db->where('id',$id);
+			$this->db->delete('Service_DataTemplates');
+			return $data;
+			}
+		catch(Exception $ex){
+			$data['error'] = $ex->getMessage();
+			return $data;
+		}
+
 	}
 	
 	function updateServiceTemplateField($data){

@@ -21,7 +21,7 @@ jQuery(function($) {
 	Suds.app.MenuLoaded = false;
     Suds.app.currentUser = new shared.Model.User({});
 	Suds.app.currentManinMenu = new menu.Collection.MenuItems();
-	Suds.app.externalMoxURL = 'http://localhost:8000';//'http://97.91.145.243:8000';
+	Suds.app.externalMoxURL = 'http://97.91.145.243:8000';//'http://localhost:8000';
 	
 	//check populated user
 	var userId = $('#userId').val();
