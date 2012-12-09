@@ -1,0 +1,6 @@
+Setup on Windows
+Install WAMP
+Install MySQL Workbench
+Create a database called "mockJson"
+MAke sure database login is root/root
+Run sql script in th mockJson project.
