@@ -120,7 +120,7 @@ class mockssvc extends CI_Model{
 	function deleteServiceTemplateField($data){
 	
 		$id= $data['fieldId'];
-		$sql ="	delete sf, sdf from Service_Fields as sf left join Service_DataTemplate_Fields as sdf on sf.id = sdf.fieldId where sf.id=?";
+		$sql ="delete sf, sdf from Service_Fields as sf left join Service_DataTemplate_Fields as sdf on sf.id = sdf.fieldId where sf.id=?";
 	 	return $this->db->query($sql, array($id));
 
 		

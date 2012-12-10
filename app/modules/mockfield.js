@@ -38,9 +38,9 @@
 		delete:function(callback){
 			var mdl = this;
 			var form_data = {
-				id:mdl.get('id')
+				fieldId:mdl.get('id')
 			};
-
+		
 			$.ajax({
 				type: "POST",
 				dataType: "json",
@@ -48,16 +48,14 @@
 				data: form_data,
 				success: function(msg) {
 					console.log(msg);
-					//shared.userMocks.remove(mdl);
-					//callback(msg);
+					shared.currentMockFields.remove(mdl);
+					callback(msg);
 
 				},
 				error: function(msg) {
 					console.log(msg);
 				}
 			});
-	
-			
 		}
 	});
 	
