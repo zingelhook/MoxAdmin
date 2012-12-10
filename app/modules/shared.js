@@ -4,7 +4,7 @@
     Shared.Router = Backbone.Router.extend({});
 	var mock = Suds.module("mock");
 	Shared.userMocks = new mock.Collection.Mocks();
-
+	Shared.currentMock = new mock.Model.Mock();
     Shared.Model.User = Backbone.Model.extend(
     {
         defaults: {

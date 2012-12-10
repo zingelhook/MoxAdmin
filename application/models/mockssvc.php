@@ -28,7 +28,6 @@ class mockssvc extends CI_Model{
 	}
 	
 	//gets a single mock field based on id.
-	
 	function getMockField($id){
 			$sql = "SELECT id,name,typeId,options, predefinedDataId, sampleData FROM Service_Fields WHERE id = ?";
 			return $this->db->query($sql, array($id))->result();

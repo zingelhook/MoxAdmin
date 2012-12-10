@@ -110,12 +110,12 @@ class mock extends CI_Controller{
 	
 	function addServiceField(){
 			$data = array(
-				'name'=>$this->input->post('txtName'),
+				'name'=>$this->input->post('name'),
 				'typeId'=>$this->input->post('typeId'),
-				'options' => $this->input->post('txtoptions'),
+				'options' => $this->input->post('options'),
 				'mockId'=>$this->input->post('mockId'),
 				'predefinedSampleDataId'=>$this->input->post('predefinedSampleDataId'),
-				'sampleData'=>$this->input->post('txtSampleData')
+				'sampleData'=>$this->input->post('sampleData')
 			);
 			$this->load->model('Mockssvc');
 			$fieldId = $this->Mockssvc->addServiceTemplateField($data);

@@ -3,6 +3,7 @@
 	Mock.Collection = Backbone.Collection.extend({});
 	Mock.Router = Backbone.Router.extend({});
 	var shared =  Suds.module("shared");
+	var mockfield = Suds.module("mockfield");
 	Mock.Model.Mock = Backbone.Model.extend({
 		getMockFields:function(callback){
 			var mdl = this;
@@ -58,7 +59,6 @@
 				success: function(msg) {
 					shared.userMocks.remove(mdl);
 					callback(msg);
-
 				},
 				error: function(msg) {
 					console.log(msg);
@@ -68,7 +68,7 @@
 			
 		}
 	});
-	Mock.Model.Field = Backbone.Model.extend({});
+	//Mock.Model.Field = Backbone.Model.extend({});
 	
 	Mock.Collection.Mocks = Backbone.Collection.extend({
 		model: Mock.Model.Mock,
@@ -102,17 +102,14 @@
 		}
 	});
 	
-	
-	Mock.Collection.MockFields = Backbone.Collection.extend({
-		model: Mock.Model.Field
-	});
-	
+
 	
 	Mock.Views.MocksTableRow  = Backbone.View.extend({
 	    tagName: "tr",
 		template: _.template("<td class='mock' id='<%=id%>'><%=name%></td>"),
 	    events: {
 	        "click .mock": "_showMock"
+		//	"click #addfield": "_addMockField",
 	    },
 	    initialize: function () {
 	        _.bindAll(this, "render");
@@ -127,7 +124,7 @@
 		
 			var callback = function(msg){
 				var count = msg.MockFields.length;
-				var mockFields = new Mock.Collection.MockFields();
+				var mockFields = new mockfield.Collection.MockFields();
 				
 				for (var i = 0; i < count; i++) {
 					mockFields.add(msg.MockFields[i]);
@@ -204,7 +201,7 @@
 	
 	
 	Mock.Views.MockInfo  = Backbone.View.extend({
-		template: _.template("<div class='info'><ul class='unstyled'><li><h2>Name: <%=name%></h2><p><button class='btn btn-primary' id='edit-mock_<%=id%>' type='button'>Edit Mock</button>&nbsp;&nbsp;<button class='btn btn-danger' id='delete-mock' type='button'>Delete Mock</button></p></li><li>Min: <%=min%></li><li>Max: <%=max%></li></ul><p id='code-example'></p><p><button class='btn btn-primary btn-small' type='button'>Add Field</button></p><table id='mock-fields' class='table table-bordered'><thead><tr><th>Name</th><th>Options</th><th>Type</th><th>Sample Data</th></thead><tbody><tbody></table></div>"),
+		template: _.template("<div class='info'><ul class='unstyled'><li><h2>Name: <%=name%></h2><p><button class='btn btn-primary' id='edit-mock_<%=id%>' type='button'>Edit Mock</button>&nbsp;&nbsp;<button class='btn btn-danger' id='delete-mock' type='button'>Delete Mock</button></p></li><li>Min: <%=min%></li><li>Max: <%=max%></li></ul><p id='code-example'></p><p><a id='addfield' class='btn btn-primary btn-small' href='#addmockfield'>Add Field</a></p><table id='mock-fields' class='table table-bordered'><thead><tr><th>Name</th><th>Options</th><th>Type</th><th>Sample Data</th></thead><tbody><tbody></table></div>"),
 	    initialize: function () {
 	        _.bindAll(this, "render");
 	    },
@@ -224,7 +221,7 @@
 		},
 	    render: function (done) {
 			var view=this;
-		
+			shared.currentMock = this.model;
             view.el.innerHTML = view.template(view.model.toJSON());
             done(view.el);
 			

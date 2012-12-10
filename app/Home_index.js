@@ -13,6 +13,7 @@ jQuery(function($) {
     var login       = Suds.module("login");
     var dashboard   = Suds.module("dashboard");
     var mock        = Suds.module("mock");
+	var mockfield   = Suds.module("mockfield");
 	var menu        = Suds.module("menu");
 	var docs        = Suds.module("docs");
 	var signup      = Suds.module("signup");
@@ -57,7 +58,8 @@ jQuery(function($) {
             "login": "login",
 			"signup": "signup",
             "dashboard": "dashboard",
-			"addmock": "addmock"
+			"addmock": "addmock",
+			"addmockfield":"addmockfield"
         },
 		_loadMainMenu:function(){
 			if(Suds.app.MenuLoaded===false){
@@ -75,6 +77,24 @@ jQuery(function($) {
             var addMockPage = new mock.Views.AddMock();
             // Attach the tutorial to the DOM
             addMockPage.render(function(el) {
+                $("#main").html(el);
+				route._loadMainMenu();
+                // Fix for hashes in pushState and hash fragment
+                if (hash && !route._alreadyTriggered) {
+                    // Reset to home, pushState support automatically converts hashes
+                    Backbone.history.navigate("", false);
+                    // Trigger the default browser behavior
+                    location.hash = hash;
+                    // Set an internal flag to stop recursive looping
+                    route._alreadyTriggered = true;
+                }
+            });
+        },
+        addmockfield:function(hash){
+            var route = this;
+            var addMockFieldPage = new mockfield.Views.AddMockField();
+            // Attach the tutorial to the DOM
+            addMockFieldPage.render(function(el) {
                 $("#main").html(el);
 				route._loadMainMenu();
                 // Fix for hashes in pushState and hash fragment
