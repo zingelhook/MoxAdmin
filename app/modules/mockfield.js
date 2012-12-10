@@ -44,11 +44,12 @@
 			$.ajax({
 				type: "POST",
 				dataType: "json",
-				url: base + "index.php/mock/delete",
+				url: base + "index.php/mock/deleteServiceField",
 				data: form_data,
 				success: function(msg) {
-					shared.userMocks.remove(mdl);
-					callback(msg);
+					console.log(msg);
+					//shared.userMocks.remove(mdl);
+					//callback(msg);
 
 				},
 				error: function(msg) {

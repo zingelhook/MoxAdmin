@@ -16,6 +16,7 @@
 				url: base + "index.php/mock/GetMocksFields",
 				data: form_data,
 				success: function(msg) {
+				
 					callback(msg);
 				},
 				error: function(msg) {
@@ -130,6 +131,7 @@
 					mockFields.add(msg.MockFields[i]);
 				}
 				
+				
 	            var fieldTable = new Mock.Views.FieldTable({
 	                collection:mockFields
 	            });
@@ -175,6 +177,7 @@
 	        _.bindAll(this, "render");
 	    },
 	    render: function () {
+			
 			var view=this;
 			var html = view.template(view.model.toJSON());
 			$(this.el).append(html);
@@ -201,7 +204,7 @@
 	
 	
 	Mock.Views.MockInfo  = Backbone.View.extend({
-		template: _.template("<div class='info'><ul class='unstyled'><li><h2>Name: <%=name%></h2><p><button class='btn btn-primary' id='edit-mock_<%=id%>' type='button'>Edit Mock</button>&nbsp;&nbsp;<button class='btn btn-danger' id='delete-mock' type='button'>Delete Mock</button></p></li><li>Min: <%=min%></li><li>Max: <%=max%></li></ul><p id='code-example'></p><p><a id='addfield' class='btn btn-primary btn-small' href='#addmockfield'>Add Field</a></p><table id='mock-fields' class='table table-bordered'><thead><tr><th>Name</th><th>Options</th><th>Type</th><th>Sample Data</th></thead><tbody><tbody></table></div>"),
+		template: _.template("<div class='info'><ul class='unstyled'><li><h2>Name: <%=name%></h2><p><button class='btn btn-primary' id='edit-mock_<%=id%>' type='button'>Edit Mock</button>&nbsp;&nbsp;<button class='btn btn-danger' id='delete-mock' type='button'>Delete Mock</button></p></li><li>Min: <%=min%></li><li>Max: <%=max%></li></ul><p id='code-example'></p><p><a id='addfield' class='btn btn-primary btn-small' href='#addmockfield'>Add Field</a></p><table id='mock-fields' class='table table-bordered'><thead><tr><th>Name</th><th>Options</th><th>Type</th><th>Sample Data</th></thead><tbody></tbody></table></div>"),
 	    initialize: function () {
 	        _.bindAll(this, "render");
 	    },
@@ -224,7 +227,6 @@
 			shared.currentMock = this.model;
             view.el.innerHTML = view.template(view.model.toJSON());
             done(view.el);
-			
 			view._buildJSONPExample();
 	        return this;
 	    }
