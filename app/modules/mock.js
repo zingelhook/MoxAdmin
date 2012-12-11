@@ -316,21 +316,69 @@
 			"click #submitMox": "_addMock"
 		},
 		_addMock:function(){
+			
+			//remove old validation
+			
+			$('.error').removeClass('error');
 	
 			var name = $('#mockName').val();
 			var min = $('#mockMin').val();
 			var max = $('#mockMax').val();
-			var newMock = new Mock.Model.Mock({
-				id:0,
-				name:name,
-				min:min,
-				max:max
-			});
-			var callback = function(msg){
-				Suds.app.router.navigate("#dashboard", true);
-				
+			
+			var errorlist = [];
+			if(name.length===0){
+				errorlist.push({name:'name-control',msg:'Name is required!'})
 			}
-			newMock.save(callback);
+			if(min.length===0){
+				errorlist.push({name:'min-control',msg:'Min Rows is required!'})
+			}
+			
+			if(max.length===0){
+				errorlist.push({name:'max-control',msg:'Max Rows is required!'})
+			}
+			
+			
+			
+			
+			if(errorlist.length===0){
+				var newMock = new Mock.Model.Mock({
+					id:0,
+					name:name,
+					min:min,
+					max:max
+				});
+				var callback = function(msg){
+					Suds.app.router.navigate("#dashboard", true);
+				
+				}
+				newMock.save(callback);			
+			}
+			else{
+			
+				var count = errorlist.length;
+				for (var i = 0; i < count; i++) {
+				
+					$('#' + errorlist[i].name).addClass('error');
+					var errorLine = document.createElement('li');
+					$(errorLine).html(errorlist[i].msg);
+					
+				}
+
+
+				
+				/*
+				for (var name in errorlist) {
+				  if (errorlist.hasOwnProperty(name)) {
+					var errorLine = document.createElement('li');
+					$(errorLine).html(errorlist[name]);
+					console.log(errorLine);
+					$('#error-list').append(errorLine);
+				  }
+				}*/
+				//$('#invalid-signup').show();
+			}
+			
+
 		
 			
 		},
