@@ -28,6 +28,7 @@
   		<!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
   		<script src="<?php echo base_url();?>assets/js/libs/modernizr-1.7.min.js"></script>
 		<script src="<?php echo base_url();?>assets/js/libs/jquery-1.8.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="<?php echo base_url();?>assets/js/libs/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
 
 		<script src="<?php echo base_url();?>assets/js/libs/underscore-min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<?php echo base_url();?>assets/js/libs/backbone-min.js" type="text/javascript" charset="utf-8"></script>
@@ -67,7 +68,12 @@
 		<div class="navbar navbar-inverse navbar-fixed-top">
 			<div class="navbar-inner">
 				<div class="container">
-					<a class="brand" href="./index.html">Bootstrap</a>
+					<button type="button" class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+					            <span class="icon-bar"></span>
+					            <span class="icon-bar"></span>
+					            <span class="icon-bar"></span>
+					          </button>
+					<a class="brand" href="./">Moxsvc</a>
 					<div  class="nav-collapse collapse">
 						<ul id="main-menu" class="nav"></ul>
 					</div>
