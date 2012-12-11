@@ -26,7 +26,7 @@
   		<link rel="stylesheet" media="handheld" href="css/handheld.css?v=2">  -->
 
   		<!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
-  		<script src="<?php echo base_url();?>js/libs/modernizr-1.7.min.js"></script>
+  		<script src="<?php echo base_url();?>assets/js/libs/modernizr-1.7.min.js"></script>
 		<script src="<?php echo base_url();?>assets/js/libs/jquery-1.8.0.min.js" type="text/javascript" charset="utf-8"></script>
 
 		<script src="<?php echo base_url();?>assets/js/libs/underscore-min.js" type="text/javascript" charset="utf-8"></script>
@@ -46,10 +46,10 @@
 		<script src="<?php echo base_url();?>app/modules/signup.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<?php echo base_url();?>app/Home_index.js" type="text/javascript" charset="utf-8"></script>
 
-		<script src="<?php echo base_url();?>js/raphael-min.js"></script>
-	   	<script src="<?php echo base_url();?>js/g.raphael-min.js"></script>
-	    <script src="<?php echo base_url();?>js/g.pie-min.js"></script>
-		<script src="<?php echo base_url();?>js/libs/jquery.growl.js"></script>
+		<script src="<?php echo base_url();?>assets/js/libs/raphael-min.js"></script>
+	   	<script src="<?php echo base_url();?>assets/js/libs/g.raphael-min.js"></script>
+	    <script src="<?php echo base_url();?>assets/js/libs/g.pie-min.js"></script>
+		<script src="<?php echo base_url();?>assets/js/libs/jquery.growl.js"></script>
 		 <script type="text/javascript">
 	        var base = "<?php echo base_url();?>"
 	    </script>
