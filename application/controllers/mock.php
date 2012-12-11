@@ -70,15 +70,16 @@ class mock extends CI_Controller{
 	function update(){
 
 			$data = array(
-				'name'=>$this->input->post('mockName'),
+				'name'=>$this->input->post('name'),
 				'langVar'=>$this->input->post('langVar'),
-				'min' => $this->input->post('mockMin'),
-				'sid'=>$this->input->post('mockId'),
-				'max'=>$this->input->post('mockMax')
+				'min' => $this->input->post('min'),
+				'sid'=>$this->input->post('id'),
+				'max'=>$this->input->post('max')
 				
 			);
 			$this->load->model('Mockssvc');
-			$this->Mockssvc->updateServiceDataTemplate($data);
+			$results = $this->Mockssvc->updateServiceDataTemplate($data);
+			echo json_encode($results);
 		
 	}
 	

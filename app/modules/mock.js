@@ -16,7 +16,6 @@
 				url: base + "index.php/mock/GetMocksFields",
 				data: form_data,
 				success: function(msg) {
-				
 					callback(msg);
 				},
 				error: function(msg) {
@@ -30,13 +29,20 @@
 				id:mdl.get('id'),
 				name: mdl.get('name'),
 				min:mdl.get('min'),
-				max:mdl.get('max')
+				max:mdl.get('max'),
+				langVar:'en:us'
 			};
+			
+		
+			var url = "index.php/mock/save";
+			if(parseInt(mdl.get('id'),10)>0){
+				url = "index.php/mock/update"
+			}
 	
 			$.ajax({
 				type: "POST",
 				dataType: "json",
-				url: base + "index.php/mock/save",
+				url: base + url,
 				data: form_data,
 				success: function(msg) {
 					callback(msg);
@@ -69,8 +75,7 @@
 			
 		}
 	});
-	//Mock.Model.Field = Backbone.Model.extend({});
-	
+
 	Mock.Collection.Mocks = Backbone.Collection.extend({
 		model: Mock.Model.Mock,
 		loadData: function(callback, failcallback) {
@@ -110,13 +115,16 @@
 		template: _.template("<td class='mock' id='<%=id%>'><%=name%></td>"),
 	    events: {
 	        "click .mock": "_showMock"
-		//	"click #addfield": "_addMockField",
 	    },
 	    initialize: function () {
 	        _.bindAll(this, "render");
 	    },
 		_showMock:function(e){
 			var mock = shared.userMocks.get(e.currentTarget.id);
+			mock.set({
+				mode:'none'
+			});
+			//console.log(mock);
 			var view=this;
 			var info = new Mock.Views.MockInfo({ model: mock });
 			info.render(function (el) {
@@ -218,12 +226,23 @@
 	
 	
 	Mock.Views.MockInfo  = Backbone.View.extend({
-		template: _.template("<div class='info'><ul class='unstyled'><li><h2>Name: <%=name%></h2><p><button class='btn btn-primary' id='edit-mock_<%=id%>' type='button'>Edit Mock</button>&nbsp;&nbsp;<button class='btn btn-danger' id='delete-mock' type='button'>Delete Mock</button></p></li><li>Min: <%=min%></li><li>Max: <%=max%></li></ul><p id='code-example'></p><p><a id='addfield' class='btn btn-primary btn-small' href='#addmockfield'>Add Field</a></p><table id='mock-fields' class='table table-bordered'><thead><tr><th>Name</th><th>Options</th><th>Type</th><th>Sample Data</th></thead><tbody></tbody></table></div>"),
+		template: _.template("<div class='info'><ul class='unstyled'><li><h2>Name: <%=name%></h2><p><button class='btn btn-primary' id='edit-mock' type='button'>Edit Mock</button>&nbsp;&nbsp;<button class='btn btn-danger' id='delete-mock' type='button'>Delete Mock</button></p></li><li>Min: <%=min%></li><li>Max: <%=max%></li></ul><p id='code-example'></p><p><a id='addfield' class='btn btn-primary btn-small' href='#addmockfield'>Add Field</a></p><table id='mock-fields' class='table table-bordered'><thead><tr><th>Name</th><th>Options</th><th>Type</th><th>Sample Data</th></thead><tbody></tbody></table></div>"),
 	    initialize: function () {
 	        _.bindAll(this, "render");
 	    },
 	    events:{
-	        "click #delete-mock": "_deleteMock"
+	        "click #delete-mock": "_deleteMock",
+			"click #edit-mock": "_editMock"
+	    },
+	    _editMock:function(){
+			//call edit mock view
+			var editMock = new Mock.Views.EditMock({
+				model:this.model
+			});
+			
+			editMock.render(function(el) {
+                $("#main").html(el);
+			});
 	    },
 	    _deleteMock:function(){
 	    	var callback = function(msg){
@@ -248,7 +267,49 @@
 	
 	
 	
+    Mock.Views.EditMock = Backbone.View.extend({
+        template: "app/templates/editMock.html",
+		events:{
+			"click #submitMox": "_editMock"
+		},
+		_editMock:function(){
+			
+			var name = $('#mockName').val();
+			var min = $('#mockMin').val();
+			var max = $('#mockMax').val();
+			var mockid = $('#mockId').val();
+			this.model.set({
+				id:mockid,
+				name:name,
+				min:min,
+				max:max
+			});
+			var callback = function(msg){
+				Suds.app.router.navigate("#dashboard", true);
+				//TODO: reload list here
+				
+			}
+			
+			this.model.save(callback);
+			
+			
+		},
+        render: function(done) {
+            var view = this;
 
+	
+            // Fetch the template, render it to the View element and call done.
+            Suds.fetchTemplate(this.template, function(tmpl) {
+                view.el.innerHTML = tmpl({
+					id:view.model.get("id"),
+					name:view.model.get("name"),
+					min:view.model.get("min"),
+					max:view.model.get("max")
+				});
+                done(view.el);
+            });
+        }
+    });
     Mock.Views.AddMock = Backbone.View.extend({
         template: "app/templates/addMock.html",
 		events:{
@@ -266,11 +327,11 @@
 				max:max
 			});
 			var callback = function(msg){
-				//console.log(msg);
+				Suds.app.router.navigate("#dashboard", true);
 				
 			}
 			newMock.save(callback);
-			Suds.app.router.navigate("#dashboard", true);
+		
 			
 		},
         render: function(done) {
