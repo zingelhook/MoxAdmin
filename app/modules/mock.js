@@ -71,8 +71,6 @@
 					console.log(msg);
 				}
 			});
-	
-			
 		}
 	});
 
@@ -140,7 +138,6 @@
 					mockFields.add(msg.MockFields[i]);
 				}
 				
-				
 	            var fieldTable = new Mock.Views.FieldTable({
 	                collection:mockFields
 	            });
@@ -180,13 +177,31 @@
 	
 	Mock.Views.FieldTableRow  = Backbone.View.extend({
 	    tagName: "tr",
-		template: _.template("<td class='field' id='<%=id%>'><%=name%></td><td><%=fieldoptions%></td><td><%=predefefinedSampleDataType%></td><td><%=sampleData%></td><td><button type='button' id='edit_<%=id%>' class='btn btn-primary btn-small'>Edit</button>&nbsp;<button type='button' id='<%=id%>' class='del-field btn btn-danger btn-small'>Delete</button></td>"),
+		template: _.template("<td class='field' id='<%=id%>'><%=name%></td><td><%=fieldoptions%></td><td><%=predefefinedSampleDataType%></td><td><%=sampleData%></td><td><button type='button' id='edit_<%=id%>' class='edit-mock btn btn-primary btn-small'>Edit</button>&nbsp;<button type='button' id='<%=id%>' class='del-field btn btn-danger btn-small'>Delete</button></td>"),
 		events:{
-			"click .del-field":"_delField"
+			"click .del-field":"_delField",
+			"click .edit-mock": "_editField"
 		},
 	    initialize: function () {
 	        _.bindAll(this, "render");
 	    },
+		_editField:function(e){
+			
+			var id = e.currentTarget.id.replace("edit_","");;
+			var currentField = shared.currentMockFields.get(id);
+
+			var editView = new mockfield.Views.EditMockField({
+				model:currentField
+			});
+			editView.render(function(el) {
+                $("#main").html(el);
+			});
+
+
+			
+	
+			
+		},
 		_delField:function(e){
 			
 			var id = e.currentTarget.id;

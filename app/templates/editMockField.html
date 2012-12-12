@@ -1,0 +1,55 @@
+<div class="container-fluid">
+
+  <div class="row-fluid">
+	<fieldset>
+		<legend>Edit Mock Field</legend>
+
+
+
+	<div class="row-fluid">
+			<div class="span12" id="invalid-mockfield" style="padding-top:20px;display:none">
+				<div class="container">
+					<div class="alert alert-error">
+						<ul id="error-list">
+						</ul>
+			 
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="name-control" class="control-group">
+			<label for="mockFieldName">Name:</label>
+		 	<input type="text" id="mockFieldName" name="mockFieldName" value="<%=name%>" required/>
+		 </div>
+		
+		 <label for="options">Options:</label>
+		 <textarea id="options" name="options"></textarea>
+		 <label for="predefinedSampleData">Predefined Data:</label>
+		 <select id="predefinedSampleData">
+		   <option value="1" selected="selected">Date</option> 
+		   <option value="2">First Name</option>
+		   <option value="3">Last Name</option>
+		   <option value="4">Full Name</option>
+		   <option value="5">US Postal Code</option>
+		   <option value="6">City</option>
+		   <option value="7">State</option>
+		   <option value="8">Country</option>
+		   <option value="9">Address One</option>
+		   <option value="10">Letter</option>
+		   <option value="11">Lorum</option>
+		   <option value="12">User Name</option>
+		   <option value="13">Number</option>
+		   <option value="14">Playing Card</option>
+		   <option value="14">Custom</option>
+		 </select>
+		 <div id="sample-control" class="control-group" style="display:none">
+			 <label for="sampledata">Sample Data:</label>
+			 <textarea id="sampledata" name="sampledata" value="<%=sampledata%>"></textarea>
+		</div>
+		 <br/>
+		 <button type="button" id="submitMoxField"  class="btn btn-primary">Submit</button>
+	 </fieldset>
+	</div>
+</div>
+

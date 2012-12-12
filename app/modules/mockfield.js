@@ -8,8 +8,6 @@
 	MockField.Model.Field = Backbone.Model.extend({
 		save:function(callback){	
 			var mdl = this;
-		
-			
 			var form_data = {
 				id:mdl.get('id'),
 				mockId:mdl.get('mockId'),
@@ -20,7 +18,6 @@
 				sampleData:mdl.get('sampleData')
 				
 			};
-	
 			$.ajax({
 				type: "POST",
 				dataType: "json",
@@ -74,7 +71,87 @@
             });
         }
     });
-	
+	MockField.Views.EditMockField = Backbone.View.extend({
+        template: "app/templates/editMockField.html",
+		events:{
+			"click #submitMoxField":"_addMockField",
+			"change #predefinedSampleData":"_predefinedSampleDataClick"
+		},
+		_predefinedSampleDataClick:function(e){
+		
+			var value = $("#predefinedSampleData").val();
+			if(value==='14'){
+				$('#sample-control').show();
+			}
+			else{
+				$('#sample-control').hide();
+			}
+
+		},
+		_addMockField:function(){
+			var mockField = new MockField.Model.Field();
+			var mockId = shared.currentMock.get('id');
+
+			var errorlist = [];
+			if($('#mockFieldName').val().length===0){
+				errorlist.push({name:'name-control',msg:'Name is required!'})
+			}
+			if($("#predefinedSampleData").val()==='14' && $('#sampledata').val().length<=1){
+				errorlist.push({name:'sample-control',msg:'Sample Data is required for Custom Data!'})	
+			}
+
+			if(errorlist.length===0){
+				mockField.set({
+					name:$('#mockFieldName').val(),
+					typeId:1,
+					options:$('#options').val(),
+					mockId:mockId,
+					predefinedSampleDataId:$('#predefinedSampleData').val(),
+					sampleData:$('#sampledata').val()
+				})
+			
+				var callback = function(msg){
+					if(msg>0){
+						Suds.app.router.navigate("#dashboard", true);
+					}
+				}
+			
+				mockField.save(callback);
+			}
+			else{
+
+				var count = errorlist.length;
+				for (var i = 0; i < count; i++) {
+					$('#' + errorlist[i].name).addClass('error');
+					var errorLine = document.createElement('li');
+					$(errorLine).html(errorlist[i].msg);
+					$('#error-list').append(errorLine);	
+				}
+				$('#invalid-mockfield').show();
+			}	
+		},
+        render: function (done) {
+            var view = this;
+           // console.log(view.model);
+            // Fetch the template, render it to the View element and call done.
+            Suds.fetchTemplate(this.template, function (tmpl) {
+                view.el.innerHTML = tmpl({
+                	name:view.model.get('name'),
+                	predefinedSampleDataId:view.model.get('predefinedSampleDataId'),
+                	sampledata:view.model.get('sampleData')
+                });
+
+                var id = view.model.get('predefinedSampleDataId');
+               
+
+                done(view.el);
+				$("#predefinedSampleData").val(id);
+				view._predefinedSampleDataClick();
+           
+          
+            });
+        }
+    });
     MockField.Views.AddMockField = Backbone.View.extend({
         template: "app/templates/addMockField.html",
 		events:{
@@ -105,7 +182,6 @@
 			}
 
 			if(errorlist.length===0){
-		
 				mockField.set({
 					name:$('#mockFieldName').val(),
 					typeId:1,
@@ -115,12 +191,10 @@
 					sampleData:$('#sampledata').val()
 				})
 			
-			
 				var callback = function(msg){
 					if(msg>0){
 						Suds.app.router.navigate("#dashboard", true);
 					}
-					
 				}
 			
 				mockField.save(callback);
@@ -129,14 +203,12 @@
 
 				var count = errorlist.length;
 				for (var i = 0; i < count; i++) {
-				
 					$('#' + errorlist[i].name).addClass('error');
 					var errorLine = document.createElement('li');
 					$(errorLine).html(errorlist[i].msg);
 					$('#error-list').append(errorLine);
 					
 				}
-
 
 				$('#invalid-mockfield').show();
 			}
