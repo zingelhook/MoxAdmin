@@ -47,7 +47,7 @@
 				url: base + "index.php/mock/deleteServiceField",
 				data: form_data,
 				success: function(msg) {
-					console.log(msg);
+
 					shared.currentMockFields.remove(mdl);
 					callback(msg);
 
@@ -78,15 +78,30 @@
     MockField.Views.AddMockField = Backbone.View.extend({
         template: "app/templates/addMockField.html",
 		events:{
-			"click #submitMoxField":"_addMockField"
+			"click #submitMoxField":"_addMockField",
+			"change #predefinedSampleData":"_predefinedSampleDataClick"
+		},
+		_predefinedSampleDataClick:function(e){
+		
+			var value = $("#predefinedSampleData").val();
+			if(value==='14'){
+				$('#sample-control').show();
+			}
+			else{
+				$('#sample-control').hide();
+			}
+
 		},
 		_addMockField:function(){
 			var mockField = new MockField.Model.Field();
 			var mockId = shared.currentMock.get('id');
 
 			var errorlist = [];
-			if(name.length===0){
+			if($('#mockFieldName').val().length===0){
 				errorlist.push({name:'name-control',msg:'Name is required!'})
+			}
+			if($("#predefinedSampleData").val()==='14' && $('#sampledata').val().length<=1){
+				errorlist.push({name:'sample-control',msg:'Sample Data is required for Custom Data!'})	
 			}
 
 			if(errorlist.length===0){
@@ -111,15 +126,19 @@
 				mockField.save(callback);
 			}
 			else{
-							
+
 				var count = errorlist.length;
 				for (var i = 0; i < count; i++) {
 				
 					$('#' + errorlist[i].name).addClass('error');
 					var errorLine = document.createElement('li');
 					$(errorLine).html(errorlist[i].msg);
+					$('#error-list').append(errorLine);
 					
 				}
+
+
+				$('#invalid-mockfield').show();
 			}
 			
 		},

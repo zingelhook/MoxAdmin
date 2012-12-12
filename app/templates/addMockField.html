@@ -1,7 +1,23 @@
 <div class="container-fluid">
+
   <div class="row-fluid">
 	<fieldset>
 		<legend>Add Mock Field</legend>
+
+
+
+	<div class="row-fluid">
+			<div class="span12" id="invalid-mockfield" style="padding-top:20px;display:none">
+				<div class="container">
+					<div class="alert alert-error">
+						<ul id="error-list">
+						</ul>
+			 
+					</div>
+				</div>
+			</div>
+		</div>
+		
 		<div id="name-control" class="control-group">
 			<label for="mockFieldName">Name:</label>
 		 	<input type="text" id="mockFieldName" name="mockFieldName" required/>
@@ -27,8 +43,10 @@
 		   <option value="14">Playing Card</option>
 		   <option value="14">Custom</option>
 		 </select>
-		 <label for="sampledata">Sample Data:</label>
-		 <textarea id="sampledata" name="sampledata"></textarea>
+		 <div id="sample-control" class="control-group" style="display:none">
+			 <label for="sampledata">Sample Data:</label>
+			 <textarea id="sampledata" name="sampledata"></textarea>
+		</div>
 		 <br/>
 		 <button type="button" id="submitMoxField"  class="btn btn-primary">Submit</button>
 	 </fieldset>
