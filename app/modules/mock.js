@@ -124,7 +124,7 @@
 			mock.set({
 				mode:'none'
 			});
-			//console.log(mock);
+
 			var view=this;
 			var info = new Mock.Views.MockInfo({ model: mock });
 			info.render(function (el) {
@@ -336,7 +336,15 @@
 			if(max.length===0){
 				errorlist.push({name:'max-control',msg:'Max Rows is required!'})
 			}
-			
+
+
+			if(!isNumber(min)){
+				errorlist.push({name:'min-control',msg:'Min Rows must be a number!'})
+			}
+		
+			if(!isNumber(max)){
+				errorlist.push({name:'min-control',msg:'Max Rows must be a number!'})
+			}
 			
 			
 			

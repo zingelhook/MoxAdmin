@@ -1,3 +1,8 @@
+
+function isNumber(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
 (function (Shared) {
     Shared.Model = Backbone.Model.extend({});
     Shared.Collection = Backbone.Collection.extend({});

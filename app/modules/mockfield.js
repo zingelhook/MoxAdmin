@@ -82,27 +82,45 @@
 		},
 		_addMockField:function(){
 			var mockField = new MockField.Model.Field();
-		
 			var mockId = shared.currentMock.get('id');
-			//console.log(shared.currentMock);
-			mockField.set({
-				name:$('#mockFieldName').val(),
-				typeId:1,
-				options:$('#options').val(),
-				mockId:mockId,
-				predefinedSampleDataId:$('#predefinedSampleData').val(),
-				sampleData:$('#sampledata').val()
-			})
-			console.log(mockField)
-			
-			var callback = function(msg){
-				if(msg>0){
-					Suds.app.router.navigate("#dashboard", true);
-				}
-				
+
+			var errorlist = [];
+			if(name.length===0){
+				errorlist.push({name:'name-control',msg:'Name is required!'})
 			}
+
+			if(errorlist.length===0){
+		
+				mockField.set({
+					name:$('#mockFieldName').val(),
+					typeId:1,
+					options:$('#options').val(),
+					mockId:mockId,
+					predefinedSampleDataId:$('#predefinedSampleData').val(),
+					sampleData:$('#sampledata').val()
+				})
 			
-			mockField.save(callback);
+			
+				var callback = function(msg){
+					if(msg>0){
+						Suds.app.router.navigate("#dashboard", true);
+					}
+					
+				}
+			
+				mockField.save(callback);
+			}
+			else{
+							
+				var count = errorlist.length;
+				for (var i = 0; i < count; i++) {
+				
+					$('#' + errorlist[i].name).addClass('error');
+					var errorLine = document.createElement('li');
+					$(errorLine).html(errorlist[i].msg);
+					
+				}
+			}
 			
 		},
         render: function (done) {
