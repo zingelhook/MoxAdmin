@@ -75,7 +75,15 @@
         template: "app/templates/editMockField.html",
 		events:{
 			"click #submitMoxField":"_addMockField",
-			"change #predefinedSampleData":"_predefinedSampleDataClick"
+			"change #predefinedSampleData":"_predefinedSampleDataClick",
+			"click #cancel_btn": "_cancel"
+		},
+		_cancel:function(){
+			var info = new mock.Views.MockInfo({ model: shared.currentMock  });
+			info.render(function (el) {
+				$("#mock-info").html(el);
+			});
+		
 		},
 		_predefinedSampleDataClick:function(e){
 		
