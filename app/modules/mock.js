@@ -293,23 +293,63 @@
 			"click #submitMox": "_editMock"
 		},
 		_editMock:function(){
-			
+			$('#invalid-mock').hide();
+			$('#error-list').empty();
 			var name = $('#mockName').val();
 			var min = $('#mockMin').val();
 			var max = $('#mockMax').val();
 			var mockid = $('#mockId').val();
-			this.model.set({
-				id:mockid,
-				name:name,
-				min:min,
-				max:max
-			});
-			var callback = function(msg){
-				Suds.app.router.navigate("#dashboard", true);
-				//TODO: reload list here
+			
+			
+			var errorlist = [];
+			if(name.length===0){
+				errorlist.push({name:'name-control',msg:'Name is required!'})
+			}
+			if(min.length===0){
+				errorlist.push({name:'min-control',msg:'Min Rows is required!'})
+			}
+			
+			if(max.length===0){
+				errorlist.push({name:'max-control',msg:'Max Rows is required!'})
+			}
+			
+			if(!isNumber(min)){
+				errorlist.push({name:'min-control',msg:'Min Rows must be a number!'})
+			}
+		
+			if(!isNumber(max)){
+				errorlist.push({name:'min-control',msg:'Max Rows must be a number!'})
+			}
+			
+
+			
+			if(errorlist.length===0){
+				this.model.set({
+					id:mockid,
+					name:name,
+					min:min,
+					max:max
+				});
+				var callback = function(msg){
+					Suds.app.router.navigate("#dashboard", true);
+					//TODO: reload list here
+				
+				}
+				this.model.save(callback);
+			}
+			else{
+				var count = errorlist.length;
+				for (var i = 0; i < count; i++) {
+				
+					$('#' + errorlist[i].name).addClass('error');
+					var errorLine = document.createElement('li');
+					$(errorLine).html(errorlist[i].msg);
+					$('#error-list').append(errorLine);
+					
+				}
+				$('#invalid-mock').show();
 				
 			}
-			this.model.save(callback);
 		},
         render: function(done) {
             var view = this;
