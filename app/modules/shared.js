@@ -1,9 +1,11 @@
 
 function isNumber(n) {
+	"use strict"
   return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
 (function (Shared) {
+	"use strict"
     Shared.Model = Backbone.Model.extend({});
     Shared.Collection = Backbone.Collection.extend({});
     Shared.Router = Backbone.Router.extend({});
@@ -14,8 +16,8 @@ function isNumber(n) {
 	Shared.currentMock = new mock.Model.Mock();
     Shared.Model.User = Backbone.Model.extend(
     {
-        defaults: {
-            "userId": 0
+		defaults: {
+			"userId": 0
         },
   	  	Login:function(userName,pwd,callback){
             var form_data = {
@@ -36,9 +38,7 @@ function isNumber(n) {
                             isLoggedIn: msg.UserInfo.isLoggedIn,
                             lastName: msg.UserInfo.lastname,
                             roleId: msg.UserInfo.roleId
-                        });
-						
-						
+                        });	
 						if(callback!=null){
 							callback(msg);
 						}
