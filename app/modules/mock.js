@@ -296,7 +296,24 @@
     Mock.Views.EditMock = Backbone.View.extend({
         template: "app/templates/editMock.html",
 		events:{
-			"click #submitMox": "_editMock"
+			"click #submitMox": "_editMock",
+			"click #cancel_btn":"_cancel"
+		},
+		_cancel:function(){
+			$("#mock-info").empty();
+					
+			var info = new Mock.Views.MockInfo({ model: shared.currentMock  });
+			info.render(function (el) {
+				$("#mock-info").html(el);
+			});
+					
+            var fieldTable = new Mock.Views.FieldTable({
+                collection:shared.currentMockFields
+            });
+           
+            fieldTable.render(function(el) {
+                $("#mock-info").append(el);
+            });
 		},
 		_editMock:function(){
 			$('#invalid-mock').hide();
