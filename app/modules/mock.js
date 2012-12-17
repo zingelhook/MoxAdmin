@@ -145,6 +145,7 @@
 	            fieldTable.render(function(el) {
 	                $("#mock-info").html(el);
 	            });
+				
 			}
 			mock.getMockFields(callback);
 		},
@@ -194,13 +195,8 @@
 				model:currentField
 			});
 			editView.render(function(el) {
-                $("#main").html(el);
+                $("#mock-info").html(el);
 			});
-
-
-			
-	
-			
 		},
 		_delField:function(e){
 			
@@ -214,7 +210,6 @@
 			
 		},
 	    render: function () {
-			
 			var view=this;
 			var html = view.template(view.model.toJSON());
 			$(this.el).append(html);
@@ -256,7 +251,7 @@
 			});
 			
 			editMock.render(function(el) {
-                $("#main").html(el);
+                $("#mock-info").html(el);
 			});
 	    },
 	    _deleteMock:function(){
@@ -276,6 +271,16 @@
             view.el.innerHTML = view.template(view.model.toJSON());
             done(view.el);
 			view._buildJSONPExample();
+			
+			
+            var fieldTable = new Mock.Views.FieldTable({
+                collection:shared.currentMockFields
+            });
+           
+            fieldTable.render(function(el) {
+                $("#mock-info").html(el);
+            });
+			
 	        return this;
 	    }
 	});
@@ -304,15 +309,10 @@
 				//TODO: reload list here
 				
 			}
-			
 			this.model.save(callback);
-			
-			
 		},
         render: function(done) {
             var view = this;
-
-	
             // Fetch the template, render it to the View element and call done.
             Suds.fetchTemplate(this.template, function(tmpl) {
                 view.el.innerHTML = tmpl({
@@ -351,8 +351,7 @@
 			if(max.length===0){
 				errorlist.push({name:'max-control',msg:'Max Rows is required!'})
 			}
-
-
+			
 			if(!isNumber(min)){
 				errorlist.push({name:'min-control',msg:'Min Rows must be a number!'})
 			}
@@ -360,8 +359,6 @@
 			if(!isNumber(max)){
 				errorlist.push({name:'min-control',msg:'Max Rows must be a number!'})
 			}
-			
-			
 			
 			if(errorlist.length===0){
 				var newMock = new Mock.Model.Mock({

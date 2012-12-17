@@ -78,7 +78,7 @@ jQuery(function($) {
             var editMockPage = new mock.Views.EditMock();
             // Attach the tutorial to the DOM
             editMockPage.render(function(el) {
-                $("#main").html(el);
+                $("#mock-info").html(el);
 				route._loadMainMenu();
 			
 		
@@ -98,7 +98,7 @@ jQuery(function($) {
             var addMockPage = new mock.Views.AddMock();
             // Attach the tutorial to the DOM
             addMockPage.render(function(el) {
-                $("#main").html(el);
+                $("#mock-info").html(el);
 				route._loadMainMenu();
 				
 				if(shared.currentMock.has('mode')){
@@ -122,7 +122,7 @@ jQuery(function($) {
             var addMockFieldPage = new mockfield.Views.AddMockField();
             // Attach the tutorial to the DOM
             addMockFieldPage.render(function(el) {
-                $("#main").html(el);
+                $("#mock-info").html(el);
 				route._loadMainMenu();
                 // Fix for hashes in pushState and hash fragment
                 if (hash && !route._alreadyTriggered) {

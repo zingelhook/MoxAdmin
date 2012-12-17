@@ -43,10 +43,8 @@
 				url: base + "index.php/mock/deleteServiceField",
 				data: form_data,
 				success: function(msg) {
-
 					shared.currentMockFields.remove(mdl);
 					callback(msg);
-
 				},
 				error: function(msg) {
 					console.log(msg);
@@ -103,6 +101,7 @@
 			if($('#mockFieldName').val().length===0){
 				errorlist.push({name:'name-control',msg:'Name is required!'})
 			}
+			
 			if($("#predefinedSampleData").val()==='14' && $('#sampledata').val().length<=1){
 				errorlist.push({name:'sample-control',msg:'Sample Data is required for Custom Data!'})	
 			}
@@ -122,7 +121,6 @@
 						Suds.app.router.navigate("#dashboard", true);
 					}
 				}
-			
 				mockField.save(callback);
 			}
 			else{
@@ -139,7 +137,6 @@
 		},
         render: function (done) {
             var view = this;
-           // console.log(view.model);
             // Fetch the template, render it to the View element and call done.
             Suds.fetchTemplate(this.template, function (tmpl) {
                 view.el.innerHTML = tmpl({
@@ -147,15 +144,10 @@
                 	predefinedSampleDataId:view.model.get('predefinedSampleDataId'),
                 	sampledata:view.model.get('sampleData')
                 });
-
                 var id = view.model.get('predefinedSampleDataId');
-               
-
                 done(view.el);
 				$("#predefinedSampleData").val(id);
 				view._predefinedSampleDataClick();
-           
-          
             });
         }
     });
@@ -163,7 +155,15 @@
         template: "app/templates/addMockField.html",
 		events:{
 			"click #submitMoxField":"_addMockField",
-			"change #predefinedSampleData":"_predefinedSampleDataClick"
+			"change #predefinedSampleData":"_predefinedSampleDataClick",
+			"click #cancel_btn": "_cancel"
+		},
+		_cancel:function(){
+			var info = new mock.Views.MockInfo({ model: shared.currentMock  });
+			info.render(function (el) {
+				$("#mock-info").html(el);
+			});
+		
 		},
 		_predefinedSampleDataClick:function(e){
 		
