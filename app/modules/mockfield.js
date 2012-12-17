@@ -24,7 +24,6 @@
 				url: base + "index.php/mock/addServiceField",
 				data: form_data,
 				success: function(msg) {
-				
 					callback(msg);
 				},
 				error: function(msg) {
@@ -178,6 +177,7 @@
 
 		},
 		_addMockField:function(){
+			$('#error-list').empty();
 			var mockField = new MockField.Model.Field();
 			var mockId = shared.currentMock.get('id');
 
@@ -190,6 +190,7 @@
 			}
 
 			if(errorlist.length===0){
+				
 				mockField.set({
 					name:$('#mockFieldName').val(),
 					typeId:1,
@@ -200,6 +201,7 @@
 				})
 			
 				var callback = function(msg){
+					
 					if(msg>0){
 						Suds.app.router.navigate("#dashboard", true);
 					}
