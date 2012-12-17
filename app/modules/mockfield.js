@@ -145,6 +145,7 @@
                 	sampledata:view.model.get('sampleData')
                 });
                 var id = view.model.get('predefinedSampleDataId');
+			
                 done(view.el);
 				$("#predefinedSampleData").val(id);
 				view._predefinedSampleDataClick();
@@ -163,10 +164,8 @@
 			info.render(function (el) {
 				$("#mock-info").html(el);
 			});
-		
 		},
 		_predefinedSampleDataClick:function(e){
-		
 			var value = $("#predefinedSampleData").val();
 			if(value==='14'){
 				$('#sample-control').show();
@@ -174,7 +173,6 @@
 			else{
 				$('#sample-control').hide();
 			}
-
 		},
 		_addMockField:function(){
 			$('#error-list').empty();
@@ -188,7 +186,6 @@
 			if($("#predefinedSampleData").val()==='14' && $('#sampledata').val().length<=1){
 				errorlist.push({name:'sample-control',msg:'Sample Data is required for Custom Data!'})	
 			}
-
 			if(errorlist.length===0){
 				
 				mockField.set({
@@ -218,7 +215,6 @@
 				}
 				$('#invalid-mockfield').show();
 			}
-			
 		},
         render: function (done) {
             var view = this;

@@ -456,8 +456,6 @@
 		            fieldTable.render(function(el) {
 		                $("#mock-info").append(el);
 		            });
-
-				
 				}
 				newMock.save(callback);			
 			}
@@ -471,24 +469,7 @@
 					$(errorLine).html(errorlist[i].msg);
 					
 				}
-
-
-				
-				/*
-				for (var name in errorlist) {
-				  if (errorlist.hasOwnProperty(name)) {
-					var errorLine = document.createElement('li');
-					$(errorLine).html(errorlist[name]);
-					console.log(errorLine);
-					$('#error-list').append(errorLine);
-				  }
-				}*/
-				//$('#invalid-signup').show();
-			}
-			
-
-		
-			
+			}			
 		},
         render: function(done) {
             var view = this;
