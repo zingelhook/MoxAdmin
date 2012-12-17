@@ -58,7 +58,6 @@ jQuery(function($) {
             "login": "login",
 			"signup": "signup",
             "dashboard": "dashboard",
-			"addmock": "addmock",
 			"addmockfield":"addmockfield",
 			"editmock":"editmock"
         },
@@ -93,7 +92,7 @@ jQuery(function($) {
                 }
             });
         },
-        addmock:function(hash){
+        _oldaddmock:function(hash){
             var route = this;
             var addMockPage = new mock.Views.AddMock();
             // Attach the tutorial to the DOM

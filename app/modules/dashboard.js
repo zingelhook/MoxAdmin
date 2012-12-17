@@ -8,6 +8,15 @@
     // This will fetch the tutorial template and render it.
     Dashboard.Views.MainPage = Backbone.View.extend({
         template: "app/templates/dashboard.html",
+		events:{
+			"click #addmock":"_openAddMock"
+		},
+		_openAddMock:function(){
+			var addMock = new mock.Views.AddMock();
+            addMock.render(function(el) {
+                $("#mock-info").html(el);
+            });
+		},
         loadUserMocks: function() {
             var view = this;
             shared.userMocks.loadData();  

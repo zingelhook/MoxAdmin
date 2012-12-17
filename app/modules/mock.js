@@ -399,7 +399,12 @@
     Mock.Views.AddMock = Backbone.View.extend({
         template: "app/templates/addMock.html",
 		events:{
-			"click #submitMox": "_addMock"
+			"click #submitMox": "_addMock",
+			"click #cancel_btn":"_cancel"
+		},
+		_cancel:function(){
+			$("#mock-info").empty();
+					
 		},
 		_addMock:function(){
 			
