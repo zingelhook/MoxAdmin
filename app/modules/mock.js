@@ -33,6 +33,8 @@
 				langVar:'en:us'
 			};
 			
+			shared.currentMock = this; 
+			
 		
 			var url = "index.php/mock/save";
 			if(parseInt(mdl.get('id'),10)>0){
@@ -45,6 +47,10 @@
 				url: base + url,
 				data: form_data,
 				success: function(msg) {
+					
+					shared.currentMock.set({
+						id:msg
+					})
 					callback(msg);
 				},
 				error: function(msg) {
@@ -416,7 +422,19 @@
 					max:max
 				});
 				var callback = function(msg){
-					Suds.app.router.navigate("#dashboard", true);
+					var info = new Mock.Views.MockInfo({ model: shared.currentMock  });
+					info.render(function (el) {
+						$("#mock-info").html(el);
+					});
+					
+		            var fieldTable = new Mock.Views.FieldTable({
+		                collection:shared.currentMockFields
+		            });
+           
+		            fieldTable.render(function(el) {
+		                $("#mock-info").append(el);
+		            });
+
 				
 				}
 				newMock.save(callback);			
