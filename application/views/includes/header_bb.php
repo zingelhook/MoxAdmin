@@ -21,6 +21,8 @@
   		<!-- CSS: implied media="all" -->
   		<link rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap.min.css">
   		<link rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap-responsive.min.css">
+		<link rel="stylesheet" href="<?php echo base_url();?>assets/css/monokai.css">
+		
   		<link rel="stylesheet" href="<?php echo base_url();?>assets/css/index.css">
   		<!-- Uncomment if you are specifically targeting less enabled mobile browsers
   		<link rel="stylesheet" media="handheld" href="css/handheld.css?v=2">  -->
@@ -32,6 +34,7 @@
 
 		<script src="<?php echo base_url();?>assets/js/libs/underscore-min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<?php echo base_url();?>assets/js/libs/backbone-min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="<?php echo base_url();?>assets/js/libs/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
 
 
 		<script src="<?php echo base_url();?>app/namespace.js" type="text/javascript" charset="utf-8"></script>
@@ -55,6 +58,7 @@
 		 <script type="text/javascript">
 	        var base = "<?php echo base_url();?>"
 	    </script>
+		
 	</head>
 
 	<body>

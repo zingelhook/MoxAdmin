@@ -267,9 +267,22 @@
 	    	this.model.delete(callback);
 	    },
 		_buildJSONPExample:function(){
-			var code = "$.ajax({ type: 'GET',dataType: 'jsonp',jsonpCallback: 'moxsvc',url: '" + Suds.app.externalMoxURL + "?id=" + this.model.get('id') + "',success: function(data) {console.log(data)}});";
-			var html="<code>" + code + "</code>";
-			$('#code-example').html(html);
+			var code = '$.ajax({type: "GET",dataType: "jsonp",jsonpCallback: "moxsvc",url:"';
+			code += Suds.app.externalMoxURL;
+			code += '?id=';
+			code +=  this.model.get('id');
+			code += '",success: function(data) {console.log(data)}});';
+			var pre = document.createElement('pre');
+			var codeEl = document.createElement('code');
+			
+			$(codeEl).html(code);
+			$(codeEl).addClass('javascript');
+			pre.appendChild(codeEl);
+			
+			//var html="<pre><code class='javascript'>" + code + "</code></pre>";
+			$('#code-example').html(pre);
+			//$('#code-example').addClass('javascript');
+			hljs.initHighlightingOnLoad();
 		},
 	    render: function (done) {
 			var view=this;
