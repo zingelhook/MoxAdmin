@@ -17,6 +17,8 @@ jQuery(function($) {
 	var menu        = Suds.module("menu");
 	var docs        = Suds.module("docs");
 	var signup      = Suds.module("signup");
+	var logout      = Suds.module("logout");
+	
 	
 	//App Global Vars
 	Suds.app.MenuLoaded = false;
@@ -59,8 +61,30 @@ jQuery(function($) {
 			"signup": "signup",
             "dashboard": "dashboard",
 			"addmockfield":"addmockfield",
-			"editmock":"editmock"
+			"editmock":"editmock",
+			"logout":"logout"
         },
+        logout:function(hash){
+            var route = this;
+            var logoutPage = new logout.Views.LogoutPage();
+            // Attach the tutorial to the DOM
+            logoutPage.render(function(el) {
+                $("#main").html(el);
+				route._loadMainMenu();
+			
+		
+                // Fix for hashes in pushState and hash fragment
+                if (hash && !route._alreadyTriggered) {
+                    // Reset to home, pushState support automatically converts hashes
+                    Backbone.history.navigate("", false);
+                    // Trigger the default browser behavior
+                    location.hash = hash;
+                    // Set an internal flag to stop recursive looping
+                    route._alreadyTriggered = true;
+                }
+            });
+        },
+
 		_loadMainMenu:function(){
 			if(Suds.app.MenuLoaded===false){
 				Suds.app.MenuLoaded=true;
