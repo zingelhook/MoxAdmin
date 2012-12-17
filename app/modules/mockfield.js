@@ -201,7 +201,6 @@
 				})
 			
 				var callback = function(msg){
-					
 					if(msg>0){
 						Suds.app.router.navigate("#dashboard", true);
 					}
@@ -210,16 +209,13 @@
 				mockField.save(callback);
 			}
 			else{
-
 				var count = errorlist.length;
 				for (var i = 0; i < count; i++) {
 					$('#' + errorlist[i].name).addClass('error');
 					var errorLine = document.createElement('li');
 					$(errorLine).html(errorlist[i].msg);
 					$('#error-list').append(errorLine);
-					
 				}
-
 				$('#invalid-mockfield').show();
 			}
 			

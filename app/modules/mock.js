@@ -300,7 +300,6 @@
 			var max = $('#mockMax').val();
 			var mockid = $('#mockId').val();
 			
-			
 			var errorlist = [];
 			if(name.length===0){
 				errorlist.push({name:'name-control',msg:'Name is required!'})
@@ -321,8 +320,6 @@
 				errorlist.push({name:'min-control',msg:'Max Rows must be a number!'})
 			}
 			
-
-			
 			if(errorlist.length===0){
 				this.model.set({
 					id:mockid,
@@ -331,9 +328,20 @@
 					max:max
 				});
 				var callback = function(msg){
-					Suds.app.router.navigate("#dashboard", true);
-					//TODO: reload list here
-				
+					$("#mock-info").empty();
+					
+					var info = new Mock.Views.MockInfo({ model: shared.currentMock  });
+					info.render(function (el) {
+						$("#mock-info").html(el);
+					});
+					
+		            var fieldTable = new Mock.Views.FieldTable({
+		                collection:shared.currentMockFields
+		            });
+           
+		            fieldTable.render(function(el) {
+		                $("#mock-info").append(el);
+		            });
 				}
 				this.model.save(callback);
 			}
