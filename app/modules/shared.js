@@ -51,6 +51,29 @@ function isNumber(n) {
                 }
             });
         },
+		Logout:function(){
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: base + "index.php/login/logout",
+                data: null,
+                success: function(msg) {
+					$('#isLoggedIn').val('0');
+					$('#userId').val('0');
+					$('#roleId').val('0');
+					$('#firstName').val('');
+					$('#lastName').val('');
+					
+					//console.log(msg);
+					//if(callback!=null){
+						//callback(msg);
+						//}
+                },
+				error:function(msg){
+					console.log(msg);
+				}
+            });
+		},
 		Register:function(firstName,lastName,email,userName,pwd,confirmPwd,callback){
 			//todo:validate pwd and confirm pwd works
 				

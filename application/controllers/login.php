@@ -29,8 +29,7 @@ class Login extends CI_Controller{
 	//remove all session info.
 	function logout(){
 		$this->session->sess_destroy();
-		return 'Success';
-		
+		echo json_encode('Success');
 	}
 	
 	
@@ -60,9 +59,6 @@ class Login extends CI_Controller{
 		{
 			$data['hasError']=true;
 			$data['errors']=$this->form_validation->getErrorsArray();
-			//echo json_encode(form_validation->getErrorsArray());
-		//	$data['main_content']='signup';
-		//	$this->load->view('includes/template',$data);
 		}
 		
 		else
@@ -72,15 +68,12 @@ class Login extends CI_Controller{
 			$query = $this->users->create_member();
 			if($query)
 			{
-				$data['hasError']=false;
-				//$data['main_content']='signup_success';
-				//$this->load->view('includes/template',$data);	
+				$data['hasError']=false;	
 			}
 			else
 			{
 				$data['hasError']=true;
-			 	//$data['main_content']='signup';
-				//$this->load->view('includes/template',$data);
+
 			}
 		}
 		

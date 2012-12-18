@@ -1,0 +1,20 @@
+<pre>
+	<code>
+		//Makes the call to moxsvc
+		function loadSampleData() {
+		    $.ajax({
+		        type: 'GET',
+		        dataType: 'jsonp',
+		        jsonpCallback: "moxsvc",
+		        url:"<%=url%>?id=<%=id%>",
+		        success: function(data) {
+		            buildTable(data);
+		        },
+		        error: function(e) {
+		            console.log('Error!');
+		            console.dir(e);
+		        }
+		    });
+		}
+	</code>
+</pre>
