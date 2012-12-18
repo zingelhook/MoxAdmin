@@ -34,11 +34,9 @@
 					$('#invalid-signup').show();
 				}
 				else{
-					Suds.app.router.navigate("#docs", true);
+					Suds.app.router.navigate("#tour", true);
 				}
-				
 			}
-			
 			Suds.app.currentUser.Register(firstName,lastName,email,userName,pwd,confirmPwd,callback);
 		},
         render: function (done) {
@@ -50,8 +48,5 @@
             });
         }
     });
-	
-	
-	
 
 })(Suds.module("signup"));

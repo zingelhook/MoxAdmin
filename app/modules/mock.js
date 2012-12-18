@@ -310,8 +310,7 @@
 			
 			//var html="<pre><code class='javascript'>" + code + "</code></pre>";
 			$('#code-example').html(pre);
-			//$('#code-example').addClass('javascript');
-			hljs.initHighlightingOnLoad();
+	
 		},
 	    render: function (done) {
 			var view=this;
