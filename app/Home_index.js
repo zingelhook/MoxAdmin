@@ -18,7 +18,7 @@ jQuery(function($) {
 	var docs        = Suds.module("docs");
 	var signup      = Suds.module("signup");
 	var logout      = Suds.module("logout");
-	
+	var codesamples = Suds.module("codesamples");	
 	
 	//App Global Vars
 	Suds.app.MenuLoaded = false;

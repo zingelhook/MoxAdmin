@@ -1,0 +1,62 @@
+<h4>Paste the following code in jsFiddle (or any blank page) and see the data in a table format.</h4>
+<pre>
+	<code>
+		//make sure you have jquery!
+		$(document).ready(function() {
+		    loadSampleData();
+		});
+
+		function buildTable(data) {
+		    var table = document.createElement("table");
+		    $(table).css('border:solid 1px #ccc');
+		    var con = document.createElement('span');
+		    $(con).html(data.length);
+
+
+		    var tableHeader = document.createElement("thead");
+
+		    for (var propertyName in data[0]) {
+		        var th = document.createElement("th");
+		        $(th).html(propertyName);
+		        $(th).css('font-size','1.3em').css('padding','7px').css('border','solid 1px #444');
+		        tableHeader.appendChild(th);
+		        console.log(data[0]);
+		    }
+		    table.appendChild(tableHeader);
+
+		    var tableBody = document.createElement("tbody");
+		    var len = data.length;
+
+		    for (var i = 0; i < len; i++) {
+		        var row = document.createElement("tr");
+
+		        for (var propertyName in data[i]) {
+		            var td = document.createElement("td");
+		            $(td).html(data[i][propertyName]);
+					//proper styling
+		            $(td).css('border','solid 1px #444').css('padding','7px');
+		            row.appendChild(td);
+		            tableBody.appendChild(row);
+		        }
+		    }
+		    table.appendChild(tableBody);
+		    $('body').html(table);
+		}
+		//Makes the call to moxsvc
+		function loadSampleData() {
+		    $.ajax({
+		        type: 'GET',
+		        dataType: 'jsonp',
+		        jsonpCallback: "moxsvc",
+		        url:"<%=url%>?id=<%=id%>",
+		        success: function(data) {
+		            buildTable(data);
+		        },
+		        error: function(e) {
+		            console.log('Error!');
+		            console.dir(e);
+		        }
+		    });
+		}
+	</code>
+</pre>
