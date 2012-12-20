@@ -19,6 +19,7 @@ jQuery(function($) {
 	var signup      = Suds.module("signup");
 	var logout      = Suds.module("logout");
 	var codesamples = Suds.module("codesamples");	
+	var servicelog  = Suds.module("servicelog");	
 	
 	//App Global Vars
 	Suds.app.MenuLoaded = false;
@@ -62,7 +63,27 @@ jQuery(function($) {
             "dashboard": "dashboard",
 			"addmockfield":"addmockfield",
 			"editmock":"editmock",
-			"logout":"logout"
+			"logout":"logout",
+			"reports":"reports"
+        },
+        reports: function(hash) {
+
+            var route = this;
+            var reportsPage = new servicelog.Views.MainPage();
+            // Attach the tutorial to the DOM
+            reportsPage.render(function(el) {
+                $("#main").html(el);
+				route._loadMainMenu();
+                // Fix for hashes in pushState and hash fragment
+                if (hash && !route._alreadyTriggered) {
+                    // Reset to home, pushState support automatically converts hashes
+                    Backbone.history.navigate("", false);
+                    // Trigger the default browser behavior
+                    location.hash = hash;
+                    // Set an internal flag to stop recursive looping
+                    route._alreadyTriggered = true;
+                }
+            });
         },
         logout:function(hash){
             var route = this;
@@ -105,30 +126,6 @@ jQuery(function($) {
 				route._loadMainMenu();
 			
 		
-                // Fix for hashes in pushState and hash fragment
-                if (hash && !route._alreadyTriggered) {
-                    // Reset to home, pushState support automatically converts hashes
-                    Backbone.history.navigate("", false);
-                    // Trigger the default browser behavior
-                    location.hash = hash;
-                    // Set an internal flag to stop recursive looping
-                    route._alreadyTriggered = true;
-                }
-            });
-        },
-        _oldaddmock:function(hash){
-            var route = this;
-            var addMockPage = new mock.Views.AddMock();
-            // Attach the tutorial to the DOM
-            addMockPage.render(function(el) {
-                $("#mock-info").html(el);
-				route._loadMainMenu();
-				
-				if(shared.currentMock.has('mode')){
-					if(shared.currentMock.get('mode')==='edit'){
-						alert('sss');
-					}
-				}
                 // Fix for hashes in pushState and hash fragment
                 if (hash && !route._alreadyTriggered) {
                     // Reset to home, pushState support automatically converts hashes

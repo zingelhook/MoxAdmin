@@ -16,6 +16,7 @@
   				{title: "Tour", url: "#tour", id: "2"},
 				{title: "Documentation", url: "#docs", id: "3"},
 				{title: "Mocks", url: "#dashboard", id: "4"},
+				{title: "Reports", url: "#reports", id: "7"},
 				{title: "Sign In", url: "#login", id: "5"},
 				{title: "Sign Out", url: "#logout", id: "6"}
 			
@@ -38,11 +39,16 @@
 	            list.append(item.render().el);
 	        });
 	        var userId = Suds.app.currentUser.get('userId');
-			
+			var roleId = Suds.app.currentUser.get('roleId');
+			console.log(Suds.app.currentUser);
+			$('#menu_7').hide();//reports
 	        if(userId>0){//logged in
 	        	$('#menu_5').hide();//login
 	        	$('#menu_4').show();//mocks
 	        	$('#menu_6').show();//logout
+				if(roleId==='1'){
+					$('#menu_7').show();//reports
+				}
 	        }
 	        else{//not logged in
 	        	$('#menu_5').show();//login

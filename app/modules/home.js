@@ -1,5 +1,3 @@
-
-
 (function (Home) {
 
     Home.Model = Backbone.Model.extend({});
