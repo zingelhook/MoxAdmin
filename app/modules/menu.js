@@ -40,7 +40,7 @@
 	        });
 	        var userId = Suds.app.currentUser.get('userId');
 			var roleId = Suds.app.currentUser.get('roleId');
-			console.log(Suds.app.currentUser);
+	
 			$('#menu_7').hide();//reports
 	        if(userId>0){//logged in
 	        	$('#menu_5').hide();//login

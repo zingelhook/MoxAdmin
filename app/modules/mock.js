@@ -20,7 +20,7 @@
 					callback(msg);
 				},
 				error: function(msg) {
-					console.log(msg);
+					//console.log(msg);
 				}
 			});
 		},
@@ -55,7 +55,7 @@
 					callback(msg);
 				},
 				error: function(msg) {
-					console.log(msg);
+					//console.log(msg);
 				}
 			});
 		},
@@ -75,7 +75,7 @@
 					callback(msg);
 				},
 				error: function(msg) {
-					console.log(msg);
+					//console.log(msg);
 				}
 			});
 		}
@@ -107,7 +107,7 @@
 					}
 				},
 				error: function(msg) {
-					console.log(msg);
+					//console.log(msg);
 				}
 			});
 		}

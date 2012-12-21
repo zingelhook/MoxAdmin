@@ -63,14 +63,9 @@ function isNumber(n) {
 					$('#roleId').val('0');
 					$('#firstName').val('');
 					$('#lastName').val('');
-					
-					//console.log(msg);
-					//if(callback!=null){
-						//callback(msg);
-						//}
                 },
 				error:function(msg){
-					console.log(msg);
+					//console.log(msg);
 				}
             });
 		},
@@ -100,7 +95,7 @@ function isNumber(n) {
 					}
                 },
 				error:function(msg){
-					console.log(msg);
+					//console.log(msg);
 				}
             });
 		}
