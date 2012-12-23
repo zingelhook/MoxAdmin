@@ -2,7 +2,6 @@
 // Inside this function, kick-off all initialization, everything up to this
 // point should be definitions.
 jQuery(function($) {
-
     // Shorthand the application namespace
     var app = Suds.app;
 
@@ -44,8 +43,6 @@ jQuery(function($) {
         });
 	}
 	
-	
-	
 	//loads the default - not signed in menu
 	Suds.app.currentManinMenu.loadDefaultMenu();
 
@@ -74,6 +71,10 @@ jQuery(function($) {
             reportsPage.render(function(el) {
                 $("#main").html(el);
 				route._loadMainMenu();
+				
+
+				
+				
                 // Fix for hashes in pushState and hash fragment
                 if (hash && !route._alreadyTriggered) {
                     // Reset to home, pushState support automatically converts hashes
