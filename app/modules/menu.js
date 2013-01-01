@@ -54,6 +54,7 @@
 	        	$('#menu_5').show();//login
 	        	$('#menu_4').hide();//mocks
 	        	$('#menu_6').hide();//logout
+				$('#menu_7').hide();//reports
 	        }
 
 	        return this;

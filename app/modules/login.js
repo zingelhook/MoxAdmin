@@ -33,6 +33,7 @@
 		        	$('#menu_5').hide();//login
 		        	$('#menu_4').show();//mocks
 		        	$('#menu_6').show();//logout
+					$('#menu_7').show();//reports
 				}
 				else{
                     //display error here

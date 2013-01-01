@@ -14,7 +14,6 @@ function isNumber(n) {
 	Shared.userMocks = new mock.Collection.Mocks();
 	Shared.currentMockFields = new mockField.Collection.MockFields();
 	Shared.currentMock = new mock.Model.Mock();
-	//Shared.currentMockField = new mockField.Model.Field();
     Shared.Model.User = Backbone.Model.extend(
     {
 		defaults: {
