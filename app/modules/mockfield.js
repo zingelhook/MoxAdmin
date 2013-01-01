@@ -1,5 +1,4 @@
 (function (MockField) {
-
     MockField.Model = Backbone.Model.extend({});
     MockField.Collection = Backbone.Collection.extend({});
     MockField.Router = Backbone.Router.extend({});
@@ -16,8 +15,8 @@
 				options:mdl.get('options'),
 				predefinedSampleDataId:mdl.get('predefinedSampleDataId'),
 				sampleData:mdl.get('sampleData')
-				
 			};
+		
 			$.ajax({
 				type: "POST",
 				dataType: "json",
@@ -71,7 +70,7 @@
 	MockField.Views.EditMockField = Backbone.View.extend({
         template: "app/templates/editMockField.html",
 		events:{
-			"click #submitMoxField":"_addMockField",
+			"click #submitMoxField":"_editMockField",
 			"change #predefinedSampleData":"_predefinedSampleDataClick",
 			"click #cancel_btn": "_cancel"
 		},
@@ -93,7 +92,8 @@
 			}
 
 		},
-		_addMockField:function(){
+		_editMockField:function(){
+			var view = this;
 			var mockField = new MockField.Model.Field();
 			var mockId = shared.currentMock.get('id');
 
@@ -107,7 +107,7 @@
 			}
 
 			if(errorlist.length===0){
-				mockField.set({
+				this.model.set({
 					name:$('#mockFieldName').val(),
 					typeId:1,
 					options:$('#options').val(),
@@ -121,7 +121,7 @@
 						Suds.app.router.navigate("#dashboard", true);
 					}
 				}
-				mockField.save(callback);
+				this.model.save(callback);
 			}
 			else{
 
@@ -152,6 +152,7 @@
             });
         }
     });
+	
     MockField.Views.AddMockField = Backbone.View.extend({
         template: "app/templates/addMockField.html",
 		events:{

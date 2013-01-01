@@ -111,6 +111,7 @@ class mock extends CI_Controller{
 	
 	function addServiceField(){
 			$data = array(
+				'id'=>$this->input->post('id'),
 				'name'=>$this->input->post('name'),
 				'typeId'=>$this->input->post('typeId'),
 				'options' => $this->input->post('options'),
@@ -119,10 +120,9 @@ class mock extends CI_Controller{
 				'sampleData'=>$this->input->post('sampleData')
 			);
 			$this->load->model('Mockssvc');
-			$fieldId = $this->Mockssvc->addServiceTemplateField($data);
+			$return = $this->Mockssvc->addServiceTemplateField($data);
 			
-			echo json_encode($fieldId);
-
+			echo json_encode($return);
 	}
 	
 	
@@ -133,9 +133,7 @@ class mock extends CI_Controller{
 			);
 			$this->load->model('Mockssvc');
 			$result = $this->Mockssvc->deleteServiceTemplateField($data);
-			
 			echo json_encode($result);
-
 	}
 	
 	

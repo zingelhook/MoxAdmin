@@ -74,7 +74,7 @@ class mockssvc extends CI_Model{
 	}
 	
 	function updateServiceTemplateField($data){
-		$Id = $data['sid'];
+		$Id = $data['id'];
 		$updateData = array(
 			'name' => $data['name'],
 			'typeId' => $data['typeId'],
@@ -86,33 +86,52 @@ class mockssvc extends CI_Model{
 			
 		$this->db->where('id',$Id);
 		$this->db->update('Service_Fields',$updateData);
-		return $data;
+		
+		return $Id;
 		
 	}
 	
 	function addServiceTemplateField($data){
-		$Id = $data['mockId'];
-		$insertData = array(
-			'name' => $data['name'],
-			'typeId' => $data['typeId'],
-			'options' => $data['options'],
-			'predefinedSampleDataId'=>$data['predefinedSampleDataId'],
-			'sampleData'=>$data['sampleData']
+		$fieldId = $data['id'];
+		if($fieldId>0){
+			$Id = $data['id'];
+			$updateData = array(
+				'name' => $data['name'],
+				'typeId' => $data['typeId'],
+				'options' => $data['options'],
+				'predefinedSampleDataId'=>$data['predefinedSampleDataId'],
+				'sampleData'=>$data['sampleData']
 
-			);
+				);
 			
-		//$this->db->where('id',$Id);
-		$this->db->insert('Service_Fields',$insertData);
-		$fieldId = $this->db->insert_id();
+			$this->db->where('id',$Id);
+			$this->db->update('Service_Fields',$updateData);
 		
-		$refData = array(
-			'dataTemplateId' => $Id,
-			'fieldId' => $fieldId 
-			);
-		$this->db->insert('Service_DataTemplate_Fields',$refData);		
+			return $Id;
+		}
+		else{
+			$Id = $data['mockId'];
+			$insertData = array(
+				'name' => $data['name'],
+				'typeId' => $data['typeId'],
+				'options' => $data['options'],
+				'predefinedSampleDataId'=>$data['predefinedSampleDataId'],
+				'sampleData'=>$data['sampleData']
+
+				);
+			
+			$this->db->insert('Service_Fields',$insertData);
+			$fieldId = $this->db->insert_id();
+		
+			$refData = array(
+				'dataTemplateId' => $Id,
+				'fieldId' => $fieldId 
+				);
+			$this->db->insert('Service_DataTemplate_Fields',$refData);		
 				
-		return $fieldId;
-		
+			return $fieldId;	
+
+		}
 	}
 	
 	

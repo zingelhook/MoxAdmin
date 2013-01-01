@@ -185,22 +185,22 @@
 	
 	Mock.Views.FieldTableRow  = Backbone.View.extend({
 	    tagName: "tr",
-		template: _.template("<td class='field' id='<%=id%>'><%=name%></td><td><%=fieldoptions%></td><td><%=predefefinedSampleDataType%></td><td><%=sampleData%></td><td><button type='button' id='edit_<%=id%>' class='edit-mock btn btn-primary btn-small'>Edit</button>&nbsp;<button type='button' id='<%=id%>' class='del-field btn btn-danger btn-small'>Delete</button></td>"),
+		template: _.template("<td class='field' id='<%=id%>'><%=name%></td><td><%=fieldoptions%></td><td><%=predefefinedSampleDataType%></td><td><%=sampleData%></td><td><button type='button' id='edit_<%=id%>' class='edit-mockfield btn btn-primary btn-small'>Edit</button>&nbsp;<button type='button' id='<%=id%>' class='del-field btn btn-danger btn-small'>Delete</button></td>"),
 		events:{
 			"click .del-field":"_delField",
-			"click .edit-mock": "_editField"
+			"click .edit-mockfield": "_editField"
 		},
 	    initialize: function () {
 	        _.bindAll(this, "render");
 	    },
 		_editField:function(e){
-			
-			var id = e.currentTarget.id.replace("edit_","");;
+						
+			var id = e.currentTarget.id.replace("edit_","");
 			var currentField = shared.currentMockFields.get(id);
-
 			var editView = new mockfield.Views.EditMockField({
 				model:currentField
 			});
+			
 			editView.render(function(el) {
                 $("#mock-info").html(el);
 			});
@@ -412,15 +412,12 @@
 			else{
 				var count = errorlist.length;
 				for (var i = 0; i < count; i++) {
-				
 					$('#' + errorlist[i].name).addClass('error');
 					var errorLine = document.createElement('li');
 					$(errorLine).html(errorlist[i].msg);
 					$('#error-list').append(errorLine);
-					
 				}
 				$('#invalid-mock').show();
-				
 			}
 		},
         render: function(done) {
@@ -444,8 +441,7 @@
 			"click #cancel_btn":"_cancel"
 		},
 		_cancel:function(){
-			$("#mock-info").empty();
-					
+			$("#mock-info").empty();		
 		},
 		_addMock:function(){
 			
