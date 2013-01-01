@@ -48,10 +48,7 @@
 				url: base + url,
 				data: form_data,
 				success: function(msg) {
-					
-					shared.currentMock.set({
-						id:msg
-					})
+		
 					callback(msg);
 				},
 				error: function(msg) {
@@ -357,6 +354,7 @@
             });
 		},
 		_editMock:function(){
+			var view = this;
 			$('#invalid-mock').hide();
 			$('#error-list').empty();
 			var name = $('#mockName').val();
@@ -385,12 +383,13 @@
 			}
 			
 			if(errorlist.length===0){
-				this.model.set({
-					id:mockid,
+				view.model.set({
+					//id:mockid,
 					name:name,
 					min:min,
 					max:max
 				});
+				
 				var callback = function(msg){
 					$("#mock-info").empty();
 					
