@@ -90,7 +90,6 @@
 	});
 	
     ServiceLog.Views.LogTable = Backbone.View.extend({
-       // template: _.template(""),
         render: function (done) {
 			var view =this;
 	        var table = $("#servicelog tbody");

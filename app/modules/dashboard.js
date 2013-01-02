@@ -30,12 +30,19 @@
         },
         render: function(done) {
             var view = this;
-            // Fetch the template, render it to the View element and call done.
-            Suds.fetchTemplate(this.template, function(tmpl) {
-                view.el.innerHTML = tmpl({});
-                done(view.el);
-                view.loadUserMocks();
-            });
+            var userId = Suds.app.currentUser.get('userId')
+            if(parseInt(userId,10)>0){
+                // Fetch the template, render it to the View element and call done.
+                Suds.fetchTemplate(this.template, function(tmpl) {
+                    view.el.innerHTML = tmpl({});
+                    done(view.el);
+                    view.loadUserMocks();
+                });
+            }
+            else{//redirect to login
+                Suds.app.router.navigate("#login", true);
+            }
+
         }
     });
 

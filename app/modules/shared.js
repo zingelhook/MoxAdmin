@@ -70,8 +70,6 @@ function isNumber(n) {
             });
 		},
 		Register:function(firstName,lastName,email,userName,pwd,confirmPwd,callback){
-			//todo:validate pwd and confirm pwd works
-				
             var form_data = {
                 firstname: firstName,
                 lastname: lastName,
@@ -81,7 +79,6 @@ function isNumber(n) {
 				password2:confirmPwd,
                 ajax: '1'
             };
-			
 			
             $.ajax({
                 type: "POST",

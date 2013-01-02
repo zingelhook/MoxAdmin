@@ -17,9 +17,7 @@
         	$('#menu_4').hide();//mocks
         	$('#menu_6').hide();//logout
 			$('#menu_7').hide();//reports
-          
-		
-			
+          	
             // Fetch the template, render it to the View element and call done.
             Suds.fetchTemplate(this.template, function (tmpl) {
                 view.el.innerHTML = tmpl({});
