@@ -16,3 +16,4 @@ ERROR - 2013-01-02 20:15:14 --> Severity: Notice  --> mysql_pconnect() [<a href=
  C:\Users\kgaddy\Documents\GitHub\MoxAdmin\system\database\drivers\mysql\mysql_driver.php 88
 ERROR - 2013-01-02 20:15:41 --> Severity: Notice  --> Undefined variable: data C:\Users\kgaddy\Documents\GitHub\MoxAdmin\application\controllers\login.php 82
 ERROR - 2013-01-02 20:15:47 --> Severity: Notice  --> Undefined variable: data C:\Users\kgaddy\Documents\GitHub\MoxAdmin\application\controllers\login.php 82
+ERROR - 2013-01-02 21:46:28 --> 404 Page Not Found --> app

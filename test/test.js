@@ -38,6 +38,7 @@ test("Top Menu",function(){
 		S('#menu_5').visible(function(){
 			ok(true, "We can see login menu item.");
 		})
+
 		S('#menu_6').invisible(function(){
 			ok(true, "We cannot see logout menu item.");
 		})
@@ -50,8 +51,43 @@ test('Main content',function(){
 });
 
 
-//test login
-module("Login-Test-Account", {
 
+test('tour',function(){
+	S('#menu_2').exists().click(function(){
+		S('h1').html('Getting Started');
+	})
+})
+
+test('documentation',function(){
+	S('#menu_3').exists().click(function(){
+		S('h1').html('Documentation');
+	})
+})
+
+test('login',function(){
+	S('#menu_5').exists().click(function(){
+		S('h1').html('Login');
+
+		S('.control-group:first label').html('User Name:',function(){
+			ok(true,S('.control-group:first label').html());
+		});
+
+		S('#username').exists(function(){
+			ok(true,'user name text box exists.');
+		})
+
+		S('#password').exists(function(){
+			ok(true,'password text box exists.');
+		})
+
+		S('#login_btn').exists(function(){
+			ok(true,'login_btn exists.');
+		})
+
+		S('#SignUp_btn').exists(function(){
+			ok(true,'SignUp_btn exists.');
+		})
+
+	})
 })
 
