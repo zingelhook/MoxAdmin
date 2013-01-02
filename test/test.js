@@ -10,26 +10,44 @@ test("page has content", function(){
 })
 
 
-test("Header", function(){
-  //ok( S("body *").size(), "There be elements in that there body")
-	S('#header-cap').visible(function(){
-		ok(true,'We see the topmost bar on the header.');
-		
-		//singnin link is visible.
-		S('#signInLink').visible(function(){
-			ok(true,'We can see the sign-in link.')
-		});
-		
-		
-		//we are not logged in. so do not show welcome text.
-		var txt = S('#welcometext').html();
-		ok(txt==='','No welcome text:' + txt);
+
+
+test("Top Menu",function(){
+	S('#main-menu').exists().visible(function () {
+		ok(true, "We can see the top menu.");
+
+		S('#menu_1').exists().visible(function(){
+			ok(true, "We can see home menu item.");
+		})
+
+		S('#menu_2').exists().visible(function(){
+			ok(true, "We can see tour menu item.");
+		})
+		S('#menu_3').exists().visible(function(){
+			ok(true, "We can see docs menu item.");
+		})
+
+		S('#menu_4').invisible(function(){
+			ok(true, "We cannot see dash menu item.");
+		})
+
+		S('#menu_7').invisible(function(){
+			ok(true, "We cannot see reports menu item.");
+		})
+
+		S('#menu_5').visible(function(){
+			ok(true, "We can see login menu item.");
+		})
+		S('#menu_6').invisible(function(){
+			ok(true, "We cannot see logout menu item.");
+		})
 	});
 })
 
-
-
-//test footer
+test('Main content',function(){
+	ok(S('h1').text()==='Moxsvc',S('h1').text());
+	ok(S('#tagline').text()==='Fast data for fast web development.',S('#tagline').text())
+});
 
 
 //test login
@@ -37,24 +55,3 @@ module("Login-Test-Account", {
 
 })
 
-test("LoginBox", function(){
-  //ok( S("body *").size(), "There be elements in that there body")
-	S('#header-cap').visible(function(){
-	
-		
-		//singnin link is visible.
-		S('#signInLink').visible(function(){
-			ok(true,'We can see the sign-in link.')
-			S('#signInLink').click();
-				S('#signInForm').visible(function(){
-					S('#username').click().text('test');
-					S('#password').click().text('test');
-				});
-		
-			
-			
-		});
-		
-
-	});
-})
