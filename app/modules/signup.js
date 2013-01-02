@@ -10,9 +10,13 @@
     SignUp.Views.MainPage = Backbone.View.extend({
         template: "app/templates/signup.html",
         events: {
-            "click #sign-up": "register"
+            "click #sign-up": "_register",
+            "click #cancel-sign-up": "_cancel"
         },
-		register: function() {
+        _cancel: function(){
+			Suds.app.router.navigate("#home", true);
+        },
+		_register: function() {
 			//firstName,lastName,email,userName,pwd,confirmPwd,callback
 			$('#invalid-signup').hide();
 			$('#error-list').empty();
