@@ -26,7 +26,10 @@
            
             mocksTable.render(function(el) {
                 $("#mocks-list").html(el);
+               
             });
+
+           
         },
         render: function(done) {
             var view = this;

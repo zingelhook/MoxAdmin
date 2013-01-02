@@ -174,6 +174,12 @@
 	            var row = new Mock.Views.MocksTableRow({ model: singelMock });
 	            table.append(row.render().el);
 	        });
+                if(this.collection.length===0){
+                    $('#new-user').show();
+                }
+                else{
+                    $('#new-user').hide();
+                }
 	        return this;
 	    }
 	});
