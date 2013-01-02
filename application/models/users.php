@@ -41,9 +41,6 @@ class users extends CI_Model{
 		
 		};	
 		
-		
-		
-		
 		$result['isLoggedIn']=$isLoggedIn;
 		$result['userid']=$userId;
 		$result['roleId']=$roleId;
@@ -57,7 +54,8 @@ class users extends CI_Model{
 			'lastName' =>$this->input->post('lastname'),
 			//'email' =>$this->input->post('email'), //goes into extended table
 			'userName' =>$this->input->post('username'),
-			'passWord' => md5($this->input->post('password'))
+			'passWord' => md5($this->input->post('password')),
+			'tier' => 0
 			
 		);
 		
@@ -66,10 +64,7 @@ class users extends CI_Model{
 		
 			$roleData = array(
 				'userid' =>$userid,
-				
 				'roleId' =>2
-			
-
 			);
 		
 		$this->db->insert('Users_Roles',$roleData);
