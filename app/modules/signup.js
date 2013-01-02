@@ -4,8 +4,6 @@
     SignUp.Collection = Backbone.Collection.extend({});
     SignUp.Router = Backbone.Router.extend({});
 
-    
-	
 	//main signup form
     SignUp.Views.MainPage = Backbone.View.extend({
         template: "app/templates/signup.html",

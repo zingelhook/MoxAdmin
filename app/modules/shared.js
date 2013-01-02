@@ -86,13 +86,13 @@ function isNumber(n) {
                 url: base + "index.php/login/createMember",
                 data: form_data,
                 success: function(msg) {
-               
+                 
 					if(callback!=null){
 						callback(msg);
 					}
                 },
 				error:function(msg){
-					//console.log(msg);
+					console.log(msg);
 				}
             });
 		}

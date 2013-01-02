@@ -66,15 +66,20 @@ class Login extends CI_Controller{
 			
 			$this->load->model('users');
 			$query = $this->users->create_member();
-			if($query)
+
+			
+			if (is_numeric($query)) 
 			{
 				$data['hasError']=false;	
 			}
 			else
 			{
 				$data['hasError']=true;
+				$errors = array($query);
+				$data['errors'] = $errors;
 
 			}
+			
 		}
 		
 		echo json_encode($data);

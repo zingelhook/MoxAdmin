@@ -29,7 +29,7 @@ class Members extends CI_Controller{
 
 	}
 
-	
+	/*
 	function create_member()
 	{
 		
@@ -43,10 +43,8 @@ class Members extends CI_Controller{
 		);
 		
 		$insert = $this->db->insert('Users',$new_member_insert_data);
-		
-
 		return $insert;
-		
 	}	
+	*/
 }
 ?>
