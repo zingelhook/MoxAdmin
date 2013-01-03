@@ -214,9 +214,19 @@
 				})
 			
 				var callback = function(msg){
-					if(msg>0){
-						Suds.app.router.navigate("#dashboard", true);
-					}
+					var info = new mock.Views.MockInfo({ model: shared.currentMock  });
+					info.render(function (el) {
+						$("#mock-info").html(el);
+					});
+					
+		            var fieldTable = new mock.Views.FieldTable({
+		                collection:shared.currentMockFields
+		            });
+           
+		            fieldTable.render(function(el) {
+		                $("#mock-info").append(el);
+		            });
+
 				}
 			
 				mockField.save(callback);

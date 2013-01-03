@@ -486,6 +486,7 @@
 					max:max
 				});
 				var callback = function(msg){
+					alert('ss');
 					var info = new Mock.Views.MockInfo({ model: shared.currentMock  });
 					info.render(function (el) {
 						$("#mock-info").html(el);
