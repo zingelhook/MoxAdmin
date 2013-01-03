@@ -35,8 +35,6 @@ class mockssvc extends CI_Model{
 	
 	
 	function updateServiceDataTemplate($data){
-
-		
 		$Id = $data['sid'];
 		
 		$updateData = array(
@@ -66,6 +64,23 @@ class mockssvc extends CI_Model{
 			$this->db->delete('Service_DataTemplates');
 			return $data;
 			}
+		catch(Exception $ex){
+			$data['error'] = $ex->getMessage();
+			return $data;
+		}
+
+	}
+	
+	
+	function deleteAllServiceDataTemplateForUser($data){
+		$data['error']='';
+		try
+			{
+			$id= $data['id'];
+			$this->db->where('userId',$id);
+			$this->db->delete('Service_DataTemplates');
+			return $data;
+		}
 		catch(Exception $ex){
 			$data['error'] = $ex->getMessage();
 			return $data;

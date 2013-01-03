@@ -75,12 +75,10 @@ class users extends CI_Model{
 			}
 		};	
 		
-	
 		$result['userid']=$userId;
 		$result['roleId']=$roleId;
 	
 		return $result;
-
 	}
 
 	function getUserByUsername($data){
@@ -100,6 +98,20 @@ class users extends CI_Model{
 		}
 	}
 	
+	function delete_member($data){
+		$id= $data['id'];
+		$sql = "delete from Users where id=?";
+		$del = $this->db->query($sql, array($id));
+		//delete all user mocks
+		$this->load->model('Mockssvc');
+		$this->Mockssvc->deleteAllServiceDataTemplateForUser($data);
+		
+		
+	 	return $id;
+		
+		
+	}
+	
 	function create_member(){
 		$new_member_insert_data = array(
 			'firstName' =>$this->input->post('firstname'),
@@ -108,7 +120,7 @@ class users extends CI_Model{
 			'userName' =>$this->input->post('username'),
 			'passWord' => md5($this->input->post('password')),
 			'tier' => 0	
-			);
+		);
 
 		if($this->userExists($new_member_insert_data)===true){
 			return "Error: Username already exists";
