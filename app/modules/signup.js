@@ -42,30 +42,50 @@
 				$('#lastname-control').addClass('error');
 				errors.push('Last Name is required');
 			}
+			else{
+				$('#lastname-control').removeClass('error');
+			}
 			
 			if(email.length===0){
 				$('#email-control').addClass('error');
 				errors.push('Email is required');
+			}
+			else{
+				$('#email-control').removeClass('error');
 			}
 					
 			if(userName.length===0){
 				$('#username-control').addClass('error');
 				errors.push('User Name is required');
 			}
+			else{
+				$('#username-control').removeClass('error');
+			}
 			
 			if(pwd.length===0){
 				$('#pwd-control').addClass('error');
 				errors.push('Password is required');
-			}		
+			}
+			else{
+				$('#pwd-control').removeClass('error');
+			}	
 			
 			if(confirmPwd.length===0){
 				$('#cpwd-control').addClass('error');
 				errors.push('Confirm Password is required');
 			}	
+			else{
+				$('#cpwd-control').removeClass('error');
+			}	
+			
 			var count = errors.length;
 			if(count===0){
+				$('#error-list').hide();
 				$('#invalid-signup').hide();
+				$('#error-list').empty();
+				
 				var callback = function(msg){
+					console.log(msg);
 					$('#error-list').empty();
 					if(msg.hasError){
 						for (var name in msg.errors) {

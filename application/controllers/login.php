@@ -74,8 +74,9 @@ class Login extends CI_Controller{
 			else
 			{
 				$data['hasError']=true;
-				$errors = array($query);
-				$data['errors'] = $errors;
+				$moreerrors = array($query);
+				//$data['errors'] = $errors;
+				$data['moreerrors'] = $moreerrors;
 
 			}
 			
