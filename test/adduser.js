@@ -24,10 +24,10 @@ test('signupPage - validations',function(){
 					});	
 				});
 				
-				
+				S('#firstname').exists(20000);
 				var input = S('#firstname');
-				input.type('[ctrl]a[ctrl-up][delete]', function() {
-					input.type('billybob');
+				input.click().type('[ctrl]a[ctrl-up][delete]', function() {
+					input.click().type('billybob');
 					S('#sign-up').exists().click(function(){
 						S('#error-list').visible(function(){
 							ok(!S('#firstname-control').hasClass('error'),'first name is not highlighted');
