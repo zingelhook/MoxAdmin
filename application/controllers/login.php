@@ -43,11 +43,10 @@ class Login extends CI_Controller{
 	
 	//create a new account.
 	function createMember(){
-		//Make this a ajax post
 		
 		$this->load->library('form_validation');
-		$this->form_validation->set_rules('firstname', 'Name', 'trim|required');
 		
+		$this->form_validation->set_rules('firstname', 'First Name', 'trim|required');
 		$this->form_validation->set_rules('lastname', 'Last Name', 'trim|required');
 		$this->form_validation->set_rules('email', 'Email', 'trim|required|validemail');
 		$this->form_validation->set_rules('username', 'User name', 'trim|required|min_length[4]');

@@ -136,8 +136,6 @@ class users extends CI_Model{
 				);
 		
 			$this->db->insert('Users_Roles',$roleData);
-			
-
 			return $insert;
 		}
 	}
