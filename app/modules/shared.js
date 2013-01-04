@@ -48,6 +48,9 @@ function isNumber(n) {
 							callback(msg);
 						}
                     }
+                },
+                error: function(msg){
+                 console.log(msg);   
                 }
             });
         },

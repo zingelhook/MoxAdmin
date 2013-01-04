@@ -71,7 +71,6 @@ class mockssvc extends CI_Model{
 
 	}
 	
-	
 	function deleteAllServiceDataTemplateForUser($data){
 		$data['error']='';
 		try
@@ -145,22 +144,15 @@ class mockssvc extends CI_Model{
 			$this->db->insert('Service_DataTemplate_Fields',$refData);		
 				
 			return $fieldId;	
-
 		}
 	}
 	
-	
 	//deletes the field row.
 	function deleteServiceTemplateField($data){
-	
 		$id= $data['fieldId'];
 		$sql ="delete sf, sdf from Service_Fields as sf left join Service_DataTemplate_Fields as sdf on sf.id = sdf.fieldId where sf.id=?";
 	 	return $this->db->query($sql, array($id));
-
-		
 	}
-	
-
 }
 
 ?>

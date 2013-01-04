@@ -20,7 +20,6 @@
 			echo $row->max;
 			echo " random rows</td></tr>";
 			
-
 		   }
 		echo "</tbody></table>";
 	}
