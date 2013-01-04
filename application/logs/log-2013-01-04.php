@@ -14,3 +14,12 @@ ERROR - 2013-01-04 14:43:23 --> Severity: Notice  --> mysql_pconnect() [<a href=
  C:\Users\kgaddy\Documents\GitHub\MoxAdmin\system\database\drivers\mysql\mysql_driver.php 88
 ERROR - 2013-01-04 14:44:00 --> Severity: Notice  --> mysql_pconnect() [<a href='function.mysql-pconnect'>function.mysql-pconnect</a>]: send of 5 bytes failed with errno=10053 An established connection was aborted by the software in your host machine.
  C:\Users\kgaddy\Documents\GitHub\MoxAdmin\system\database\drivers\mysql\mysql_driver.php 88
+ERROR - 2013-01-04 16:02:11 --> 404 Page Not Found --> login/createMember
+ERROR - 2013-01-04 16:02:38 --> 404 Page Not Found --> login/createMember
+ERROR - 2013-01-04 16:02:42 --> 404 Page Not Found --> login/createMember
+ERROR - 2013-01-04 16:02:44 --> 404 Page Not Found --> login/createMember
+ERROR - 2013-01-04 16:02:46 --> 404 Page Not Found --> login/createMember
+ERROR - 2013-01-04 16:02:47 --> 404 Page Not Found --> login/createMember
+ERROR - 2013-01-04 16:02:47 --> 404 Page Not Found --> login/createMember
+ERROR - 2013-01-04 16:04:54 --> 404 Page Not Found --> login/createMember
+ERROR - 2013-01-04 16:06:04 --> 404 Page Not Found --> login/createMember

@@ -83,7 +83,7 @@ function isNumber(n) {
             $.ajax({
                 type: "POST",
                 dataType: "json",
-                url: base + "index.php/login/createMember",
+                url: base + "index.php/user/createMember",
                 data: form_data,
                 success: function(msg) {
                  
