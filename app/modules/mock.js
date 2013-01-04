@@ -390,7 +390,6 @@
 			
 			if(errorlist.length===0){
 				view.model.set({
-					//id:mockid,
 					name:name,
 					min:min,
 					max:max
