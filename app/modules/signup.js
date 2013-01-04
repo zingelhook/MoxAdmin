@@ -88,13 +88,14 @@
 					console.log(msg);
 					$('#error-list').empty();
 					if(msg.hasError){
-						for (var name in msg.errors) {
-					  	  if (msg.errors.hasOwnProperty(name)) {
-							  var errorLine = document.createElement('li');
-							  $(errorLine).html(msg.errors[name]);
-							  $('#error-list').append(errorLine);
-					  		}
+
+						var count = msg.moreerrors.length;
+						for (var i = 0; i < count; i++) {
+							var errorLine = document.createElement('li');
+							$(errorLine).html(msg.moreerrors[i]);
+							$('#error-list').append(errorLine);
 						}
+
 						$('#error-list').show();
 						$('#invalid-signup').show();
 					}
