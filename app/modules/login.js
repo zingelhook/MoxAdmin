@@ -11,37 +11,59 @@
             "click #login_btn": "login"
         },
         login: function() {
-
+			$('#error-list').empty();
+			$('#error-list').hide();
             $('#invalid-login').hide();
             var user = this.$('#username').val();
-
+			var errors = [];
             if (user.length === 0) {
-                user = $('#username2').val();
+				$('#username-control').addClass('error');
+				errors.push('User Name is required');
             }
 			
             var pwd = this.$('#password').val();
             if (pwd.length === 0) {
-                pwd = $('#password2').val();
+				$('#pwd-control').addClass('error');
+				errors.push('Password is required');
+
             }
+			var count = errors.length;
+			if(count===0){
+				//one user is logged in
+				var callback = function(msg){
+					if (msg.UserInfo.isLoggedIn !== false) {
+	                    Suds.app.router.navigate("#dashboard", {
+	                        trigger: true
+	                    });
+			        	$('#menu_5').hide();//login
+			        	$('#menu_4').show();//mocks
+			        	$('#menu_6').show();//logout
+						$('#menu_7').show();//reports
+					}
+					else{
+	                    //display error here
+	                    $('#invalid-login').show();	
+				  	  	var errorLine = document.createElement('li');
+				  		$(errorLine).html("Invalid Login");
+				  		$('#error-list').append(errorLine);
+						$('#error-list').show();
+					}
+				}
 			
-			//one user is logged in
-			var callback = function(msg){
-				if (msg.UserInfo.isLoggedIn !== false) {
-                    Suds.app.router.navigate("#dashboard", {
-                        trigger: true
-                    });
-		        	$('#menu_5').hide();//login
-		        	$('#menu_4').show();//mocks
-		        	$('#menu_6').show();//logout
-					$('#menu_7').show();//reports
+				Suds.app.currentUser.Login(user,pwd,callback);	
+			}else{
+				$('#invalid-login').show();	
+				for (var i = 0; i < count; i++) {
+			  	  	var errorLine = document.createElement('li');
+			  		$(errorLine).html(errors[i]);
+			  		$('#error-list').append(errorLine);
 				}
-				else{
-                    //display error here
-                    $('#invalid-login').show();	
-				}
+				$('#error-list').show();
+	
+				
+				
 			}
 			
-			Suds.app.currentUser.Login(user,pwd,callback);
 			
         },
         render: function(done) {

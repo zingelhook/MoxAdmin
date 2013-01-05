@@ -31,6 +31,7 @@ function isNumber(n) {
                 url: base + "index.php/login/validate_credentials",
                 data: form_data,
                 success: function(msg) {
+					
                     if (msg.UserInfo.isLoggedIn !== false) {
                         Suds.app.currentUser.set({
                             userId: msg.UserInfo.userid,
@@ -39,10 +40,10 @@ function isNumber(n) {
                             lastName: msg.UserInfo.lastname,
                             roleId: msg.UserInfo.roleId
                         });	
+						
 						if(callback!=null){
 							callback(msg);
 						}
-
                     } else {
 						if(callback!=null){
 							callback(msg);
@@ -73,6 +74,7 @@ function isNumber(n) {
             });
 		},
 		Register:function(firstName,lastName,email,userName,pwd,confirmPwd,callback){
+			
             var form_data = {
                 firstname: firstName,
                 lastname: lastName,
@@ -89,7 +91,6 @@ function isNumber(n) {
                 url: base + "index.php/user/createMember",
                 data: form_data,
                 success: function(msg) {
-                 
 					if(callback!=null){
 						callback(msg);
 					}

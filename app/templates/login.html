@@ -7,8 +7,8 @@
 	<div class="span12" id="invalid-login" style="padding-top:20px;display:none">
 		<div class="container">
 			<div class="alert alert-error">
-	
-			  <strong>Warning!</strong> Invalid Login.
+				<ul id="error-list">
+				</ul>
 			</div>
 		</div>
 	</div>
@@ -21,16 +21,16 @@
 			
 				<fieldset>
 					<legend></legend>
-					<div class="control-group">
+					<div id="username-control" class="control-group">
 						<label for="username" class="control-label">User Name:</label>
 						<div class="controls">
-							<input type="text" id="username" class="username" name="username"/>	
+							<input type="text" id="username" required class="username" name="username"/>	
 						</div>
 					</div>
-					<div class="control-group">
+					<div id="pwd-control" class="control-group">
 							<label for="password"  class="control-label">Password:</label>
 							<div class="controls">
-								<input type="password" id="password" class="password" name="password"/>
+								<input type="password" id="password" required class="password" name="password"/>
 							</div>
 					</div>
 					<div class="control-group">
