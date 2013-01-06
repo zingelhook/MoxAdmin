@@ -19,21 +19,22 @@
 				dataType: "json",
 				url: base + "index.php/servicelog/AllLogs",
 				data: form_data,
-				success: function(msg) {	
-					var count = msg.servicelogs.length;
-					for (var i = 0; i < count; i++) {
-						var um = new ServiceLog.Model.ServiceLogItem({
-							MoxName: msg.servicelogs[i].MoxName,
-							logDate:msg.servicelogs[i].logDate,
-							userAgent:msg.servicelogs[i].userAgent,
-							userId: msg.servicelogs[i].userId,
-							userName: msg.servicelogs[i].userName,
-							name: msg.servicelogs[i].name
-						});
-						col.add(um);
+				success: function(msg) {
+					if(msg!=null){
+						var count = msg.servicelogs.length;
+						for (var i = 0; i < count; i++) {
+							var um = new ServiceLog.Model.ServiceLogItem({
+								MoxName: msg.servicelogs[i].MoxName,
+								logDate:msg.servicelogs[i].logDate,
+								userAgent:msg.servicelogs[i].userAgent,
+								userId: msg.servicelogs[i].userId,
+								userName: msg.servicelogs[i].userName,
+								name: msg.servicelogs[i].name
+							});
+							col.add(um);
+						}
+						callback(col);
 					}
-					callback(col);
-					
 				},
 				error: function(msg) {
 					console.log(msg);
