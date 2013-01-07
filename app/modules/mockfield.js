@@ -16,7 +16,7 @@
 				predefinedSampleDataId:mdl.get('predefinedSampleDataId'),
 				sampleData:mdl.get('sampleData')
 			};
-		
+
 			$.ajax({
 				type: "POST",
 				dataType: "json",
