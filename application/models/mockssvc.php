@@ -18,19 +18,21 @@ class mockssvc extends CI_Model{
 	
 	
 	function getMockFields($id, $userid){
-			$sql = "select pd.name as predefefinedSampleDataType,dt.userid, sf.id as id, sf.name as name, sf.typeid as typeId, sf.options as fieldoptions, sf.predefinedSampleDataId as predefinedSampleDataId, sf.sampleData as sampleData from Service_DataTemplate_Fields sdt join Service_Fields sf on sdt.fieldid = sf.id join Service_DataTemplates dt on sdt.dataTemplateid=dt.id join Service_PredefinedSampleData pd on sf.predefinedSampleDataId = pd.id where sdt.datatemplateid=? and dt.userid=?";
-			return $this->db->query($sql, array($id,$userid))->result();
+		$sql = "select pd.name as predefefinedSampleDataType,dt.userid, sf.id as id, sf.name as name, sf.typeid as typeId, sf.options as fieldoptions, sf.predefinedSampleDataId as predefinedSampleDataId, sf.sampleData as sampleData from Service_DataTemplate_Fields sdt join Service_Fields sf on sdt.fieldid = sf.id join Service_DataTemplates dt on sdt.dataTemplateid=dt.id join Service_PredefinedSampleData pd on sf.predefinedSampleDataId = pd.id where sdt.datatemplateid=? and dt.userid=?";
+		$result = $this->db->query($sql, array($id,$userid))->result();
+		$count = count($result);
+		return $this->db->query($sql, array($id,$userid))->result();
 	}
 	
 	function getMock($id,$userid){
-			$sql = "SELECT id,name,min,max FROM Service_DataTemplates WHERE userId = ? and id=?";
-			return $this->db->query($sql, array($userid,$id))->result();
+		$sql = "SELECT id,name,min,max FROM Service_DataTemplates WHERE userId = ? and id=?";
+		return $this->db->query($sql, array($userid,$id))->result();
 	}
 	
 	//gets a single mock field based on id.
 	function getMockField($id){
-			$sql = "SELECT id,name,typeId,options, predefinedDataId, sampleData FROM Service_Fields WHERE id = ?";
-			return $this->db->query($sql, array($id))->result();
+		$sql = "SELECT id,name,typeId,options, predefinedDataId, sampleData FROM Service_Fields WHERE id = ?";
+		return $this->db->query($sql, array($id))->result();
 	}
 	
 	
@@ -42,8 +44,8 @@ class mockssvc extends CI_Model{
 			'langVar' => $data['langVar'],
 			'min' => $data['min'],
 			'max'=>$data['max']
-			
 		);
+		
 		$this->db->where('id',$Id);
 		$this->db->update('Service_DataTemplates',$updateData);
 		return $data;
@@ -59,13 +61,20 @@ class mockssvc extends CI_Model{
 		$data['error']='';
 		try
 			{
+			
+			$data = $this->deleteAllFieldsForMock($data);
 			$id= $data['id'];
 			$this->db->where('id',$id);
 			$this->db->delete('Service_DataTemplates');
+			
+			$data = $this->deleteAllFieldsForMock($data);
+			
+	
 			return $data;
 			}
 		catch(Exception $ex){
 			$data['error'] = $ex->getMessage();
+			log_message('error', $ex->getMessage());
 			return $data;
 		}
 
@@ -101,8 +110,7 @@ class mockssvc extends CI_Model{
 		$this->db->where('id',$Id);
 		$this->db->update('Service_Fields',$updateData);
 		
-		return $Id;
-		
+		return $Id;	
 	}
 	
 	function addServiceTemplateField($data){
@@ -131,7 +139,6 @@ class mockssvc extends CI_Model{
 				'options' => $data['options'],
 				'predefinedSampleDataId'=>$data['predefinedSampleDataId'],
 				'sampleData'=>$data['sampleData']
-
 				);
 			
 			$this->db->insert('Service_Fields',$insertData);
@@ -146,6 +153,22 @@ class mockssvc extends CI_Model{
 			return $fieldId;	
 		}
 	}
+	
+	function deleteAllFieldsForMock($data){
+		$id = $data['id'];
+		$userId = $data['userid'];
+		$rows = $this->getMockFields($id,$userId);
+		$count = count($rows);	
+		$data['rows']=$rows;
+		foreach ($rows as $row) {
+		    $fId =  $row->id;
+			$data['fieldId']=$fId;
+			$this->deleteServiceTemplateField($data);
+		}
+		return $data;
+	}
+	
+
 	
 	//deletes the field row.
 	function deleteServiceTemplateField($data){

@@ -85,7 +85,8 @@ class mock extends CI_Controller{
 	
 	function delete(){
 			$data = array(
-				'id'=>$this->input->post('id')
+				'id'=>$this->input->post('id'),
+				'userid'=>$this->input->post('userid')
 			);
 			$this->load->model('Mockssvc');
 			$newData = $this->Mockssvc->deleteServiceDataTemplate($data);

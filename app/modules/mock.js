@@ -48,7 +48,6 @@
 				url: base + url,
 				data: form_data,
 				success: function(msg) {
-		
 					callback(msg);
 				},
 				error: function(msg) {
@@ -59,7 +58,8 @@
 		delete:function(callback){
 			var mdl = this;
 			var form_data = {
-				id:mdl.get('id')
+				id:mdl.get('id'),
+				userid: Suds.app.currentUser.get('userId')
 			};
 
 			$.ajax({

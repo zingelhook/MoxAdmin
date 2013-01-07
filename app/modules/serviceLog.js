@@ -11,7 +11,6 @@
 			var col = this;
 			var form_data = {
 				roleId: Suds.app.currentUser.get('roleId')
-				
 			};
 			
 			$.ajax({
