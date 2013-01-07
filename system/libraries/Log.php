@@ -82,7 +82,7 @@ class CI_Log {
 		{
 			return FALSE;
 		}
-
+		date_default_timezone_set('UTC');
 		$filepath = $this->_log_path.'log-'.date('Y-m-d').EXT;
 		$message  = '';
 
