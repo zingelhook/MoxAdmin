@@ -48,6 +48,9 @@
 				url: base + url,
 				data: form_data,
 				success: function(msg) {
+					mdl.set({
+						id:msg
+					})
 					callback(msg);
 				},
 				error: function(msg) {
