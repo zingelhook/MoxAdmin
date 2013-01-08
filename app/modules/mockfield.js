@@ -270,49 +270,8 @@
 					}
 
 					shared.currentMock.getMockFields(callback);	
-					/*
-					var info = new mock.Views.MockInfo({ model: shared.currentMock });
-					info.render(function (el) {
-						$("#mock-info").html(el);
-					});
-		
-					var getFieldsCallBack=function(msg){
-						var count = msg.MockFields.length;
-						var mockFields = new MockField.Collection.MockFields();
-						shared.currentMockFields = mockFields;
-				
-						for (var i = 0; i < count; i++) {
-							var mf = new MockField.Model.Field({
-								options:msg.MockFields[i].fieldoptions,
-								id:msg.MockFields[i].id,
-								name:msg.MockFields[i].name,
-								predefefinedSampleDataType:msg.MockFields[i].predefefinedSampleDataType,
-								predefinedSampleDataId:msg.MockFields[i].predefinedSampleDataId,
-								sampleData:msg.MockFields[i].sampleData
-							})
-				
-							mockFields.add(mf);
-						}
-	
-						var fieldTable = new mock.Views.FieldTable({
-							collection:mockFields
-						});
-           
-						fieldTable.render(function(el) {
-							$("#mock-info").html(el);
-						});	
-					}
-
-
-					shared.currentMock.getMockFields(getFieldsCallBack); 
-					*/
-				
-				}
-					
-
-				
+				}	
 				mockField.save(callback);
-		
 			}
 			else{
 				var count = errorlist.length;

@@ -17,7 +17,6 @@
 				url: base + "index.php/mock/GetMocksFields",
 				data: form_data,
 				success: function(msg) {
-
 					var count = msg.MockFields.length;
 					var mockFields = new mockfield.Collection.MockFields();
 					shared.currentMockFields = mockFields;
@@ -56,7 +55,7 @@
 			};
 			
 			shared.currentMock = this; 
-			
+			shared.currentMockFields.reset();
 		
 			var url = "index.php/mock/save";
 			if(parseInt(mdl.get('id'),10)>0){
@@ -107,8 +106,7 @@
 		loadData: function(callback, failcallback) {
 			var col = this;
 			var form_data = {
-				userid: Suds.app.currentUser.get('userId')
-				
+				userid: Suds.app.currentUser.get('userId')	
 			};
 			$.ajax({
 				type: "GET",
@@ -543,7 +541,17 @@
 		                $("#mock-info").append(el);
 		            });
 				}
-				newMock.save(callback);			
+				newMock.save(callback);	
+
+				//update mock list
+	            shared.userMocks.loadData();  
+	            var mocksTable = new Mock.Views.MocksTable({
+	                collection:shared.userMocks
+	            });
+	           
+	            mocksTable.render(function(el) {
+	                $("#mocks-list").html(el);
+	            });		
 			}
 			else{
 			
