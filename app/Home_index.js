@@ -58,23 +58,19 @@ jQuery(function($) {
             "login": "login",
 			"signup": "signup",
             "dashboard": "dashboard",
-			"addmockfield":"addmockfield",
+			//"addmockfield":"addmockfield",
 			"editmock":"editmock",
 			"logout":"logout",
 			"reports":"reports"
         },
         reports: function(hash) {
-
             var route = this;
             var reportsPage = new servicelog.Views.MainPage();
             // Attach the tutorial to the DOM
             reportsPage.render(function(el) {
                 $("#main").html(el);
 				route._loadMainMenu();
-				
-
-				
-				
+			
                 // Fix for hashes in pushState and hash fragment
                 if (hash && !route._alreadyTriggered) {
                     // Reset to home, pushState support automatically converts hashes
@@ -106,7 +102,6 @@ jQuery(function($) {
                 }
             });
         },
-
 		_loadMainMenu:function(){
 			if(Suds.app.MenuLoaded===false){
 				Suds.app.MenuLoaded=true;
@@ -139,6 +134,7 @@ jQuery(function($) {
             });
         },
         addmockfield:function(hash){
+            console.log('addingMockField');
             var route = this;
             var addMockFieldPage = new mockfield.Views.AddMockField();
             // Attach the tutorial to the DOM

@@ -17,6 +17,7 @@
 				url: base + "index.php/mock/GetMocksFields",
 				data: form_data,
 				success: function(msg) {
+
 					callback(msg);
 				},
 				error: function(msg) {
@@ -142,7 +143,16 @@
 				shared.currentMockFields = mockFields;
 				
 				for (var i = 0; i < count; i++) {
-					mockFields.add(msg.MockFields[i]);
+					var mf = new mockfield.Model.Field({
+						options:msg.MockFields[i].fieldoptions,
+						id:msg.MockFields[i].id,
+						name:msg.MockFields[i].name,
+						predefefinedSampleDataType:msg.MockFields[i].predefefinedSampleDataType,
+						predefinedSampleDataId:msg.MockFields[i].predefinedSampleDataId,
+						sampleData:msg.MockFields[i].sampleData
+					})
+				
+					mockFields.add(mf);
 				}
 				
 	            var fieldTable = new Mock.Views.FieldTable({
@@ -191,7 +201,7 @@
 	
 	Mock.Views.FieldTableRow  = Backbone.View.extend({
 	    tagName: "tr",
-		template: _.template("<td class='field' id='<%=id%>'><%=name%></td><td><%=fieldoptions%></td><td><%=predefefinedSampleDataType%></td><td><%=sampleData%></td><td><button type='button' id='edit_<%=id%>' class='edit-mockfield btn btn-primary btn-small'>Edit</button>&nbsp;<button type='button' id='<%=id%>' class='del-field btn btn-danger btn-small'>Delete</button></td>"),
+		template: _.template("<td class='field' id='<%=id%>'><%=name%></td><td><%=options%></td><td><%=predefefinedSampleDataType%></td><td><%=sampleData%></td><td><button type='button' id='edit_<%=id%>' class='edit-mockfield btn btn-primary btn-small'>Edit</button>&nbsp;<button type='button' id='<%=id%>' class='del-field btn btn-danger btn-small'>Delete</button></td>"),
 		events:{
 			"click .del-field":"_delField",
 			"click .edit-mockfield": "_editField"
@@ -249,15 +259,26 @@
 	
 	
 	Mock.Views.MockInfo  = Backbone.View.extend({
-		template: _.template("<div class='info'><ul class='unstyled'><li><h2>Name: <%=name%></h2><p><button class='btn btn-primary' id='edit-mock' type='button'>Edit Mock</button>&nbsp;&nbsp;<button class='btn btn-danger' id='delete-mock' type='button'>Delete Mock</button></p></li><li>Min: <%=min%></li><li>Max: <%=max%></li></ul><div class='btn-group'><a class='btn dropdown-toggle' data-toggle='dropdown' href='#'>Code Samples <span class='caret'></span></a><ul class='dropdown-menu'><li><a id='jsonp'>JSONP</a></li><li><a id='jsfiddle'>Jsfiddle</a></li></ul></div><p id='code-example'></p><p><a id='addfield' class='btn btn-primary btn-small' href='#addmockfield'>Add Field</a></p><table id='mock-fields' class='table table-bordered'><thead><tr><th>Name</th><th>Options</th><th>Type</th><th>Sample Data</th></thead><tbody></tbody></table></div>"),
+		template: _.template("<div class='info'><ul class='unstyled'><li><h2>Name: <%=name%></h2><p><button class='btn btn-primary' id='edit-mock' type='button'>Edit Mock</button>&nbsp;&nbsp;<button class='btn btn-danger' id='delete-mock' type='button'>Delete Mock</button></p></li><li>Min: <%=min%></li><li>Max: <%=max%></li></ul><div class='btn-group'><a class='btn dropdown-toggle' data-toggle='dropdown' href='#'>Code Samples <span class='caret'></span></a><ul class='dropdown-menu'><li><a id='jsonp'>JSONP</a></li><li><a id='jsfiddle'>Jsfiddle</a></li></ul></div><p id='code-example'></p><p><a id='addfield' class='btn btn-primary btn-small'>Add Field</a></p><table id='mock-fields' class='table table-bordered'><thead><tr><th>Name</th><th>Options</th><th>Type</th><th>Sample Data</th></thead><tbody></tbody></table></div>"),
 	    initialize: function () {
 	        _.bindAll(this, "render");
 	    },
 	    events:{
+	    	"click #addfield": "_addField",
 	        "click #delete-mock": "_deleteMock",
 			"click #edit-mock": "_editMock",
 			"click #jsfiddle": "_jsFiddle",
 			"click #jsonp": "_jsonp"
+	    },
+	    _addField:function(){
+  			console.log('addingMockField');
+            //var route = this;
+            var addMockFieldPage = new mockfield.Views.AddMockField();
+            // Attach the tutorial to the DOM
+            addMockFieldPage.render(function(el) {
+                $("#mock-info").html(el);
+				
+            });
 	    },
 		_jsonp:function(){
 			//call edit mock view
@@ -325,6 +346,7 @@
             done(view.el);
 			view._buildJSONPExample();
 			
+			collection:shared.currentMockFields.reset();
 			
             var fieldTable = new Mock.Views.FieldTable({
                 collection:shared.currentMockFields

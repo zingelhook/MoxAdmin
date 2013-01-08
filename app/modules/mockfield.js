@@ -16,13 +16,18 @@
 				predefinedSampleDataId:mdl.get('predefinedSampleDataId'),
 				sampleData:mdl.get('sampleData')
 			};
-
+	
 			$.ajax({
 				type: "POST",
 				dataType: "json",
 				url: base + "index.php/mock/addServiceField",
 				data: form_data,
 				success: function(msg) {
+					mdl.set({
+						id:msg
+					});
+					
+					collection:shared.currentMockFields.add(mdl);
 					callback(msg);
 				},
 				error: function(msg) {
@@ -192,9 +197,12 @@
 		},
 		_addMockField:function(){
 			$('#error-list').empty();
+			//create an instance of the mockfield
 			var mockField = new MockField.Model.Field();
+			//get the mockid
 			var mockId = shared.currentMock.get('id');
 
+			//start off with empty errorlist, and check inputs
 			var errorlist = [];
 			if($('#mockFieldName').val().length===0){
 				errorlist.push({name:'name-control',msg:'Name is required!'})
@@ -202,34 +210,64 @@
 			if($("#predefinedSampleData").val()==='14' && $('#sampledata').val().length<=1){
 				errorlist.push({name:'sample-control',msg:'Sample Data is required for Custom Data!'})	
 			}
+			//if we have no errors
 			if(errorlist.length===0){
-				
+				//populate the mockfield model
 				mockField.set({
 					name:$('#mockFieldName').val(),
 					typeId:1,
 					options:$('#options').val(),
 					mockId:mockId,
 					predefinedSampleDataId:$('#predefinedSampleData').val(),
+					predefefinedSampleDataType:$('#predefinedSampleData option:selected').text(),
 					sampleData:$('#sampledata').val()
 				})
+
+				//create the callback that will fire once we have a successful ajax call	
+				var callback = function(){
 			
-				var callback = function(msg){
-					var info = new mock.Views.MockInfo({ model: shared.currentMock  });
+					var info = new mock.Views.MockInfo({ model: shared.currentMock });
 					info.render(function (el) {
 						$("#mock-info").html(el);
 					});
-					
-		            var fieldTable = new mock.Views.FieldTable({
-		                collection:shared.currentMockFields
-		            });
+		
+					var getFieldsCallBack=function(msg){
+						var count = msg.MockFields.length;
+						var mockFields = new MockField.Collection.MockFields();
+						shared.currentMockFields = mockFields;
+				
+						for (var i = 0; i < count; i++) {
+							var mf = new MockField.Model.Field({
+								options:msg.MockFields[i].fieldoptions,
+								id:msg.MockFields[i].id,
+								name:msg.MockFields[i].name,
+								predefefinedSampleDataType:msg.MockFields[i].predefefinedSampleDataType,
+								predefinedSampleDataId:msg.MockFields[i].predefinedSampleDataId,
+								sampleData:msg.MockFields[i].sampleData
+							})
+				
+							mockFields.add(mf);
+						}
+						console.log(mockFields);
+	
+						var fieldTable = new mock.Views.FieldTable({
+							collection:mockFields
+						});
            
-		            fieldTable.render(function(el) {
-		                $("#mock-info").append(el);
-		            });
+						fieldTable.render(function(el) {
+							$("#mock-info").html(el);
+						});	
+					}
 
+
+					shared.currentMock.getMockFields(getFieldsCallBack); 
+				
 				}
-			
+					
+
+				
 				mockField.save(callback);
+		
 			}
 			else{
 				var count = errorlist.length;
