@@ -80,10 +80,25 @@
 			"click #cancel_btn": "_cancel"
 		},
 		_cancel:function(){
+		
 			var info = new mock.Views.MockInfo({ model: shared.currentMock  });
-			info.render(function (el) {
-				$("#mock-info").html(el);
-			});
+
+			var callback = function(msg){
+				info.render(function (el) {
+					$("#mock-info").html(el);
+				});
+
+					
+				var fieldTable = new mock.Views.FieldTable({
+					collection:shared.currentMockFields
+				});
+           
+				fieldTable.render(function(el) {
+					$("#mock-info").append(el);
+				});
+			}
+
+			shared.currentMock.getMockFields(callback);	
 		
 		},
 		_predefinedSampleDataClick:function(e){
@@ -182,9 +197,22 @@
 		},
 		_cancel:function(){
 			var info = new mock.Views.MockInfo({ model: shared.currentMock  });
-			info.render(function (el) {
-				$("#mock-info").html(el);
-			});
+
+			var callback = function(msg){
+				info.render(function (el) {
+					$("#mock-info").html(el);
+				});
+	
+				var fieldTable = new mock.Views.FieldTable({
+					collection:shared.currentMockFields
+				});
+           
+				fieldTable.render(function(el) {
+					$("#mock-info").append(el);
+				});
+			}
+
+			shared.currentMock.getMockFields(callback);	
 		},
 		_predefinedSampleDataClick:function(e){
 			var value = $("#predefinedSampleData").val();
@@ -225,7 +253,24 @@
 
 				//create the callback that will fire once we have a successful ajax call	
 				var callback = function(){
+					var info = new mock.Views.MockInfo({ model: shared.currentMock  });
+
+					var callback = function(msg){
+						info.render(function (el) {
+							$("#mock-info").html(el);
+						});
 			
+						var fieldTable = new mock.Views.FieldTable({
+							collection:shared.currentMockFields
+						});
+		           
+						fieldTable.render(function(el) {
+							$("#mock-info").append(el);
+						});
+					}
+
+					shared.currentMock.getMockFields(callback);	
+					/*
 					var info = new mock.Views.MockInfo({ model: shared.currentMock });
 					info.render(function (el) {
 						$("#mock-info").html(el);
@@ -248,7 +293,6 @@
 				
 							mockFields.add(mf);
 						}
-						console.log(mockFields);
 	
 						var fieldTable = new mock.Views.FieldTable({
 							collection:mockFields
@@ -261,6 +305,7 @@
 
 
 					shared.currentMock.getMockFields(getFieldsCallBack); 
+					*/
 				
 				}
 					

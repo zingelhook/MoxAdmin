@@ -18,7 +18,27 @@
 				data: form_data,
 				success: function(msg) {
 
-					callback(msg);
+					var count = msg.MockFields.length;
+					var mockFields = new mockfield.Collection.MockFields();
+					shared.currentMockFields = mockFields;
+				
+					for (var i = 0; i < count; i++) {
+							var mf = new mockfield.Model.Field({
+								options:msg.MockFields[i].fieldoptions,
+								id:msg.MockFields[i].id,
+								name:msg.MockFields[i].name,
+								predefefinedSampleDataType:msg.MockFields[i].predefefinedSampleDataType,
+								predefinedSampleDataId:msg.MockFields[i].predefinedSampleDataId,
+								sampleData:msg.MockFields[i].sampleData
+							})
+				
+						mockFields.add(mf);
+					}
+
+					shared.currentMockFields = mockFields;
+					if(callback){
+						callback(msg);
+					}
 				},
 				error: function(msg) {
 					//console.log(msg);
@@ -271,7 +291,6 @@
 			"click #jsonp": "_jsonp"
 	    },
 	    _addField:function(){
-  			console.log('addingMockField');
             //var route = this;
             var addMockFieldPage = new mockfield.Views.AddMockField();
             // Attach the tutorial to the DOM
@@ -346,7 +365,7 @@
             done(view.el);
 			view._buildJSONPExample();
 			
-			collection:shared.currentMockFields.reset();
+			//collection:shared.currentMockFields.reset();
 			
             var fieldTable = new Mock.Views.FieldTable({
                 collection:shared.currentMockFields
