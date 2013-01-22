@@ -51,6 +51,7 @@
 		<script src="<?php echo base_url();?>app/modules/logout.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<?php echo base_url();?>app/modules/codesamples.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<?php echo base_url();?>app/modules/serviceLog.js" type="text/javascript" charset="utf-8"></script>
+		<script src="<?php echo base_url();?>app/modules/forgotpassword.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<?php echo base_url();?>app/Home_index.js" type="text/javascript" charset="utf-8"></script>
 
 		<script src="<?php echo base_url();?>assets/js/libs/raphael-min.js"></script>
