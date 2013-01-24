@@ -86,10 +86,16 @@ class users extends CI_Model{
 		$query = $this->db->get('Users');
 		return $this->setUser($query);
 	}
+	
+	function getUserByEmail($data){
+		$this->db->where('email',$data['email']);
+		$query = $this->db->get('Users');
+		return $this->setUser($query);
+	}
 
 
 	function userExists($data){
-		$userExist = $this->getUserByUsername($data);
+		$userExist = $this->getUserByEmail($data);
 		if($userExist['userid']>0){
 			return true;
 		}
@@ -116,7 +122,7 @@ class users extends CI_Model{
 		$new_member_insert_data = array(
 			'firstName' =>$this->input->post('firstname'),
 			'lastName' =>$this->input->post('lastname'),
-			//'email' =>$this->input->post('email'), //goes into extended table
+			'email' =>$this->input->post('email'), 
 			'userName' =>$this->input->post('username'),
 			'passWord' => md5($this->input->post('password')),
 			'tier' => 0	

@@ -11,7 +11,7 @@ class User extends CI_Controller{
 		$this->form_validation->set_rules('firstname', 'First Name', 'trim|required');
 		$this->form_validation->set_rules('lastname', 'Last Name', 'trim|required');
 		$this->form_validation->set_rules('email', 'Email', 'trim|required|validemail');
-		$this->form_validation->set_rules('username', 'User name', 'trim|required|min_length[4]');
+		//$this->form_validation->set_rules('username', 'User name', 'trim|required|min_length[4]');
 		
 		$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]|max_length[32]');
 		$this->form_validation->set_rules('password2', 'Password Confirmation', 'trim|required|min_length[4]|max_length[32]|matches[password]');

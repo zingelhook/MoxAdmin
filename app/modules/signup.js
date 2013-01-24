@@ -53,7 +53,7 @@
 			else{
 				$('#email-control').removeClass('error');
 			}
-					
+			/*	
 			if(userName.length===0){
 				$('#username-control').addClass('error');
 				errors.push('User Name is required');
@@ -61,6 +61,7 @@
 			else{
 				$('#username-control').removeClass('error');
 			}
+			*/
 			
 			if(pwd.length===0){
 				$('#pwd-control').addClass('error');
@@ -85,14 +86,16 @@
 				$('#error-list').empty();
 				
 				var callback = function(msg){
+					console.log(msg);
 					$('#error-list').empty();
 					if(msg.hasError){
-
-						var count = msg.moreerrors.length;
-						for (var i = 0; i < count; i++) {
-							var errorLine = document.createElement('li');
-							$(errorLine).html(msg.moreerrors[i]);
-							$('#error-list').append(errorLine);
+						if(msg.moreerrors!=null){
+							var count = msg.moreerrors.length;
+							for (var i = 0; i < count; i++) {
+								var errorLine = document.createElement('li');
+								$(errorLine).html(msg.moreerrors[i]);
+								$('#error-list').append(errorLine);
+							}
 						}
 
 						$('#error-list').show();
