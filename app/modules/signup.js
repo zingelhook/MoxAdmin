@@ -86,7 +86,7 @@
 				$('#error-list').empty();
 				
 				var callback = function(msg){
-					console.log(msg);
+				
 					$('#error-list').empty();
 					if(msg.hasError){
 						if(msg.moreerrors!=null){
