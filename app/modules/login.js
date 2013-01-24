@@ -14,18 +14,17 @@
 			$('#error-list').empty();
 			$('#error-list').hide();
             $('#invalid-login').hide();
-            var user = this.$('#username').val();
+            var email = this.$('#email-input').val();
 			var errors = [];
-            if (user.length === 0) {
-				$('#username-control').addClass('error');
-				errors.push('User Name is required');
+            if (email.length === 0) {
+				$('#email-control').addClass('error');
+				errors.push('Email is required');
             }
 			
             var pwd = this.$('#password').val();
             if (pwd.length === 0) {
 				$('#pwd-control').addClass('error');
 				errors.push('Password is required');
-
             }
 			var count = errors.length;
 			if(count===0){
@@ -49,8 +48,7 @@
 						$('#error-list').show();
 					}
 				}
-			
-				Suds.app.currentUser.Login(user,pwd,callback);	
+				Suds.app.currentUser.Login(email,pwd,callback);	
 			}else{
 				$('#invalid-login').show();	
 				for (var i = 0; i < count; i++) {
@@ -59,12 +57,7 @@
 			  		$('#error-list').append(errorLine);
 				}
 				$('#error-list').show();
-	
-				
-				
 			}
-			
-			
         },
         render: function(done) {
             var view = this;

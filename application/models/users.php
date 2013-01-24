@@ -9,7 +9,7 @@ class users extends CI_Model{
 	
 	function validate(){
 		
-		$this->db->where('userName', $this->input->post('username'));
+		$this->db->where('email', $this->input->post('email'));
 		$this->db->where('passWord', md5($this->input->post('password')));
 		$query = $this->db->get('Users');
 		$userId=0;

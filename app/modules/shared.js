@@ -19,12 +19,13 @@ function isNumber(n) {
 		defaults: {
 			"userId": 0
         },
-  	  	Login:function(userName,pwd,callback){
+  	  	Login:function(email,pwd,callback){
             var form_data = {
-                username: userName,
+                email: email,
                 password: pwd,
                 ajax: '1'
             };
+		
             $.ajax({
                 type: "POST",
                 dataType: "json",
