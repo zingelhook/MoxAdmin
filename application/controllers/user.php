@@ -1,11 +1,13 @@
 <?php
 
 class User extends CI_Controller{
-
-
-//create a new account.
-	function createMember(){
+	//send email to user to reset
+	function forgotUserName(){
 		
+	}
+
+	//create a new account.
+	function createMember(){
 		$this->load->library('form_validation');
 		
 		$this->form_validation->set_rules('firstname', 'First Name', 'trim|required');

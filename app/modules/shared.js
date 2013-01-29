@@ -76,6 +76,28 @@ function isNumber(n) {
             });
 			//Suds.app.router.navigate("#login", false);
 		},
+		ForgotPassword:function(email){
+            var form_data = {
+                email: email
+            };
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: base + "index.php/user/forgotUserName",
+                data: form_data,
+                success: function(msg) {
+					$('#isLoggedIn').val('0');
+					$('#userId').val('0');
+					$('#roleId').val('0');
+					$('#firstName').val('');
+					$('#lastName').val('');
+					Suds.app.router.navigate("#login", true);
+                },
+				error:function(msg){
+					//console.log(msg);
+				}
+			
+		},
 		Register:function(firstName,lastName,email,userName,pwd,confirmPwd,callback){
 			
             var form_data = {
