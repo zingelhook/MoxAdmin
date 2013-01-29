@@ -114,15 +114,23 @@
 				url: base + "index.php/mock/GetUserMocks",
 				data: form_data,
 				success: function(msg) {
-					var count = msg.UserMocks.length;
-					for (var i = 0; i < count; i++) {
-						var um = new Mock.Model.Mock({
-							name: msg.UserMocks[i].name,
-							id:msg.UserMocks[i].id,
-							max:msg.UserMocks[i].max,
-							min: msg.UserMocks[i].min
-						});
-						col.add(um);
+				
+					if(msg.userid==false){//session expired
+						Suds.app.currentUser.Logout();
+					
+					}
+					else{
+					
+						var count = msg.UserMocks.length;
+						for (var i = 0; i < count; i++) {
+							var um = new Mock.Model.Mock({
+								name: msg.UserMocks[i].name,
+								id:msg.UserMocks[i].id,
+								max:msg.UserMocks[i].max,
+								min: msg.UserMocks[i].min
+							});
+							col.add(um);
+						}
 					}
 				},
 				error: function(msg) {
@@ -293,8 +301,7 @@
             var addMockFieldPage = new mockfield.Views.AddMockField();
             // Attach the tutorial to the DOM
             addMockFieldPage.render(function(el) {
-                $("#mock-info").html(el);
-				
+                $("#mock-info").html(el);	
             });
 	    },
 		_jsonp:function(){
@@ -351,8 +358,7 @@
 			$(codeEl).html(code);
 			$(codeEl).addClass('javascript');
 			pre.appendChild(codeEl);
-			
-			//var html="<pre><code class='javascript'>" + code + "</code></pre>";
+		
 			$('#code-example').html(pre);
 	
 		},
@@ -362,8 +368,6 @@
             view.el.innerHTML = view.template(view.model.toJSON());
             done(view.el);
 			view._buildJSONPExample();
-			
-			//collection:shared.currentMockFields.reset();
 			
             var fieldTable = new Mock.Views.FieldTable({
                 collection:shared.currentMockFields

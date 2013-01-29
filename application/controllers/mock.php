@@ -9,6 +9,7 @@ class mock extends CI_Controller{
 		$this->load->model('Mockssvc');
 		$query = $this->Mockssvc->getUserServices($uid);
 		$data["UserMocks"] = $query;
+		$data['userid']=$uid;
 		echo json_encode($data);
 	}
 	

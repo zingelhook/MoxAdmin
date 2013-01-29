@@ -68,11 +68,13 @@ function isNumber(n) {
 					$('#roleId').val('0');
 					$('#firstName').val('');
 					$('#lastName').val('');
+					Suds.app.router.navigate("#login", true);
                 },
 				error:function(msg){
 					//console.log(msg);
 				}
             });
+			//Suds.app.router.navigate("#login", false);
 		},
 		Register:function(firstName,lastName,email,userName,pwd,confirmPwd,callback){
 			
