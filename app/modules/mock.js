@@ -114,13 +114,11 @@
 				url: base + "index.php/mock/GetUserMocks",
 				data: form_data,
 				success: function(msg) {
-				
 					if(msg.userid==false){//session expired
 						Suds.app.currentUser.Logout();
 					
 					}
 					else{
-					
 						var count = msg.UserMocks.length;
 						for (var i = 0; i < count; i++) {
 							var um = new Mock.Model.Mock({

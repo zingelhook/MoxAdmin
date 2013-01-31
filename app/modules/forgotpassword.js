@@ -25,6 +25,7 @@
 			var count = errors.length;
 			if(count===0){
 				//submit
+				Suds.app.currentUser.ForgotPassword(email);
 			}
 			else{
 				$('#invalid-email').show();	

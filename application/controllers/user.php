@@ -4,6 +4,17 @@ class User extends CI_Controller{
 	//send email to user to reset
 	function forgotUserName(){
 		
+		$email = $this->input->post('email');
+		$data = [];
+		$data['email'] = $email;
+		$this->load->model('Users');
+		$this->load->model('Email');
+		
+		$user = $this->Users->getUserByEmail($data);
+		$user['email']=$email;
+		$email = $this->Email->send_email($user);
+		
+		echo json_encode($email);
 	}
 
 	//create a new account.
@@ -13,8 +24,6 @@ class User extends CI_Controller{
 		$this->form_validation->set_rules('firstname', 'First Name', 'trim|required');
 		$this->form_validation->set_rules('lastname', 'Last Name', 'trim|required');
 		$this->form_validation->set_rules('email', 'Email', 'trim|required|validemail');
-		//$this->form_validation->set_rules('username', 'User name', 'trim|required|min_length[4]');
-		
 		$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]|max_length[32]');
 		$this->form_validation->set_rules('password2', 'Password Confirmation', 'trim|required|min_length[4]|max_length[32]|matches[password]');
 		
@@ -26,10 +35,8 @@ class User extends CI_Controller{
 		
 		else
 		{
-			
 			$this->load->model('users');
 			$query = $this->users->create_member();
-
 			
 			if (is_numeric($query)) 
 			{
@@ -41,11 +48,8 @@ class User extends CI_Controller{
 				$moreerrors = array($query);
 				//$data['errors'] = $errors;
 				$data['moreerrors'] = $moreerrors;
-
 			}
-			
 		}
-		
 		echo json_encode($data);
 	}
 

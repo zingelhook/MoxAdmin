@@ -77,6 +77,7 @@ function isNumber(n) {
 			//Suds.app.router.navigate("#login", false);
 		},
 		ForgotPassword:function(email){
+			//console.log(email);
             var form_data = {
                 email: email
             };
@@ -86,16 +87,12 @@ function isNumber(n) {
                 url: base + "index.php/user/forgotUserName",
                 data: form_data,
                 success: function(msg) {
-					$('#isLoggedIn').val('0');
-					$('#userId').val('0');
-					$('#roleId').val('0');
-					$('#firstName').val('');
-					$('#lastName').val('');
-					Suds.app.router.navigate("#login", true);
+					console.log( msg);
                 },
 				error:function(msg){
-					//console.log(msg);
+					console.dir(msg);
 				}
+			});
 			
 		},
 		Register:function(firstName,lastName,email,userName,pwd,confirmPwd,callback){
