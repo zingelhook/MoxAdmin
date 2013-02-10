@@ -91,8 +91,14 @@
 				url: base + "index.php/mock/delete",
 				data: form_data,
 				success: function(msg) {
-					shared.userMocks.remove(mdl);
-					callback(msg);
+					
+					if(msg.userid==false){//session expired
+						Suds.app.currentUser.Logout();
+					
+					}else{
+						shared.userMocks.remove(mdl);
+						callback(msg);	
+					}
 				},
 				error: function(msg) {
 					//console.log(msg);

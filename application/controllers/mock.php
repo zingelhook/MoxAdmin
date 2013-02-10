@@ -75,7 +75,8 @@ class mock extends CI_Controller{
 				'langVar'=>$this->input->post('langVar'),
 				'min' => $this->input->post('min'),
 				'sid'=>$this->input->post('id'),
-				'max'=>$this->input->post('max')
+				'max'=>$this->input->post('max'),
+				'userid'=>$this->session->userdata('userid')
 				
 			);
 			$this->load->model('Mockssvc');
@@ -87,7 +88,7 @@ class mock extends CI_Controller{
 	function delete(){
 			$data = array(
 				'id'=>$this->input->post('id'),
-				'userid'=>$this->input->post('userid')
+				'userid'=>$this->session->userdata('userid')
 			);
 			$this->load->model('Mockssvc');
 			$newData = $this->Mockssvc->deleteServiceDataTemplate($data);
@@ -101,7 +102,8 @@ class mock extends CI_Controller{
 				'options' => $this->input->post('txtoptions'),
 				'sid'=>$this->input->post('sid'),
 				'predefinedSampleDataId'=>$this->input->post('predefinedSampleDataId'),
-				'sampleData'=>$this->input->post('txtSampleData')	
+				'sampleData'=>$this->input->post('txtSampleData'),
+				'userid'=>$this->session->userdata('userid')
 			);
 			$this->load->model('Mockssvc');
 			$this->Mockssvc->updateServiceTemplateField($data);
@@ -119,7 +121,8 @@ class mock extends CI_Controller{
 				'options' => $this->input->post('options'),
 				'mockId'=>$this->input->post('mockId'),
 				'predefinedSampleDataId'=>$this->input->post('predefinedSampleDataId'),
-				'sampleData'=>$this->input->post('sampleData')
+				'sampleData'=>$this->input->post('sampleData'),
+				'userid'=>$this->session->userdata('userid')
 			);
 			$this->load->model('Mockssvc');
 			$return = $this->Mockssvc->addServiceTemplateField($data);
@@ -131,7 +134,8 @@ class mock extends CI_Controller{
 	
 	function deleteServiceField(){
 			$data = array(
-				'fieldId'=>$this->input->post('fieldId')
+				'fieldId'=>$this->input->post('fieldId'),
+				'userid'=>$this->session->userdata('userid')
 			);
 			$this->load->model('Mockssvc');
 			$result = $this->Mockssvc->deleteServiceTemplateField($data);

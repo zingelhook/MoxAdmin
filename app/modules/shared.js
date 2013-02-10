@@ -68,6 +68,10 @@ function isNumber(n) {
 					$('#roleId').val('0');
 					$('#firstName').val('');
 					$('#lastName').val('');
+		        	$('#menu_5').show();//login
+		        	$('#menu_4').hide();//mocks
+		        	$('#menu_6').hide();//logout
+					$('#menu_7').hide();//reports
 					Suds.app.router.navigate("#login", true);
                 },
 				error:function(msg){
