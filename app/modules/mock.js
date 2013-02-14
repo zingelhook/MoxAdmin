@@ -54,6 +54,7 @@
 				langVar:'en:us'
 			};
 			
+			
 			shared.currentMock = this; 
 			shared.currentMockFields.reset();
 		

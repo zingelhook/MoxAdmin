@@ -83,6 +83,7 @@ jQuery(function($) {
                     route._alreadyTriggered = true;
                 }
             });
+			route.appPageView();
         },
         reports: function(hash) {
             var route = this;
@@ -101,7 +102,9 @@ jQuery(function($) {
                     // Set an internal flag to stop recursive looping
                     route._alreadyTriggered = true;
                 }
+				
             });
+			route.appPageView();
         },
         logout:function(hash){
             var route = this;
@@ -122,6 +125,7 @@ jQuery(function($) {
                     route._alreadyTriggered = true;
                 }
             });
+			route.appPageView();
         },
 		_loadMainMenu:function(){
 			if(Suds.app.MenuLoaded===false){
@@ -133,6 +137,7 @@ jQuery(function($) {
 	                $("#top-nav-guest").html(el);
 	            });
 			}
+			route.appPageView();
 		},
         editmock:function(hash){
             var route = this;
@@ -153,6 +158,7 @@ jQuery(function($) {
                     route._alreadyTriggered = true;
                 }
             });
+			route.appPageView();
         },
         addmockfield:function(hash){
             console.log('addingMockField');
@@ -172,6 +178,7 @@ jQuery(function($) {
                     route._alreadyTriggered = true;
                 }
             });
+			route.appPageView();
         },
         dashboard:function(hash){
             var route = this;
@@ -190,6 +197,7 @@ jQuery(function($) {
                     route._alreadyTriggered = true;
                 }
             });
+			route.appPageView();
         },
         signup: function(hash) {
 
@@ -209,6 +217,7 @@ jQuery(function($) {
                     route._alreadyTriggered = true;
                 }
             });
+			route.appPageView();
         },
         login: function(hash) {
 
@@ -228,6 +237,7 @@ jQuery(function($) {
                     route._alreadyTriggered = true;
                 }
             });
+			route.appPageView();
         },
         docs: function(hash) {
 
@@ -247,6 +257,7 @@ jQuery(function($) {
                     route._alreadyTriggered = true;
                 }
             });
+			route.appPageView();
         },
         tour: function(hash) {
 
@@ -266,7 +277,15 @@ jQuery(function($) {
                     route._alreadyTriggered = true;
                 }
             });
+			route.appPageView();
+		
         },
+		appPageView:function(){
+			$("body").removeClass('backgroundone');
+		},
+		mainPageView:function(){
+			$("body").addClass('backgroundone');
+		},
         index: function(hash) {
 
             var route = this;
@@ -285,6 +304,7 @@ jQuery(function($) {
                     route._alreadyTriggered = true;
                 }
             });
+			route.mainPageView();
         }
     });
 

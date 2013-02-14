@@ -64,7 +64,7 @@
 		
 	</head>
 
-	<body>
+	<body class="backgroundone">
 		<input type="hidden" id="base" value="<?php echo base_url();?>">
 		<input type="hidden" id="isLoggedIn" value="<?php echo $this->session->userdata('isLoggedIn');?>">
 		<input type="hidden" id="userId" value="<?php echo $this->session->userdata('userid');?>">
