@@ -128,6 +128,7 @@ jQuery(function($) {
 			route.appPageView();
         },
 		_loadMainMenu:function(){
+			   var route = this;
 			if(Suds.app.MenuLoaded===false){
 				Suds.app.MenuLoaded=true;
 				var mainMenu = new menu.Views.MainMenu({

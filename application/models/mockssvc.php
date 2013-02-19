@@ -52,6 +52,7 @@ class mockssvc extends CI_Model{
 	}
 	
 	function insertServiceDataTemplate($data){
+		$data["idCode"]=uniqid();
 		$this->db->insert('Service_DataTemplates', $data);
 		$fieldId = $this->db->insert_id();
 		return $fieldId;
