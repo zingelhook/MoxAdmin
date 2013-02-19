@@ -5,14 +5,14 @@ class mockssvc extends CI_Model{
 	
 	//get user's mocks
 	function getUserServices($userid){
-		$sql = "SELECT id,name,min,max FROM Service_DataTemplates WHERE userId = ?";
+		$sql = "SELECT id,name,min,max,idCode FROM Service_DataTemplates WHERE userId = ?";
 		return $this->db->query($sql, array($userid))->result();
 	}
 	
 	
 	//get all mocls. Used for admin.
 	function getAllMocks(){
-		$sql = "SELECT id,name,min,max FROM Service_DataTemplates";
+		$sql = "SELECT id,name,min,max,idCode FROM Service_DataTemplates";
 		return $this->db->query($sql)->result();
 	}
 	
@@ -25,7 +25,7 @@ class mockssvc extends CI_Model{
 	}
 	
 	function getMock($id,$userid){
-		$sql = "SELECT id,name,min,max FROM Service_DataTemplates WHERE userId = ? and id=?";
+		$sql = "SELECT id,name,min,max,idCode FROM Service_DataTemplates WHERE userId = ? and id=?";
 		return $this->db->query($sql, array($userid,$id))->result();
 	}
 	

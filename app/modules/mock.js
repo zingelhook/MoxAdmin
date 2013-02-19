@@ -132,7 +132,8 @@
 								name: msg.UserMocks[i].name,
 								id:msg.UserMocks[i].id,
 								max:msg.UserMocks[i].max,
-								min: msg.UserMocks[i].min
+								min: msg.UserMocks[i].min,
+								idCode: msg.UserMocks[i].idCode
 							});
 							col.add(um);
 						}
@@ -355,7 +356,7 @@
 			var code = '$.ajax({type: "GET",dataType: "jsonp",jsonpCallback: "moxsvc",url:"';
 			code += Suds.app.externalMoxURL;
 			code += '?id=';
-			code +=  this.model.get('id');
+			code +=  this.model.get('idCode');
 			code += '",success: function(data) {console.log(data)}});';
 			var pre = document.createElement('pre');
 			var codeEl = document.createElement('code');
