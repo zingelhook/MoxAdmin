@@ -207,6 +207,7 @@
 			var info = new Mock.Views.MockInfo({
 				model: mock
 			});
+
 			info.render(function(el) {
 				$("#mock-info").html(el);
 			});
@@ -320,7 +321,7 @@
 
 
 	Mock.Views.MockInfo = Backbone.View.extend({
-		template: _.template("<div class='info'><ul class='unstyled'><li><h2>Name: <%=name%></h2><p><button class='btn btn-primary' id='edit-mock' type='button'>Edit Mock</button>&nbsp;&nbsp;<button class='btn btn-danger' id='delete-mock' type='button'>Delete Mock</button></p></li><li>Min: <%=min%></li><li>Max: <%=max%></li></ul><div class='btn-group'><a class='btn dropdown-toggle' data-toggle='dropdown' href='#'>Code Samples <span class='caret'></span></a><ul class='dropdown-menu'><li><a id='jsonp'>JSONP</a></li><li><a id='jsfiddle'>Jsfiddle</a></li></ul></div><p id='code-example'></p><p><a id='addfield' class='btn btn-primary btn-small'>Add Field</a></p><table id='mock-fields' class='table table-bordered'><thead><tr><th>Name</th><th>Options</th><th>Type</th><th>Sample Data</th></thead><tbody></tbody></table><table id='subMocksTable' class='table table-striped table-bordered table-hover'><thead><tr><th>Name</th></tr></thead><tbody></tbody></table></div>"),
+		template: _.template("<div class='info'><ul class='unstyled'><li><h2>Name: <%=name%></h2><p><button class='btn btn-primary' id='edit-mock' type='button'>Edit Mock</button>&nbsp;&nbsp;<button class='btn btn-danger' id='delete-mock' type='button'>Delete Mock</button></p></li><li>Min: <%=min%></li><li>Max: <%=max%></li></ul><div class='btn-group'><a class='btn dropdown-toggle' data-toggle='dropdown' href='#'>Code Samples <span class='caret'></span></a><ul class='dropdown-menu'><li><a id='jsonp'>JSONP</a></li><li><a id='jsfiddle'>Jsfiddle</a></li></ul></div><p id='code-example'></p><p><a id='addfield' class='btn btn-primary btn-small'>Add Field</a></p><table id='mock-fields' class='table table-bordered'><thead><tr><th>Name</th><th>Options</th><th>Type</th><th>Sample Data</th></thead><tbody></tbody></table><a id='addsubmock' class='btn btn-primary'>Add Sub Mock</a><table id='subMocksTable' class='table table-striped table-bordered table-hover'><thead><tr><th>Name</th></tr></thead><tbody></tbody></table></div>"),
 		initialize: function() {
 			_.bindAll(this, "render");
 		},

@@ -1,5 +1,5 @@
 (function(Tour) {
-
+    var shared = Suds.module("shared");
     Tour.Model = Backbone.Model.extend({});
     Tour.Collection = Backbone.Collection.extend({});
     Tour.Router = Backbone.Router.extend({});

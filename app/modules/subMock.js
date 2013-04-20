@@ -1,5 +1,11 @@
 (function(SubMock) {
 
+
+
+    var shared = Suds.module("shared");
+    var mock = Suds.module("mock");
+    var mockField = Suds.module("mockfield");
+
     SubMock.Model = Backbone.Model.extend({});
     SubMock.Collection = Backbone.Collection.extend({});
     SubMock.Router = Backbone.Router.extend({});
@@ -9,8 +15,6 @@
     SubMock.Collection.SubMocks = Backbone.Collection.extend({
         model: SubMock.Model.SubMock
     });
-
-
 
     SubMock.Views.SubMocksTable = Backbone.View.extend({
         initialize: function() {
@@ -47,26 +51,29 @@
             _.bindAll(this, "render");
         },
         _showSubMock: function(e) {
-            var mock = shared.userMocks.get(e.currentTarget.id);
-            mock.set({
+            var view = this;
+
+            var smock = shared.userMocks.get(e.currentTarget.id);
+
+            smock.set({
                 mode: 'none'
             });
 
-            var view = this;
-            var info = new Mock.Views.MockInfo({
-                model: mock
+            var info = new mock.Views.MockInfo({
+                model: smock
             });
+
             info.render(function(el) {
                 $("#mock-info").html(el);
             });
 
             var callback = function(msg) {
                 var count = msg.MockFields.length;
-                var mockFields = new mockfield.Collection.MockFields();
-                shared.currentMockFields = mockFields;
+                var mockFields = new mockField.Collection.MockFields();
+                //shared.currentMockFields = mockFields;
 
                 for (var i = 0; i < count; i++) {
-                    var mf = new mockfield.Model.Field({
+                    var mf = new mockField.Model.Field({
                         options: msg.MockFields[i].fieldoptions,
                         id: msg.MockFields[i].id,
                         name: msg.MockFields[i].name,
@@ -77,17 +84,17 @@
 
                     mockFields.add(mf);
                 }
-
-                var fieldTable = new Mock.Views.FieldTable({
+          
+                var fieldTable = new mock.Views.FieldTable({
                     collection: mockFields
                 });
 
                 fieldTable.render(function(el) {
-                    $("#mock-info").html(el);
+                    //$("#mock-info").html(el);
                 });
 
             }
-            mock.getMockFields(callback);
+            smock.getMockFields(callback);
         },
         render: function() {
             var view = this;
