@@ -16,6 +16,45 @@
         model: SubMock.Model.SubMock
     });
 
+
+    SubMock.Views.AddSubMock = Backbone.View.extend({
+        initialize: function() {
+            _.bindAll(this, "render");
+        },
+        events:{
+            "click .close": "_closeModal",
+            "click #saveSubMock": "_saveSubMock"
+        },
+        _saveSubMock:function(e){
+            e.preventDefault();
+            //save locic here
+            $('#addSubMock').modal('hide')
+        },
+        _closeModal:function(e){
+            e.preventDefault();
+            $('#addSubMock').modal('hide')
+        },
+        template: "app/templates/addSubMock.html",
+        render: function(done) {
+            var view = this;
+            // Fetch the template, render it to the View element and call done.
+            Suds.fetchTemplate(this.template, function(tmpl) {
+                view.el.innerHTML = tmpl({});
+                done(view.el);
+
+                //var mockTable= new mock.Views.SubMocksTable();
+                var mocksTable = new mock.Views.SubMocksTable({
+                    collection: shared.userMocks
+                });
+
+                mocksTable.render(function(el) {
+                    $("#mock-list").html(el);
+                });
+            });
+            return this;
+        }
+    });
+
     SubMock.Views.SubMocksTable = Backbone.View.extend({
         initialize: function() {
             _.bindAll(this, "render");
@@ -84,7 +123,7 @@
 
                     mockFields.add(mf);
                 }
-          
+
                 var fieldTable = new mock.Views.FieldTable({
                     collection: mockFields
                 });

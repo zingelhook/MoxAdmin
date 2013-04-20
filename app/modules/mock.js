@@ -186,7 +186,30 @@
 		}
 	});
 
-
+	Mock.Views.SubMocksTable = Backbone.View.extend({
+		initialize: function() {
+			_.bindAll(this, "render");
+			this.collection.bind("all", this.render);
+		},
+		render: function() {
+			var view = this;
+			var table = $("#sub-mocksTable tbody");
+			table.empty();
+			this.collection.each(function(singelMock) {
+				console.log(singelMock);
+				var row = new Mock.Views.MocksTableRow({
+					model: singelMock
+				});
+				table.append(row.render().el);
+			});
+			if (this.collection.length === 0) {
+				$('#new-user').show();
+			} else {
+				$('#new-user').hide();
+			}
+			return this;
+		}
+	});
 
 	Mock.Views.MocksTableRow = Backbone.View.extend({
 		tagName: "tr",
@@ -326,14 +349,24 @@
 			_.bindAll(this, "render");
 		},
 		events: {
+			"click #addsubmock": "_addSubMock",
 			"click #addfield": "_addField",
 			"click #delete-mock": "_deleteMock",
 			"click #edit-mock": "_editMock",
 			"click #jsfiddle": "_jsFiddle",
 			"click #jsonp": "_jsonp"
 		},
+		_addSubMock:function(){
+			$("#addSubMock").remove();
+			var subMock = new submock.Views.AddSubMock()
+			//var addMock = new Mock.Views.AddMock();
+           subMock.render(function(el) {
+                $("body").append(el);
+                $('#addSubMock').modal();
+
+            });
+		},
 		_addField: function() {
-			//var route = this;
 			var addMockFieldPage = new mockfield.Views.AddMockField();
 			// Attach the tutorial to the DOM
 			addMockFieldPage.render(function(el) {
