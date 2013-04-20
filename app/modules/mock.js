@@ -46,6 +46,7 @@
 			});
 		},
 		getMockChildren: function(callback, failcallback) {
+			var mdl = this;
 			var subModules = new submock.Collection.SubMocks();
 			var form_data = {
 				id: this.get('id')
@@ -56,7 +57,6 @@
 				url: base + "index.php/mock/GetMockChildren",
 				data: form_data,
 				success: function(msg) {
-					console.log(msg);
 					if (msg.userid == false) { //session expired
 						Suds.app.currentUser.Logout();
 
@@ -71,6 +71,13 @@
 							});
 							subModules.add(um);
 						}
+						mdl.set({
+							subMocks: subModules
+						})
+					}
+
+					if (callback) {
+						callback(subModules);
 					}
 				},
 				error: function(msg) {
@@ -146,7 +153,7 @@
 
 	Mock.Collection.Mocks = Backbone.Collection.extend({
 		model: Mock.Model.Mock,
-		
+
 		loadData: function(callback, failcallback) {
 			var col = this;
 			var form_data = {
@@ -332,7 +339,7 @@
 
 
 	Mock.Views.MockInfo = Backbone.View.extend({
-		template: _.template("<div class='info'><ul class='unstyled'><li><h2>Name: <%=name%></h2><p><button class='btn btn-primary' id='edit-mock' type='button'>Edit Mock</button>&nbsp;&nbsp;<button class='btn btn-danger' id='delete-mock' type='button'>Delete Mock</button></p></li><li>Min: <%=min%></li><li>Max: <%=max%></li></ul><div class='btn-group'><a class='btn dropdown-toggle' data-toggle='dropdown' href='#'>Code Samples <span class='caret'></span></a><ul class='dropdown-menu'><li><a id='jsonp'>JSONP</a></li><li><a id='jsfiddle'>Jsfiddle</a></li></ul></div><p id='code-example'></p><p><a id='addfield' class='btn btn-primary btn-small'>Add Field</a></p><table id='mock-fields' class='table table-bordered'><thead><tr><th>Name</th><th>Options</th><th>Type</th><th>Sample Data</th></thead><tbody></tbody></table></div>"),
+		template: _.template("<div class='info'><ul class='unstyled'><li><h2>Name: <%=name%></h2><p><button class='btn btn-primary' id='edit-mock' type='button'>Edit Mock</button>&nbsp;&nbsp;<button class='btn btn-danger' id='delete-mock' type='button'>Delete Mock</button></p></li><li>Min: <%=min%></li><li>Max: <%=max%></li></ul><div class='btn-group'><a class='btn dropdown-toggle' data-toggle='dropdown' href='#'>Code Samples <span class='caret'></span></a><ul class='dropdown-menu'><li><a id='jsonp'>JSONP</a></li><li><a id='jsfiddle'>Jsfiddle</a></li></ul></div><p id='code-example'></p><p><a id='addfield' class='btn btn-primary btn-small'>Add Field</a></p><table id='mock-fields' class='table table-bordered'><thead><tr><th>Name</th><th>Options</th><th>Type</th><th>Sample Data</th></thead><tbody></tbody></table><table id='subMocksTable' class='table table-striped table-bordered table-hover'><thead><tr><th>Name</th></tr></thead><tbody></tbody></table></div>"),
 		initialize: function() {
 			_.bindAll(this, "render");
 		},
@@ -414,6 +421,19 @@
 			shared.currentMock = this.model;
 			view.el.innerHTML = view.template(view.model.toJSON());
 			done(view.el);
+			//more views
+
+			//sub mocks
+			var callback = function(collection) {
+				var subMocksTbl = new submock.Views.SubMocksTable({
+					collection: collection
+				});
+				subMocksTbl.render(function(el) {});
+			}
+			this.model.getMockChildren(callback);
+
+
+
 			view._buildJSONPExample();
 
 			view.model.getMockChildren();
