@@ -186,6 +186,35 @@
 		}
 	});
 
+
+	Mock.Views.SubMocksTableRow = Backbone.View.extend({
+		tagName: "tr",
+		template: _.template("<td class='sub-mock' id='submock_<%=id%>'><i class='icon-remove-sign'></i><%=name%></td>"),
+		events: {
+			"click .sub-mock": "_toggleMock"
+		},
+		initialize: function() {
+			_.bindAll(this, "render");
+		},
+		_toggleMock: function(e) {
+			var mock = shared.userMocks.get(e.currentTarget.id.split("_")[1]);
+			if($("#" + e.currentTarget.id + " i").hasClass('icon-ok-sign')){
+				$("#" + e.currentTarget.id + " i").removeClass('icon-ok-sign');
+			}else{
+				$("#" + e.currentTarget.id + " i").addClass('icon-ok-sign');
+			}
+			
+			console.log(mock);
+		},
+		render: function() {
+			var view = this;
+			var html = view.template(view.model.toJSON());
+			$(this.el).append(html);
+			return this;
+		}
+	});
+
+
 	Mock.Views.SubMocksTable = Backbone.View.extend({
 		initialize: function() {
 			_.bindAll(this, "render");
@@ -197,7 +226,7 @@
 			table.empty();
 			this.collection.each(function(singelMock) {
 				console.log(singelMock);
-				var row = new Mock.Views.MocksTableRow({
+				var row = new Mock.Views.SubMocksTableRow({
 					model: singelMock
 				});
 				table.append(row.render().el);

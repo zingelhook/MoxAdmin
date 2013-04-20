@@ -983,6 +983,10 @@ form.bs-docs-example {
   }
 }
 
+.selected{
+  background-color: #ccc;
+}
+
 /* Landscape phones
 ------------------------- */
 @media (max-width: 480px) {
