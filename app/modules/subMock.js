@@ -15,7 +15,7 @@
     SubMock.Views.SubMocksTable = Backbone.View.extend({
         initialize: function() {
             _.bindAll(this, "render");
-            console.log(this.collection);
+            //console.log(this.collection);
             this.collection.bind("all", this.render);
         },
         render: function() {

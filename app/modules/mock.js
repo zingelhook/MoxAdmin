@@ -19,8 +19,7 @@
 				data: form_data,
 				success: function(msg) {
 					var count = msg.MockFields.length;
-					var mockFields = new mockfield.Collection.MockFields();
-					shared.currentMockFields = mockFields;
+					shared.currentMockFields = new mockfield.Collection.MockFields();;
 
 					for (var i = 0; i < count; i++) {
 						var mf = new mockfield.Model.Field({
@@ -32,10 +31,8 @@
 							sampleData: msg.MockFields[i].sampleData
 						})
 
-						mockFields.add(mf);
+						shared.currentMockFields.add(mf);
 					}
-
-					shared.currentMockFields = mockFields;
 					if (callback) {
 						callback(msg);
 					}
@@ -215,25 +212,9 @@
 			});
 
 			var callback = function(msg) {
-				var count = msg.MockFields.length;
-				var mockFields = new mockfield.Collection.MockFields();
-				shared.currentMockFields = mockFields;
-
-				for (var i = 0; i < count; i++) {
-					var mf = new mockfield.Model.Field({
-						options: msg.MockFields[i].fieldoptions,
-						id: msg.MockFields[i].id,
-						name: msg.MockFields[i].name,
-						predefefinedSampleDataType: msg.MockFields[i].predefefinedSampleDataType,
-						predefinedSampleDataId: msg.MockFields[i].predefinedSampleDataId,
-						sampleData: msg.MockFields[i].sampleData
-					})
-
-					mockFields.add(mf);
-				}
 
 				var fieldTable = new Mock.Views.FieldTable({
-					collection: mockFields
+					collection: shared.currentMockFields
 				});
 
 				fieldTable.render(function(el) {
