@@ -2,11 +2,12 @@
 	Mock.Model = Backbone.Model.extend({});
 	Mock.Collection = Backbone.Collection.extend({});
 	Mock.Router = Backbone.Router.extend({});
-	var shared =  Suds.module("shared");
+	var shared = Suds.module("shared");
+	var submock = Suds.module("submock");
 	var mockfield = Suds.module("mockfield");
 	var codesamples = Suds.module("codesamples");
 	Mock.Model.Mock = Backbone.Model.extend({
-		getMockFields:function(callback){
+		getMockFields: function(callback) {
 			var mdl = this;
 			var form_data = {
 				id: mdl.get('id')
@@ -20,22 +21,22 @@
 					var count = msg.MockFields.length;
 					var mockFields = new mockfield.Collection.MockFields();
 					shared.currentMockFields = mockFields;
-				
+
 					for (var i = 0; i < count; i++) {
-							var mf = new mockfield.Model.Field({
-								options:msg.MockFields[i].fieldoptions,
-								id:msg.MockFields[i].id,
-								name:msg.MockFields[i].name,
-								predefefinedSampleDataType:msg.MockFields[i].predefefinedSampleDataType,
-								predefinedSampleDataId:msg.MockFields[i].predefinedSampleDataId,
-								sampleData:msg.MockFields[i].sampleData
-							})
-				
+						var mf = new mockfield.Model.Field({
+							options: msg.MockFields[i].fieldoptions,
+							id: msg.MockFields[i].id,
+							name: msg.MockFields[i].name,
+							predefefinedSampleDataType: msg.MockFields[i].predefefinedSampleDataType,
+							predefinedSampleDataId: msg.MockFields[i].predefinedSampleDataId,
+							sampleData: msg.MockFields[i].sampleData
+						})
+
 						mockFields.add(mf);
 					}
 
 					shared.currentMockFields = mockFields;
-					if(callback){
+					if (callback) {
 						callback(msg);
 					}
 				},
@@ -44,25 +45,60 @@
 				}
 			});
 		},
-		save:function(callback){	
+		getMockChildren: function(callback, failcallback) {
+			var subModules = new submock.Collection.SubMocks();
+			var form_data = {
+				id: this.get('id')
+			};
+			$.ajax({
+				type: "GET",
+				dataType: "json",
+				url: base + "index.php/mock/GetMockChildren",
+				data: form_data,
+				success: function(msg) {
+					console.log(msg);
+					if (msg.userid == false) { //session expired
+						Suds.app.currentUser.Logout();
+
+					} else {
+						var count = msg.MockChildren.length;
+						for (var i = 0; i < count; i++) {
+							var um = new submock.Model.SubMock({
+								mockId: msg.MockChildren[i].dataTemplateId,
+								id: msg.MockChildren[i].id,
+								childTemplateId: msg.MockChildren[i].childTemplateId,
+								objectName: msg.MockChildren[i].objectName
+							});
+							subModules.add(um);
+						}
+					}
+				},
+				error: function(msg) {
+					//console.log(msg);
+				}
+			});
+		},
+
+		save: function(callback) {
 			var mdl = this;
 			var form_data = {
-				id:mdl.get('id'),
+				id: mdl.get('id'),
 				name: mdl.get('name'),
-				min:mdl.get('min'),
-				max:mdl.get('max'),
-				langVar:'en:us'
+				min: mdl.get('min'),
+				max: mdl.get('max'),
+				langVar: 'en:us',
+				childMocks: []
 			};
-			
-			
-			shared.currentMock = this; 
+
+
+			shared.currentMock = this;
 			shared.currentMockFields.reset();
-		
+
 			var url = "index.php/mock/save";
-			if(parseInt(mdl.get('id'),10)>0){
+			if (parseInt(mdl.get('id'), 10) > 0) {
 				url = "index.php/mock/update"
 			}
-	
+
 			$.ajax({
 				type: "POST",
 				dataType: "json",
@@ -70,7 +106,7 @@
 				data: form_data,
 				success: function(msg) {
 					mdl.set({
-						id:msg
+						id: msg
 					})
 					callback(msg);
 				},
@@ -79,10 +115,10 @@
 				}
 			});
 		},
-		delete:function(callback){
+		delete: function(callback) {
 			var mdl = this;
 			var form_data = {
-				id:mdl.get('id'),
+				id: mdl.get('id'),
 				userid: Suds.app.currentUser.get('userId')
 			};
 
@@ -92,13 +128,13 @@
 				url: base + "index.php/mock/delete",
 				data: form_data,
 				success: function(msg) {
-					
-					if(msg.userid==false){//session expired
+
+					if (msg.userid == false) { //session expired
 						Suds.app.currentUser.Logout();
-					
-					}else{
+
+					} else {
 						shared.userMocks.remove(mdl);
-						callback(msg);	
+						callback(msg);
 					}
 				},
 				error: function(msg) {
@@ -110,10 +146,11 @@
 
 	Mock.Collection.Mocks = Backbone.Collection.extend({
 		model: Mock.Model.Mock,
+		
 		loadData: function(callback, failcallback) {
 			var col = this;
 			var form_data = {
-				userid: Suds.app.currentUser.get('userId')	
+				userid: Suds.app.currentUser.get('userId')
 			};
 			$.ajax({
 				type: "GET",
@@ -121,17 +158,16 @@
 				url: base + "index.php/mock/GetUserMocks",
 				data: form_data,
 				success: function(msg) {
-					if(msg.userid==false){//session expired
+					if (msg.userid == false) { //session expired
 						Suds.app.currentUser.Logout();
-					
-					}
-					else{
+
+					} else {
 						var count = msg.UserMocks.length;
 						for (var i = 0; i < count; i++) {
 							var um = new Mock.Model.Mock({
 								name: msg.UserMocks[i].name,
-								id:msg.UserMocks[i].id,
-								max:msg.UserMocks[i].max,
+								id: msg.UserMocks[i].id,
+								max: msg.UserMocks[i].max,
 								min: msg.UserMocks[i].min,
 								idCode: msg.UserMocks[i].idCode
 							});
@@ -145,273 +181,282 @@
 			});
 		}
 	});
-	
 
-	
-	Mock.Views.MocksTableRow  = Backbone.View.extend({
-	    tagName: "tr",
+
+
+	Mock.Views.MocksTableRow = Backbone.View.extend({
+		tagName: "tr",
 		template: _.template("<td class='mock' id='<%=id%>'><%=name%></td>"),
-	    events: {
-	        "click .mock": "_showMock"
-	    },
-	    initialize: function () {
-	        _.bindAll(this, "render");
-	    },
-		_showMock:function(e){
+		events: {
+			"click .mock": "_showMock"
+		},
+		initialize: function() {
+			_.bindAll(this, "render");
+		},
+		_showMock: function(e) {
 			var mock = shared.userMocks.get(e.currentTarget.id);
 			mock.set({
-				mode:'none'
+				mode: 'none'
 			});
 
-			var view=this;
-			var info = new Mock.Views.MockInfo({ model: mock });
-			info.render(function (el) {
+			var view = this;
+			var info = new Mock.Views.MockInfo({
+				model: mock
+			});
+			info.render(function(el) {
 				$("#mock-info").html(el);
 			});
-		
-			var callback = function(msg){
+
+			var callback = function(msg) {
 				var count = msg.MockFields.length;
 				var mockFields = new mockfield.Collection.MockFields();
 				shared.currentMockFields = mockFields;
-				
+
 				for (var i = 0; i < count; i++) {
 					var mf = new mockfield.Model.Field({
-						options:msg.MockFields[i].fieldoptions,
-						id:msg.MockFields[i].id,
-						name:msg.MockFields[i].name,
-						predefefinedSampleDataType:msg.MockFields[i].predefefinedSampleDataType,
-						predefinedSampleDataId:msg.MockFields[i].predefinedSampleDataId,
-						sampleData:msg.MockFields[i].sampleData
+						options: msg.MockFields[i].fieldoptions,
+						id: msg.MockFields[i].id,
+						name: msg.MockFields[i].name,
+						predefefinedSampleDataType: msg.MockFields[i].predefefinedSampleDataType,
+						predefinedSampleDataId: msg.MockFields[i].predefinedSampleDataId,
+						sampleData: msg.MockFields[i].sampleData
 					})
-				
+
 					mockFields.add(mf);
 				}
-				
-	            var fieldTable = new Mock.Views.FieldTable({
-	                collection:mockFields
-	            });
-           
-	            fieldTable.render(function(el) {
-	                $("#mock-info").html(el);
-	            });
-				
+
+				var fieldTable = new Mock.Views.FieldTable({
+					collection: mockFields
+				});
+
+				fieldTable.render(function(el) {
+					$("#mock-info").html(el);
+				});
+
 			}
 			mock.getMockFields(callback);
 		},
-	    render: function () {
-			var view=this;
+		render: function() {
+			var view = this;
 			var html = view.template(view.model.toJSON());
 			$(this.el).append(html);
-	        return this;
-	    }
+			return this;
+		}
 	});
 
-	Mock.Views.MocksTable  = Backbone.View.extend({
-	    initialize: function () {
-	        _.bindAll(this, "render");
-	        this.collection.bind("all", this.render);
-	    },
-	    render: function () {
-			var view =this;
-	        var table = $("#mocksTable tbody");
-	        table.empty();
-	        this.collection.each(function (singelMock) {
-	            var row = new Mock.Views.MocksTableRow({ model: singelMock });
-	            table.append(row.render().el);
-	        });
-                if(this.collection.length===0){
-                    $('#new-user').show();
-                }
-                else{
-                    $('#new-user').hide();
-                }
-	        return this;
-	    }
+	Mock.Views.MocksTable = Backbone.View.extend({
+		initialize: function() {
+			_.bindAll(this, "render");
+			this.collection.bind("all", this.render);
+		},
+		render: function() {
+			var view = this;
+			var table = $("#mocksTable tbody");
+			table.empty();
+			this.collection.each(function(singelMock) {
+				var row = new Mock.Views.MocksTableRow({
+					model: singelMock
+				});
+				table.append(row.render().el);
+			});
+			if (this.collection.length === 0) {
+				$('#new-user').show();
+			} else {
+				$('#new-user').hide();
+			}
+			return this;
+		}
 	});
-	
-	
-	
-	Mock.Views.FieldTableRow  = Backbone.View.extend({
-	    tagName: "tr",
+
+
+
+	Mock.Views.FieldTableRow = Backbone.View.extend({
+		tagName: "tr",
 		template: _.template("<td class='field' id='<%=id%>'><%=name%></td><td><%=options%></td><td><%=predefefinedSampleDataType%></td><td><%=sampleData%></td><td><button type='button' id='edit_<%=id%>' class='edit-mockfield btn btn-primary btn-small'>Edit</button>&nbsp;<button type='button' id='<%=id%>' class='del-field btn btn-danger btn-small'>Delete</button></td>"),
-		events:{
-			"click .del-field":"_delField",
+		events: {
+			"click .del-field": "_delField",
 			"click .edit-mockfield": "_editField"
 		},
-	    initialize: function () {
-	        _.bindAll(this, "render");
-	    },
-		_editField:function(e){
-						
-			var id = e.currentTarget.id.replace("edit_","");
+		initialize: function() {
+			_.bindAll(this, "render");
+		},
+		_editField: function(e) {
+
+			var id = e.currentTarget.id.replace("edit_", "");
 			var currentField = shared.currentMockFields.get(id);
 			var editView = new mockfield.Views.EditMockField({
-				model:currentField
+				model: currentField
 			});
-			
+
 			editView.render(function(el) {
-                $("#mock-info").html(el);
+				$("#mock-info").html(el);
 			});
 		},
-		_delField:function(e){
-			
+		_delField: function(e) {
+
 			var id = e.currentTarget.id;
 			var currentField = shared.currentMockFields.get(id);
-			
-			var callback = function(msg){
+
+			var callback = function(msg) {
 				//todo
 			}
 			currentField.delete(callback);
-			
+
 		},
-	    render: function () {
-			var view=this;
+		render: function() {
+			var view = this;
 			var html = view.template(view.model.toJSON());
 			$(this.el).append(html);
-	        return this;
-	    }
+			return this;
+		}
 	});
-	
-	Mock.Views.FieldTable  = Backbone.View.extend({
-	    initialize: function () {
-	        _.bindAll(this, "render");
-	        this.collection.bind("all", this.render);
-	    },
-	    render: function () {
-			var view =this;
-	        var table = $("#mock-fields tbody");
-	        table.empty();
-	        this.collection.each(function (singelField) {
-	            var row = new Mock.Views.FieldTableRow({ model: singelField });
-	            table.append(row.render().el);
-	        });
-	        return this;
-	    }
+
+	Mock.Views.FieldTable = Backbone.View.extend({
+		initialize: function() {
+			_.bindAll(this, "render");
+			this.collection.bind("all", this.render);
+		},
+		render: function() {
+			var view = this;
+			var table = $("#mock-fields tbody");
+			table.empty();
+			this.collection.each(function(singelField) {
+				var row = new Mock.Views.FieldTableRow({
+					model: singelField
+				});
+				table.append(row.render().el);
+			});
+			return this;
+		}
 	});
-	
-	
-	Mock.Views.MockInfo  = Backbone.View.extend({
+
+
+	Mock.Views.MockInfo = Backbone.View.extend({
 		template: _.template("<div class='info'><ul class='unstyled'><li><h2>Name: <%=name%></h2><p><button class='btn btn-primary' id='edit-mock' type='button'>Edit Mock</button>&nbsp;&nbsp;<button class='btn btn-danger' id='delete-mock' type='button'>Delete Mock</button></p></li><li>Min: <%=min%></li><li>Max: <%=max%></li></ul><div class='btn-group'><a class='btn dropdown-toggle' data-toggle='dropdown' href='#'>Code Samples <span class='caret'></span></a><ul class='dropdown-menu'><li><a id='jsonp'>JSONP</a></li><li><a id='jsfiddle'>Jsfiddle</a></li></ul></div><p id='code-example'></p><p><a id='addfield' class='btn btn-primary btn-small'>Add Field</a></p><table id='mock-fields' class='table table-bordered'><thead><tr><th>Name</th><th>Options</th><th>Type</th><th>Sample Data</th></thead><tbody></tbody></table></div>"),
-	    initialize: function () {
-	        _.bindAll(this, "render");
-	    },
-	    events:{
-	    	"click #addfield": "_addField",
-	        "click #delete-mock": "_deleteMock",
+		initialize: function() {
+			_.bindAll(this, "render");
+		},
+		events: {
+			"click #addfield": "_addField",
+			"click #delete-mock": "_deleteMock",
 			"click #edit-mock": "_editMock",
 			"click #jsfiddle": "_jsFiddle",
 			"click #jsonp": "_jsonp"
-	    },
-	    _addField:function(){
-            //var route = this;
-            var addMockFieldPage = new mockfield.Views.AddMockField();
-            // Attach the tutorial to the DOM
-            addMockFieldPage.render(function(el) {
-                $("#mock-info").html(el);	
-            });
-	    },
-		_jsonp:function(){
+		},
+		_addField: function() {
+			//var route = this;
+			var addMockFieldPage = new mockfield.Views.AddMockField();
+			// Attach the tutorial to the DOM
+			addMockFieldPage.render(function(el) {
+				$("#mock-info").html(el);
+			});
+		},
+		_jsonp: function() {
 			//call edit mock view
 			this.model.set({
-				url:Suds.app.externalMoxURL
+				url: Suds.app.externalMoxURL
 			})
 			var jsonp = new codesamples.Views.JSONP({
-				model:this.model
+				model: this.model
 			});
-			
+
 			jsonp.render(function(el) {
-                $("#code-example").html(el);
-			});		
+				$("#code-example").html(el);
+			});
 		},
-		_jsFiddle:function(){
+		_jsFiddle: function() {
 			//call edit mock view
 			this.model.set({
-				url:Suds.app.externalMoxURL
+				url: Suds.app.externalMoxURL
 			})
 			var jsFid = new codesamples.Views.JSFiddle({
-				model:this.model
+				model: this.model
 			});
-			
+
 			jsFid.render(function(el) {
-                $("#code-example").html(el);
-			});		
+				$("#code-example").html(el);
+			});
 		},
-	    _editMock:function(){
+		_editMock: function() {
 			//call edit mock view
 			var editMock = new Mock.Views.EditMock({
-				model:this.model
+				model: this.model
 			});
-			
+
 			editMock.render(function(el) {
-                $("#mock-info").html(el);
+				$("#mock-info").html(el);
 			});
-	    },
-	    _deleteMock:function(){
-	    	var callback = function(msg){
-	    		$('#mock-info').empty();
-	    	}
-	    	this.model.delete(callback);
-	    },
-		_buildJSONPExample:function(){
+		},
+		_deleteMock: function() {
+			var callback = function(msg) {
+				$('#mock-info').empty();
+			}
+			this.model.delete(callback);
+		},
+		_buildJSONPExample: function() {
 			var code = '$.ajax({type: "GET",dataType: "jsonp",jsonpCallback: "moxsvc",url:"';
 			code += Suds.app.externalMoxURL;
 			code += '?id=';
-			code +=  this.model.get('idCode');
+			code += this.model.get('idCode');
 			code += '",success: function(data) {console.log(data)}});';
 			var pre = document.createElement('pre');
 			var codeEl = document.createElement('code');
-			
+
 			$(codeEl).html(code);
 			$(codeEl).addClass('javascript');
 			pre.appendChild(codeEl);
-		
+
 			$('#code-example').html(pre);
-	
+
 		},
-	    render: function (done) {
-			var view=this;
+		render: function(done) {
+			var view = this;
 			shared.currentMock = this.model;
-            view.el.innerHTML = view.template(view.model.toJSON());
-            done(view.el);
+			view.el.innerHTML = view.template(view.model.toJSON());
+			done(view.el);
 			view._buildJSONPExample();
-			
-            var fieldTable = new Mock.Views.FieldTable({
-                collection:shared.currentMockFields
-            });
-           
-            fieldTable.render(function(el) {
-                $("#mock-info").html(el);
-            });
-			
-	        return this;
-	    }
-	});
-	
-	
-	
-    Mock.Views.EditMock = Backbone.View.extend({
-        template: "app/templates/editMock.html",
-		events:{
-			"click #submitMox": "_editMock",
-			"click #cancel_btn":"_cancel"
-		},
-		_cancel:function(){
-			$("#mock-info").empty();
-					
-			var info = new Mock.Views.MockInfo({ model: shared.currentMock  });
-			info.render(function (el) {
+
+			view.model.getMockChildren();
+
+			var fieldTable = new Mock.Views.FieldTable({
+				collection: shared.currentMockFields
+			});
+
+			fieldTable.render(function(el) {
 				$("#mock-info").html(el);
 			});
-					
-            var fieldTable = new Mock.Views.FieldTable({
-                collection:shared.currentMockFields
-            });
-           
-            fieldTable.render(function(el) {
-                $("#mock-info").append(el);
-            });
+
+			return this;
+		}
+	});
+
+
+
+	Mock.Views.EditMock = Backbone.View.extend({
+		template: "app/templates/editMock.html",
+		events: {
+			"click #submitMox": "_editMock",
+			"click #cancel_btn": "_cancel"
 		},
-		_editMock:function(){
+		_cancel: function() {
+			$("#mock-info").empty();
+
+			var info = new Mock.Views.MockInfo({
+				model: shared.currentMock
+			});
+			info.render(function(el) {
+				$("#mock-info").html(el);
+			});
+
+			var fieldTable = new Mock.Views.FieldTable({
+				collection: shared.currentMockFields
+			});
+
+			fieldTable.render(function(el) {
+				$("#mock-info").append(el);
+			});
+		},
+		_editMock: function() {
 			var view = this;
 			$('#invalid-mock').hide();
 			$('#error-list').empty();
@@ -419,53 +464,69 @@
 			var min = $('#mockMin').val();
 			var max = $('#mockMax').val();
 			var mockid = $('#mockId').val();
-			
+
 			var errorlist = [];
-			if(name.length===0){
-				errorlist.push({name:'name-control',msg:'Name is required!'})
+			if (name.length === 0) {
+				errorlist.push({
+					name: 'name-control',
+					msg: 'Name is required!'
+				})
 			}
-			if(min.length===0){
-				errorlist.push({name:'min-control',msg:'Min Rows is required!'})
+			if (min.length === 0) {
+				errorlist.push({
+					name: 'min-control',
+					msg: 'Min Rows is required!'
+				})
 			}
-			
-			if(max.length===0){
-				errorlist.push({name:'max-control',msg:'Max Rows is required!'})
+
+			if (max.length === 0) {
+				errorlist.push({
+					name: 'max-control',
+					msg: 'Max Rows is required!'
+				})
 			}
-			
-			if(!isNumber(min)){
-				errorlist.push({name:'min-control',msg:'Min Rows must be a number!'})
+
+			if (!isNumber(min)) {
+				errorlist.push({
+					name: 'min-control',
+					msg: 'Min Rows must be a number!'
+				})
 			}
-		
-			if(!isNumber(max)){
-				errorlist.push({name:'min-control',msg:'Max Rows must be a number!'})
+
+			if (!isNumber(max)) {
+				errorlist.push({
+					name: 'min-control',
+					msg: 'Max Rows must be a number!'
+				})
 			}
-			
-			if(errorlist.length===0){
+
+			if (errorlist.length === 0) {
 				view.model.set({
-					name:name,
-					min:min,
-					max:max
+					name: name,
+					min: min,
+					max: max
 				});
-				
-				var callback = function(msg){
+
+				var callback = function(msg) {
 					$("#mock-info").empty();
-					
-					var info = new Mock.Views.MockInfo({ model: shared.currentMock  });
-					info.render(function (el) {
+
+					var info = new Mock.Views.MockInfo({
+						model: shared.currentMock
+					});
+					info.render(function(el) {
 						$("#mock-info").html(el);
 					});
-					
-		            var fieldTable = new Mock.Views.FieldTable({
-		                collection:shared.currentMockFields
-		            });
-           
-		            fieldTable.render(function(el) {
-		                $("#mock-info").append(el);
-		            });
+
+					var fieldTable = new Mock.Views.FieldTable({
+						collection: shared.currentMockFields
+					});
+
+					fieldTable.render(function(el) {
+						$("#mock-info").append(el);
+					});
 				}
 				this.model.save(callback);
-			}
-			else{
+			} else {
 				var count = errorlist.length;
 				for (var i = 0; i < count; i++) {
 					$('#' + errorlist[i].name).addClass('error');
@@ -476,112 +537,128 @@
 				$('#invalid-mock').show();
 			}
 		},
-        render: function(done) {
-            var view = this;
-            // Fetch the template, render it to the View element and call done.
-            Suds.fetchTemplate(this.template, function(tmpl) {
-                view.el.innerHTML = tmpl({
-					id:view.model.get("id"),
-					name:view.model.get("name"),
-					min:view.model.get("min"),
-					max:view.model.get("max")
+		render: function(done) {
+			var view = this;
+			// Fetch the template, render it to the View element and call done.
+			Suds.fetchTemplate(this.template, function(tmpl) {
+				view.el.innerHTML = tmpl({
+					id: view.model.get("id"),
+					name: view.model.get("name"),
+					min: view.model.get("min"),
+					max: view.model.get("max")
 				});
-                done(view.el);
-            });
-        }
-    });
-    Mock.Views.AddMock = Backbone.View.extend({
-        template: "app/templates/addMock.html",
-		events:{
+				done(view.el);
+			});
+		}
+	});
+	Mock.Views.AddMock = Backbone.View.extend({
+		template: "app/templates/addMock.html",
+		events: {
 			"click #submitMox": "_addMock",
-			"click #cancel_btn":"_cancel"
+			"click #cancel_btn": "_cancel"
 		},
-		_cancel:function(){
-			$("#mock-info").empty();		
+		_cancel: function() {
+			$("#mock-info").empty();
 		},
-		_addMock:function(){
-			
+		_addMock: function() {
+
 			//remove old validation
-			
+
 			$('.error').removeClass('error');
-	
+
 			var name = $('#mockName').val();
 			var min = $('#mockMin').val();
 			var max = $('#mockMax').val();
-			
+
 			var errorlist = [];
-			if(name.length===0){
-				errorlist.push({name:'name-control',msg:'Name is required!'})
+			if (name.length === 0) {
+				errorlist.push({
+					name: 'name-control',
+					msg: 'Name is required!'
+				})
 			}
-			if(min.length===0){
-				errorlist.push({name:'min-control',msg:'Min Rows is required!'})
+			if (min.length === 0) {
+				errorlist.push({
+					name: 'min-control',
+					msg: 'Min Rows is required!'
+				})
 			}
-			
-			if(max.length===0){
-				errorlist.push({name:'max-control',msg:'Max Rows is required!'})
+
+			if (max.length === 0) {
+				errorlist.push({
+					name: 'max-control',
+					msg: 'Max Rows is required!'
+				})
 			}
-			
-			if(!isNumber(min)){
-				errorlist.push({name:'min-control',msg:'Min Rows must be a number!'})
+
+			if (!isNumber(min)) {
+				errorlist.push({
+					name: 'min-control',
+					msg: 'Min Rows must be a number!'
+				})
 			}
-		
-			if(!isNumber(max)){
-				errorlist.push({name:'min-control',msg:'Max Rows must be a number!'})
+
+			if (!isNumber(max)) {
+				errorlist.push({
+					name: 'min-control',
+					msg: 'Max Rows must be a number!'
+				})
 			}
-			
-			if(errorlist.length===0){
+
+			if (errorlist.length === 0) {
 				var newMock = new Mock.Model.Mock({
-					id:0,
-					name:name,
-					min:min,
-					max:max
+					id: 0,
+					name: name,
+					min: min,
+					max: max
 				});
-				var callback = function(msg){
-					
-					var info = new Mock.Views.MockInfo({ model: shared.currentMock  });
-					info.render(function (el) {
+				var callback = function(msg) {
+
+					var info = new Mock.Views.MockInfo({
+						model: shared.currentMock
+					});
+					info.render(function(el) {
 						$("#mock-info").html(el);
 					});
-					
-		            var fieldTable = new Mock.Views.FieldTable({
-		                collection:shared.currentMockFields
-		            });
-           
-		            fieldTable.render(function(el) {
-		                $("#mock-info").append(el);
-		            });
+
+					var fieldTable = new Mock.Views.FieldTable({
+						collection: shared.currentMockFields
+					});
+
+					fieldTable.render(function(el) {
+						$("#mock-info").append(el);
+					});
 				}
-				newMock.save(callback);	
+				newMock.save(callback);
 
 				//update mock list
-	            shared.userMocks.loadData();  
-	            var mocksTable = new Mock.Views.MocksTable({
-	                collection:shared.userMocks
-	            });
-	           
-	            mocksTable.render(function(el) {
-	                $("#mocks-list").html(el);
-	            });		
-			}
-			else{
-			
+				shared.userMocks.loadData();
+				var mocksTable = new Mock.Views.MocksTable({
+					collection: shared.userMocks
+				});
+
+				mocksTable.render(function(el) {
+					$("#mocks-list").html(el);
+				});
+			} else {
+
 				var count = errorlist.length;
 				for (var i = 0; i < count; i++) {
-				
+
 					$('#' + errorlist[i].name).addClass('error');
 					var errorLine = document.createElement('li');
 					$(errorLine).html(errorlist[i].msg);
-					
+
 				}
-			}			
+			}
 		},
-        render: function(done) {
-            var view = this;
-            // Fetch the template, render it to the View element and call done.
-            Suds.fetchTemplate(this.template, function(tmpl) {
-                view.el.innerHTML = tmpl({});
-                done(view.el);
-            });
-        }
-    });
+		render: function(done) {
+			var view = this;
+			// Fetch the template, render it to the View element and call done.
+			Suds.fetchTemplate(this.template, function(tmpl) {
+				view.el.innerHTML = tmpl({});
+				done(view.el);
+			});
+		}
+	});
 })(Suds.module("mock"));

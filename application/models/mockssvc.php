@@ -23,6 +23,12 @@ class mockssvc extends CI_Model{
 		$count = count($result);
 		return $this->db->query($sql, array($id,$userid))->result();
 	}
+
+	function getMockChildren($id){
+		$sql = "select id,dataTemplateId,childTemplateId, objectName from Service_DataTemplates_SubTemplates where datatemplateid=?";
+		return $this->db->query($sql, array($id))->result();
+	}
+
 	
 	function getMock($id,$userid){
 		$sql = "SELECT id,name,min,max,idCode FROM Service_DataTemplates WHERE userId = ? and id=?";

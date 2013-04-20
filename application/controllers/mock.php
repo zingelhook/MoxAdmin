@@ -24,6 +24,15 @@ class mock extends CI_Controller{
 		echo json_encode($data);
 	}
 
+	//get the child mocks used to make up a mock
+	function GetMockChildren(){
+		$id = $this->input->get("id");
+		$this->load->model('Mockssvc');
+		$query = $this->Mockssvc->getMockChildren($id);
+		$data["MockChildren"] = $query;
+		echo json_encode($data);
+	}
+
 	
 	function index(){
 		$hasAccess = $this->session->userdata('isLoggedIn');
