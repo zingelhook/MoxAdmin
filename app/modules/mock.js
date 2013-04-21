@@ -189,22 +189,27 @@
 
 	Mock.Views.SubMocksTableRow = Backbone.View.extend({
 		tagName: "tr",
-		template: _.template("<td class='sub-mock' id='submock_<%=id%>'><i class='icon-remove-sign'></i><%=name%></td>"),
+		template: _.template("<td class='sub-mock' id='submock_<%=id%>'><i class='<%=iconStatus%>'></i><%=name%></td>"),
 		events: {
 			"click .sub-mock": "_toggleMock"
 		},
 		initialize: function() {
 			_.bindAll(this, "render");
+			this.subMocks = new submock.Collection.SubMocks();
+			//this.subMocks.getByParent
+
 		},
 		_toggleMock: function(e) {
 			var mock = shared.userMocks.get(e.currentTarget.id.split("_")[1]);
-			if($("#" + e.currentTarget.id + " i").hasClass('icon-ok-sign')){
-				$("#" + e.currentTarget.id + " i").removeClass('icon-ok-sign');
+			if($("#" + e.currentTarget.id + " i").hasClass('icon-ok')){
+				$("#" + e.currentTarget.id + " i").removeClass('icon-ok').addClass('icon-remove');
+
 			}else{
-				$("#" + e.currentTarget.id + " i").addClass('icon-ok-sign');
+				console.log("#" + e.currentTarget.id + " i");
+				$("#" + e.currentTarget.id + " i").removeClass('icon-remove').addClass('icon-ok');
 			}
 			
-			console.log(mock);
+			
 		},
 		render: function() {
 			var view = this;
@@ -219,13 +224,30 @@
 		initialize: function() {
 			_.bindAll(this, "render");
 			this.collection.bind("all", this.render);
+			//console.log(shared.currentMock);
 		},
 		render: function() {
 			var view = this;
 			var table = $("#sub-mocksTable tbody");
 			table.empty();
 			this.collection.each(function(singelMock) {
-				console.log(singelMock);
+				//console.log(singelMock);
+				//check to make sure the mock is already selected.childTemplateId
+				//var sm = shared.currentMock.get('subMocks');
+				//console.log(sm);
+				var subMockSel = shared.currentMock.get('subMocks').where({childTemplateId:singelMock.get('id')});
+				//console.log(subMockSel);
+				if(subMockSel.length>0){
+					console.log(subMockSel);
+					singelMock.set({
+						iconStatus:'icon-ok'
+					})
+				}else{
+					singelMock.set({
+						iconStatus:'icon-remove'
+					})
+				}
+
 				var row = new Mock.Views.SubMocksTableRow({
 					model: singelMock
 				});
