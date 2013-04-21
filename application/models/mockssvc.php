@@ -2,6 +2,18 @@
 ini_set('display_errors', 'On');
 
 class mockssvc extends CI_Model{
+
+	//add sub mocks to mock
+	function addSubMocks($id,$smArray){
+		//first delete old data
+		deleteSubMocks($id);
+		//now insert new data
+	}
+
+	function deleteSubMocks($id){
+		$sql ="delete from Service_DataTemplates_SubTemplates where dataTemplateid=?";
+	 	return $this->db->query($sql, array($id));
+	}
 	
 	//get user's mocks
 	function getUserServices($userid){

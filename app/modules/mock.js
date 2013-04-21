@@ -119,6 +119,31 @@
 				}
 			});
 		},
+		addSubMocks: function(subMockCollection) {
+
+			var mdl = this;
+			var form_data = {
+				id: mdl.get('id'),
+				subMocks: subMockCollection.toJSON()
+			};
+			console.log(form_data);
+			/*
+			$.ajax({
+				type: "POST",
+				dataType: "json",
+				url: base + "index.php/mock/AddSubMocks",
+				data: form_data,
+				success: function(msg) {	
+					console.log(msg);
+					
+				},
+				error: function(msg) {
+					console.log(msg);
+				}
+			});
+*/
+
+		},
 		delete: function(callback) {
 			var mdl = this;
 			var form_data = {
@@ -201,15 +226,15 @@
 		},
 		_toggleMock: function(e) {
 			var mock = shared.userMocks.get(e.currentTarget.id.split("_")[1]);
-			if($("#" + e.currentTarget.id + " i").hasClass('icon-ok')){
+			if ($("#" + e.currentTarget.id + " i").hasClass('icon-ok')) {
 				$("#" + e.currentTarget.id + " i").removeClass('icon-ok').addClass('icon-remove');
 
-			}else{
+			} else {
 				console.log("#" + e.currentTarget.id + " i");
 				$("#" + e.currentTarget.id + " i").removeClass('icon-remove').addClass('icon-ok');
 			}
-			
-			
+
+
 		},
 		render: function() {
 			var view = this;
@@ -223,28 +248,25 @@
 	Mock.Views.SubMocksTable = Backbone.View.extend({
 		initialize: function() {
 			_.bindAll(this, "render");
-			this.collection.bind("all", this.render);
-			//console.log(shared.currentMock);
 		},
 		render: function() {
 			var view = this;
 			var table = $("#sub-mocksTable tbody");
 			table.empty();
 			this.collection.each(function(singelMock) {
-				//console.log(singelMock);
+
 				//check to make sure the mock is already selected.childTemplateId
-				//var sm = shared.currentMock.get('subMocks');
-				//console.log(sm);
-				var subMockSel = shared.currentMock.get('subMocks').where({childTemplateId:singelMock.get('id')});
+				var subMockSel = shared.currentMock.get('subMocks').where({
+					childTemplateId: singelMock.get('id')
+				});
 				//console.log(subMockSel);
-				if(subMockSel.length>0){
-					console.log(subMockSel);
+				if (subMockSel.length > 0) {
 					singelMock.set({
-						iconStatus:'icon-ok'
+						iconStatus: 'icon-ok'
 					})
-				}else{
+				} else {
 					singelMock.set({
-						iconStatus:'icon-remove'
+						iconStatus: 'icon-remove'
 					})
 				}
 
@@ -310,7 +332,7 @@
 	Mock.Views.MocksTable = Backbone.View.extend({
 		initialize: function() {
 			_.bindAll(this, "render");
-			this.collection.bind("all", this.render);
+			//this.collection.bind("all", this.render);
 		},
 		render: function() {
 			var view = this;
@@ -377,7 +399,6 @@
 	Mock.Views.FieldTable = Backbone.View.extend({
 		initialize: function() {
 			_.bindAll(this, "render");
-			this.collection.bind("all", this.render);
 		},
 		render: function() {
 			var view = this;
@@ -407,15 +428,18 @@
 			"click #jsfiddle": "_jsFiddle",
 			"click #jsonp": "_jsonp"
 		},
-		_addSubMock:function(){
+		_addSubMock: function() {
+			var view = this;
 			$("#addSubMock").remove();
-			var subMock = new submock.Views.AddSubMock()
+			var subMock = new submock.Views.AddSubMock({
+				model: view.model
+			})
 			//var addMock = new Mock.Views.AddMock();
-           subMock.render(function(el) {
-                $("body").append(el);
-                $('#addSubMock').modal();
+			subMock.render(function(el) {
+				$("body").append(el);
+				$('#addSubMock').modal();
 
-            });
+			});
 		},
 		_addField: function() {
 			var addMockFieldPage = new mockfield.Views.AddMockField();

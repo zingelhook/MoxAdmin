@@ -12,6 +12,15 @@ class mock extends CI_Controller{
 		$data['userid']=$uid;
 		echo json_encode($data);
 	}
+
+	function AddSubMocks(){
+		$id = $this->input->get("id");
+		$this->load->model('Mockssvc');
+		$smArray = $this->input->get("subMocks");
+		$query = $this->Mockssvc->addSubMocks($id,$smArray);
+		$data["MockFields"] = $query;
+		echo json_encode($data);
+	}
 	
 	//get the fields used to make up a mock
 	function GetMocksFields(){

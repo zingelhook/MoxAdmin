@@ -21,16 +21,36 @@
         initialize: function() {
             _.bindAll(this, "render");
         },
-        events:{
+        events: {
             "click .close": "_closeModal",
             "click #saveSubMock": "_saveSubMock"
         },
-        _saveSubMock:function(e){
+        _saveSubMock: function(e) {
+            var view = this;
             e.preventDefault();
             //save locic here
-            $('#addSubMock').modal('hide')
+            //loop through each row
+            var subM = new SubMock.Collection.SubMocks();
+            $(".sub-mock").each(function(index) {
+                if ($("#" + $(this).attr('id') + " i").hasClass("icon-ok")) {
+                    var sm = new SubMock.Model.SubMock({
+                        dataTemplateId: view.model.get('id'),
+                        childTemplateId: $(this).attr('id').split("_")[1],
+                        objectName: 'no name'
+                    })
+                  subM.add(sm);                    
+                }
+            });
+
+            //call model to add sub mocks.
+            view.model.addSubMocks(subM);
+       
+
+
+
+            $('#addSubMock').modal('hide');
         },
-        _closeModal:function(e){
+        _closeModal: function(e) {
             e.preventDefault();
             $('#addSubMock').modal('hide')
         },
@@ -58,8 +78,6 @@
     SubMock.Views.SubMocksTable = Backbone.View.extend({
         initialize: function() {
             _.bindAll(this, "render");
-            //console.log(this.collection);
-            this.collection.bind("all", this.render);
         },
         render: function() {
             var view = this;
