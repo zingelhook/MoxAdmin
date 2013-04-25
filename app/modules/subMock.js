@@ -33,10 +33,13 @@
             var subM = new SubMock.Collection.SubMocks();
             $(".sub-mock").each(function(index) {
                 if ($("#" + $(this).attr('id') + " i").hasClass("icon-ok")) {
+                    var m = new mock.Model.Mock();
+                    var id = $(this).attr('id').split("_")[1];
+                    m = shared.userMocks.get(id);
                     var sm = new SubMock.Model.SubMock({
                         dataTemplateId: view.model.get('id'),
-                        childTemplateId: $(this).attr('id').split("_")[1],
-                        objectName: 'no name'
+                        childTemplateId: id,
+                        objectName: m.get('name')
                     })
                   subM.add(sm);                    
                 }
@@ -45,9 +48,6 @@
             //call model to add sub mocks.
             view.model.addSubMocks(subM);
        
-
-
-
             $('#addSubMock').modal('hide');
         },
         _closeModal: function(e) {

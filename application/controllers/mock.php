@@ -1,4 +1,5 @@
 <?php
+ini_set('display_errors', 'On');
 
 class mock extends CI_Controller{
 
@@ -14,12 +15,12 @@ class mock extends CI_Controller{
 	}
 
 	function AddSubMocks(){
-		$id = $this->input->get("id");
+		$id = $this->input->post("id");
 		$this->load->model('Mockssvc');
-		$smArray = $this->input->get("subMocks");
+		$smArray = $this->input->post("subMocks");
 		$query = $this->Mockssvc->addSubMocks($id,$smArray);
 		$data["MockFields"] = $query;
-		echo json_encode($data);
+		echo json_encode($query);
 	}
 	
 	//get the fields used to make up a mock

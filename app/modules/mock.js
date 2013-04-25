@@ -12,8 +12,9 @@
 			var form_data = {
 				id: mdl.get('id')
 			};
+		
 			$.ajax({
-				type: "GET",
+				type: "POST",
 				dataType: "json",
 				url: base + "index.php/mock/GetMocksFields",
 				data: form_data,
@@ -126,22 +127,21 @@
 				id: mdl.get('id'),
 				subMocks: subMockCollection.toJSON()
 			};
-			console.log(form_data);
-			/*
+			//console.log(form_data);
+			
 			$.ajax({
 				type: "POST",
 				dataType: "json",
 				url: base + "index.php/mock/AddSubMocks",
 				data: form_data,
 				success: function(msg) {	
-					console.log(msg);
-					
+					//do something
 				},
 				error: function(msg) {
 					console.log(msg);
 				}
 			});
-*/
+
 
 		},
 		delete: function(callback) {
@@ -187,6 +187,7 @@
 				url: base + "index.php/mock/GetUserMocks",
 				data: form_data,
 				success: function(msg) {
+
 					if (msg.userid == false) { //session expired
 						Suds.app.currentUser.Logout();
 
@@ -230,11 +231,8 @@
 				$("#" + e.currentTarget.id + " i").removeClass('icon-ok').addClass('icon-remove');
 
 			} else {
-				console.log("#" + e.currentTarget.id + " i");
 				$("#" + e.currentTarget.id + " i").removeClass('icon-remove').addClass('icon-ok');
 			}
-
-
 		},
 		render: function() {
 			var view = this;
