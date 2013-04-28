@@ -14,7 +14,7 @@
 			};
 		
 			$.ajax({
-				type: "POST",
+				type: "GET",
 				dataType: "json",
 				url: base + "index.php/mock/GetMocksFields",
 				data: form_data,
