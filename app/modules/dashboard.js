@@ -4,42 +4,48 @@
     Dashboard.Collection = Backbone.Collection.extend({});
     Dashboard.Router = Backbone.Router.extend({});
     var mock = Suds.module("mock");
-	var shared =  Suds.module("shared");
+    var shared = Suds.module("shared");
     // This will fetch the tutorial template and render it.
     Dashboard.Views.MainPage = Backbone.View.extend({
         template: "app/templates/dashboard.html",
-		events:{
-			"click #addmock":"_openAddMock"
-		},
-		_openAddMock:function(){
-			var addMock = new mock.Views.AddMock();
+        events: {
+            "click #addmock": "_openAddMock"
+        },
+        _openAddMock: function() {
+            var addMock = new mock.Views.AddMock();
             addMock.render(function(el) {
                 $("#mock-info").html(el);
             });
-		},
+        },
         loadUserMocks: function() {
             var view = this;
-            shared.userMocks.loadData();  
-            var mocksTable = new mock.Views.MocksTable({
-                collection:shared.userMocks
-            });
-           
-            mocksTable.render(function(el) {
-                $("#mocks-list").html(el);
-            });
+            var callback = function() {
+                var mocksTable = new mock.Views.MocksTable({
+                    collection: shared.userMocks
+                });
+
+                mocksTable.render(function(el) {
+                    $("#mocks-list").html(el);
+                });
+            }
+            shared.userMocks.loadUserMocks(callback,null);
+
         },
         render: function(done) {
             var view = this;
-            var userId = Suds.app.currentUser.get('userId')
-            if(parseInt(userId,10)>0){
+            var userId = Suds.app.currentUser.get('userId');
+            if (parseInt(userId, 10) > 0) {
+
+
+                view.loadUserMocks();
                 // Fetch the template, render it to the View element and call done.
                 Suds.fetchTemplate(this.template, function(tmpl) {
                     view.el.innerHTML = tmpl({});
-                    done(view.el);
                     view.loadUserMocks();
+                    done(view.el);
+
                 });
-            }
-            else{//redirect to login
+            } else { //redirect to login
                 Suds.app.router.navigate("#login", true);
             }
 
