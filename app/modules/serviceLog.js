@@ -62,7 +62,7 @@
 				});
 				
 			}
-			slCollection.loadData(callback);
+			slCollection.loadUserMocks(callback);
 	
 		},
         render: function (done) {

@@ -175,8 +175,7 @@
 
 	Mock.Collection.Mocks = Backbone.Collection.extend({
 		model: Mock.Model.Mock,
-
-		loadData: function(callback, failcallback) {
+		loadUserMocks: function(callback, failcallback) {
 			var col = this;
 			var form_data = {
 				userid: Suds.app.currentUser.get('userId')
@@ -202,6 +201,9 @@
 								idCode: msg.UserMocks[i].idCode
 							});
 							col.add(um);
+						}
+						if(callback){
+							callback();
 						}
 					}
 				},
@@ -740,7 +742,7 @@
 				newMock.save(callback);
 
 				//update mock list
-				shared.userMocks.loadData();
+				shared.userMocks.loadUserMocks();
 				var mocksTable = new Mock.Views.MocksTable({
 					collection: shared.userMocks
 				});
