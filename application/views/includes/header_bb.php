@@ -35,6 +35,7 @@
 		<script src="<?php echo base_url();?>assets/js/libs/underscore-min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<?php echo base_url();?>assets/js/libs/backbone-min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="<?php echo base_url();?>assets/js/libs/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+		<script src="<?php echo base_url();?>assets/app/rpc.js"></script>
 
 
 		<script src="<?php echo base_url();?>app/namespace.js" type="text/javascript" charset="utf-8"></script>
