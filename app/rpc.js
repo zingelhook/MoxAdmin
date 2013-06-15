@@ -2,26 +2,28 @@ var RPC = (function() {
 	function RPC(type, dataType, url, data, successCallback, errorCallback) {
 		this.Type = type;
 		this.DataType = dataType;
-		thgis.URL = url;
+		this.URL = url;
 		this.FormData = data;
 		this.SuccessCallback = successCallback;
 		this.ErrorCallback = errorCallback;
+		this._executeCall()
 	}
 	RPC.prototype._executeCall = function() {
-		var rpc = this;
+		var rpcObj = this;
 		$.ajax({
-			type: this.Type,
-			dataType: this.DataType,
-			url: base + this.URL,
-			data: this.FormData,
+			type: rpcObj.Type,
+			dataType: rpcObj.DataType,
+			url: base + rpcObj.URL,
+			data: rpcObj.FormData,
 			success: function(msg) {
-				if (rpc.successCallback) {
-					rpc.successCallback(msg);
+				console.log(msg);
+				if (rpcObj.SuccessCallback) {
+					rpcObj.SuccessCallback(msg);
 				}
 			},
 			error: function(msg) {
-				if (rpc.ErrorCallback) {
-					rpc.ErrorCallback(msg);
+				if (rpcObj.ErrorCallback) {
+					rpcObj.ErrorCallback(msg);
 				}
 				//global error logging
 			}
