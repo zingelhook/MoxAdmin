@@ -16,12 +16,12 @@ var RPC = (function() {
 			data: this.FormData,
 			success: function(msg) {
 				if (rpc.successCallback) {
-					rpc.successCallback();
+					rpc.successCallback(msg);
 				}
 			},
 			error: function(msg) {
 				if (rpc.ErrorCallback) {
-					rpc.ErrorCallback();
+					rpc.ErrorCallback(msg);
 				}
 				//global error logging
 			}
