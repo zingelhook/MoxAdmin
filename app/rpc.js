@@ -16,7 +16,6 @@ var RPC = (function() {
 			url: base + rpcObj.URL,
 			data: rpcObj.FormData,
 			success: function(msg) {
-				console.log(msg);
 				if (rpcObj.SuccessCallback) {
 					rpcObj.SuccessCallback(msg);
 				}
