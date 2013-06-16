@@ -12,76 +12,67 @@
 			var form_data = {
 				id: mdl.get('id')
 			};
-		
-			$.ajax({
-				type: "GET",
-				dataType: "json",
-				url: base + "index.php/mock/GetMocksFields",
-				data: form_data,
-				success: function(msg) {
-					var count = msg.MockFields.length;
-					shared.currentMockFields = new mockfield.Collection.MockFields();;
+			//once the firlds are loaded, execute this
+			var successCallback = function(msg) {
+				var count = msg.MockFields.length;
+				shared.currentMockFields = new mockfield.Collection.MockFields();;
 
-					for (var i = 0; i < count; i++) {
-						var mf = new mockfield.Model.Field({
-							options: msg.MockFields[i].fieldoptions,
-							id: msg.MockFields[i].id,
-							name: msg.MockFields[i].name,
-							predefefinedSampleDataType: msg.MockFields[i].predefefinedSampleDataType,
-							predefinedSampleDataId: msg.MockFields[i].predefinedSampleDataId,
-							sampleData: msg.MockFields[i].sampleData
-						})
+				for (var i = 0; i < count; i++) {
+					var mf = new mockfield.Model.Field({
+						options: msg.MockFields[i].fieldoptions,
+						id: msg.MockFields[i].id,
+						name: msg.MockFields[i].name,
+						predefefinedSampleDataType: msg.MockFields[i].predefefinedSampleDataType,
+						predefinedSampleDataId: msg.MockFields[i].predefinedSampleDataId,
+						sampleData: msg.MockFields[i].sampleData
+					})
 
-						shared.currentMockFields.add(mf);
-					}
-					if (callback) {
-						callback(msg);
-					}
-				},
-				error: function(msg) {
-					//console.log(msg);
+					shared.currentMockFields.add(mf);
 				}
-			});
+				if (callback) {
+					callback(msg);
+				}
+			};
+
+			//make the ajax call
+			var rpc = new RPC('GET', 'json', 'index.php/mock/GetMocksFields', form_data, successCallback, null);
+
 		},
 		getMockChildren: function(callback, failcallback) {
 			var mdl = this;
 			var subModules = new submock.Collection.SubMocks();
+
+
+			var successCallback = function(msg) {
+				if (msg.userid == false) { //session expired
+					Suds.app.currentUser.Logout();
+
+				} else {
+					var count = msg.MockChildren.length;
+					for (var i = 0; i < count; i++) {
+						var um = new submock.Model.SubMock({
+							mockId: msg.MockChildren[i].dataTemplateId,
+							id: msg.MockChildren[i].id,
+							childTemplateId: msg.MockChildren[i].childTemplateId,
+							objectName: msg.MockChildren[i].objectName
+						});
+						subModules.add(um);
+					}
+					mdl.set({
+						subMocks: subModules
+					})
+				}
+				if (callback) {
+					callback(subModules);
+				}
+			}
+
 			var form_data = {
 				id: this.get('id')
 			};
-			$.ajax({
-				type: "GET",
-				dataType: "json",
-				url: base + "index.php/mock/GetMockChildren",
-				data: form_data,
-				success: function(msg) {
-					if (msg.userid == false) { //session expired
-						Suds.app.currentUser.Logout();
-
-					} else {
-						var count = msg.MockChildren.length;
-						for (var i = 0; i < count; i++) {
-							var um = new submock.Model.SubMock({
-								mockId: msg.MockChildren[i].dataTemplateId,
-								id: msg.MockChildren[i].id,
-								childTemplateId: msg.MockChildren[i].childTemplateId,
-								objectName: msg.MockChildren[i].objectName
-							});
-							subModules.add(um);
-						}
-						mdl.set({
-							subMocks: subModules
-						})
-					}
-
-					if (callback) {
-						callback(subModules);
-					}
-				},
-				error: function(msg) {
-					//console.log(msg);
-				}
-			});
+			//make the ajax call
+			var rpc = new RPC('GET', 'json', 'index.php/mock/GetMockChildren', form_data, successCallback, null);
+			
 		},
 
 		save: function(callback) {
@@ -128,13 +119,13 @@
 				subMocks: subMockCollection.toJSON()
 			};
 			//console.log(form_data);
-			
+
 			$.ajax({
 				type: "POST",
 				dataType: "json",
 				url: base + "index.php/mock/AddSubMocks",
 				data: form_data,
-				success: function(msg) {	
+				success: function(msg) {
 					//do something
 				},
 				error: function(msg) {
@@ -202,7 +193,7 @@
 							});
 							col.add(um);
 						}
-						if(callback){
+						if (callback) {
 							callback();
 						}
 					}
