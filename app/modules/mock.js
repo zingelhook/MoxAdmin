@@ -72,7 +72,7 @@
 			};
 			//make the ajax call
 			var rpc = new RPC('GET', 'json', 'index.php/mock/GetMockChildren', form_data, successCallback, null);
-			
+
 		},
 
 		save: function(callback) {
@@ -94,22 +94,15 @@
 			if (parseInt(mdl.get('id'), 10) > 0) {
 				url = "index.php/mock/update"
 			}
+			var successCallback = function(msg) {
+				mdl.set({
+					id: msg
+				})
+				callback(msg);
+			}
 
-			$.ajax({
-				type: "POST",
-				dataType: "json",
-				url: base + url,
-				data: form_data,
-				success: function(msg) {
-					mdl.set({
-						id: msg
-					})
-					callback(msg);
-				},
-				error: function(msg) {
-					//console.log(msg);
-				}
-			});
+			var rpc = new RPC('POST', 'json', url, form_data, successCallback, null);
+
 		},
 		addSubMocks: function(subMockCollection) {
 
@@ -118,22 +111,13 @@
 				id: mdl.get('id'),
 				subMocks: subMockCollection.toJSON()
 			};
-			//console.log(form_data);
+			var url = "index.php/mock/AddSubMocks";
 
-			$.ajax({
-				type: "POST",
-				dataType: "json",
-				url: base + "index.php/mock/AddSubMocks",
-				data: form_data,
-				success: function(msg) {
-					//do something
-				},
-				error: function(msg) {
-					console.log(msg);
-				}
-			});
+			var successCallback = function() {
+				//do something
+			}
 
-
+			var rpc = new RPC('POST', 'json', url, form_data, successCallback, null);
 		},
 		delete: function(callback) {
 			var mdl = this;
@@ -141,26 +125,18 @@
 				id: mdl.get('id'),
 				userid: Suds.app.currentUser.get('userId')
 			};
+			var url = "index.php/mock/delete";
+			var successCallback = function(msg) {
+				if (msg.userid == false) { //session expired
+					Suds.app.currentUser.Logout();
 
-			$.ajax({
-				type: "POST",
-				dataType: "json",
-				url: base + "index.php/mock/delete",
-				data: form_data,
-				success: function(msg) {
-
-					if (msg.userid == false) { //session expired
-						Suds.app.currentUser.Logout();
-
-					} else {
-						shared.userMocks.remove(mdl);
-						callback(msg);
-					}
-				},
-				error: function(msg) {
-					//console.log(msg);
+				} else {
+					shared.userMocks.remove(mdl);
+					callback(msg);
 				}
-			});
+			}
+
+			var rpc = new RPC('POST', 'json', url, form_data, successCallback, null);
 		}
 	});
 
@@ -171,37 +147,32 @@
 			var form_data = {
 				userid: Suds.app.currentUser.get('userId')
 			};
-			$.ajax({
-				type: "GET",
-				dataType: "json",
-				url: base + "index.php/mock/GetUserMocks",
-				data: form_data,
-				success: function(msg) {
 
-					if (msg.userid == false) { //session expired
-						Suds.app.currentUser.Logout();
+			var url = "index.php/mock/GetUserMocks";
 
-					} else {
-						var count = msg.UserMocks.length;
-						for (var i = 0; i < count; i++) {
-							var um = new Mock.Model.Mock({
-								name: msg.UserMocks[i].name,
-								id: msg.UserMocks[i].id,
-								max: msg.UserMocks[i].max,
-								min: msg.UserMocks[i].min,
-								idCode: msg.UserMocks[i].idCode
-							});
-							col.add(um);
-						}
-						if (callback) {
-							callback();
-						}
+			var successCallback = function(msg) {
+				if (msg.userid == false) { //session expired
+					Suds.app.currentUser.Logout();
+
+				} else {
+					var count = msg.UserMocks.length;
+					for (var i = 0; i < count; i++) {
+						var um = new Mock.Model.Mock({
+							name: msg.UserMocks[i].name,
+							id: msg.UserMocks[i].id,
+							max: msg.UserMocks[i].max,
+							min: msg.UserMocks[i].min,
+							idCode: msg.UserMocks[i].idCode
+						});
+						col.add(um);
 					}
-				},
-				error: function(msg) {
-					//console.log(msg);
+					if (callback) {
+						callback();
+					}
 				}
-			});
+			}
+
+			var rpc = new RPC('GET', 'json', url, form_data, successCallback, null);
 		}
 	});
 
@@ -502,7 +473,6 @@
 			shared.currentMock = this.model;
 			view.el.innerHTML = view.template(view.model.toJSON());
 			done(view.el);
-			//more views
 
 			//sub mocks
 			var callback = function(collection) {
@@ -512,8 +482,6 @@
 				subMocksTbl.render(function(el) {});
 			}
 			this.model.getMockChildren(callback);
-
-
 
 			view._buildJSONPExample();
 
@@ -664,7 +632,6 @@
 		_addMock: function() {
 
 			//remove old validation
-
 			$('.error').removeClass('error');
 
 			var name = $('#mockName').val();
