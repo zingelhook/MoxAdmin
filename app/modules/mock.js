@@ -12,76 +12,67 @@
 			var form_data = {
 				id: mdl.get('id')
 			};
-		
-			$.ajax({
-				type: "GET",
-				dataType: "json",
-				url: base + "index.php/mock/GetMocksFields",
-				data: form_data,
-				success: function(msg) {
-					var count = msg.MockFields.length;
-					shared.currentMockFields = new mockfield.Collection.MockFields();;
+			//once the firlds are loaded, execute this
+			var successCallback = function(msg) {
+				var count = msg.MockFields.length;
+				shared.currentMockFields = new mockfield.Collection.MockFields();;
 
-					for (var i = 0; i < count; i++) {
-						var mf = new mockfield.Model.Field({
-							options: msg.MockFields[i].fieldoptions,
-							id: msg.MockFields[i].id,
-							name: msg.MockFields[i].name,
-							predefefinedSampleDataType: msg.MockFields[i].predefefinedSampleDataType,
-							predefinedSampleDataId: msg.MockFields[i].predefinedSampleDataId,
-							sampleData: msg.MockFields[i].sampleData
-						})
+				for (var i = 0; i < count; i++) {
+					var mf = new mockfield.Model.Field({
+						options: msg.MockFields[i].fieldoptions,
+						id: msg.MockFields[i].id,
+						name: msg.MockFields[i].name,
+						predefefinedSampleDataType: msg.MockFields[i].predefefinedSampleDataType,
+						predefinedSampleDataId: msg.MockFields[i].predefinedSampleDataId,
+						sampleData: msg.MockFields[i].sampleData
+					})
 
-						shared.currentMockFields.add(mf);
-					}
-					if (callback) {
-						callback(msg);
-					}
-				},
-				error: function(msg) {
-					//console.log(msg);
+					shared.currentMockFields.add(mf);
 				}
-			});
+				if (callback) {
+					callback(msg);
+				}
+			};
+
+			//make the ajax call
+			var rpc = new RPC('GET', 'json', 'index.php/mock/GetMocksFields', form_data, successCallback, null);
+
 		},
 		getMockChildren: function(callback, failcallback) {
 			var mdl = this;
 			var subModules = new submock.Collection.SubMocks();
+
+
+			var successCallback = function(msg) {
+				if (msg.userid == false) { //session expired
+					Suds.app.currentUser.Logout();
+
+				} else {
+					var count = msg.MockChildren.length;
+					for (var i = 0; i < count; i++) {
+						var um = new submock.Model.SubMock({
+							mockId: msg.MockChildren[i].dataTemplateId,
+							id: msg.MockChildren[i].id,
+							childTemplateId: msg.MockChildren[i].childTemplateId,
+							objectName: msg.MockChildren[i].objectName
+						});
+						subModules.add(um);
+					}
+					mdl.set({
+						subMocks: subModules
+					})
+				}
+				if (callback) {
+					callback(subModules);
+				}
+			}
+
 			var form_data = {
 				id: this.get('id')
 			};
-			$.ajax({
-				type: "GET",
-				dataType: "json",
-				url: base + "index.php/mock/GetMockChildren",
-				data: form_data,
-				success: function(msg) {
-					if (msg.userid == false) { //session expired
-						Suds.app.currentUser.Logout();
+			//make the ajax call
+			var rpc = new RPC('GET', 'json', 'index.php/mock/GetMockChildren', form_data, successCallback, null);
 
-					} else {
-						var count = msg.MockChildren.length;
-						for (var i = 0; i < count; i++) {
-							var um = new submock.Model.SubMock({
-								mockId: msg.MockChildren[i].dataTemplateId,
-								id: msg.MockChildren[i].id,
-								childTemplateId: msg.MockChildren[i].childTemplateId,
-								objectName: msg.MockChildren[i].objectName
-							});
-							subModules.add(um);
-						}
-						mdl.set({
-							subMocks: subModules
-						})
-					}
-
-					if (callback) {
-						callback(subModules);
-					}
-				},
-				error: function(msg) {
-					//console.log(msg);
-				}
-			});
 		},
 
 		save: function(callback) {
@@ -103,22 +94,15 @@
 			if (parseInt(mdl.get('id'), 10) > 0) {
 				url = "index.php/mock/update"
 			}
+			var successCallback = function(msg) {
+				mdl.set({
+					id: msg
+				})
+				callback(msg);
+			}
 
-			$.ajax({
-				type: "POST",
-				dataType: "json",
-				url: base + url,
-				data: form_data,
-				success: function(msg) {
-					mdl.set({
-						id: msg
-					})
-					callback(msg);
-				},
-				error: function(msg) {
-					//console.log(msg);
-				}
-			});
+			var rpc = new RPC('POST', 'json', url, form_data, successCallback, null);
+
 		},
 		addSubMocks: function(subMockCollection) {
 
@@ -127,22 +111,13 @@
 				id: mdl.get('id'),
 				subMocks: subMockCollection.toJSON()
 			};
-			//console.log(form_data);
-			
-			$.ajax({
-				type: "POST",
-				dataType: "json",
-				url: base + "index.php/mock/AddSubMocks",
-				data: form_data,
-				success: function(msg) {	
-					//do something
-				},
-				error: function(msg) {
-					console.log(msg);
-				}
-			});
+			var url = "index.php/mock/AddSubMocks";
 
+			var successCallback = function() {
+				//do something
+			}
 
+			var rpc = new RPC('POST', 'json', url, form_data, successCallback, null);
 		},
 		delete: function(callback) {
 			var mdl = this;
@@ -150,26 +125,18 @@
 				id: mdl.get('id'),
 				userid: Suds.app.currentUser.get('userId')
 			};
+			var url = "index.php/mock/delete";
+			var successCallback = function(msg) {
+				if (msg.userid == false) { //session expired
+					Suds.app.currentUser.Logout();
 
-			$.ajax({
-				type: "POST",
-				dataType: "json",
-				url: base + "index.php/mock/delete",
-				data: form_data,
-				success: function(msg) {
-
-					if (msg.userid == false) { //session expired
-						Suds.app.currentUser.Logout();
-
-					} else {
-						shared.userMocks.remove(mdl);
-						callback(msg);
-					}
-				},
-				error: function(msg) {
-					//console.log(msg);
+				} else {
+					shared.userMocks.remove(mdl);
+					callback(msg);
 				}
-			});
+			}
+
+			var rpc = new RPC('POST', 'json', url, form_data, successCallback, null);
 		}
 	});
 
@@ -180,37 +147,32 @@
 			var form_data = {
 				userid: Suds.app.currentUser.get('userId')
 			};
-			$.ajax({
-				type: "GET",
-				dataType: "json",
-				url: base + "index.php/mock/GetUserMocks",
-				data: form_data,
-				success: function(msg) {
 
-					if (msg.userid == false) { //session expired
-						Suds.app.currentUser.Logout();
+			var url = "index.php/mock/GetUserMocks";
 
-					} else {
-						var count = msg.UserMocks.length;
-						for (var i = 0; i < count; i++) {
-							var um = new Mock.Model.Mock({
-								name: msg.UserMocks[i].name,
-								id: msg.UserMocks[i].id,
-								max: msg.UserMocks[i].max,
-								min: msg.UserMocks[i].min,
-								idCode: msg.UserMocks[i].idCode
-							});
-							col.add(um);
-						}
-						if(callback){
-							callback();
-						}
+			var successCallback = function(msg) {
+				if (msg.userid == false) { //session expired
+					Suds.app.currentUser.Logout();
+
+				} else {
+					var count = msg.UserMocks.length;
+					for (var i = 0; i < count; i++) {
+						var um = new Mock.Model.Mock({
+							name: msg.UserMocks[i].name,
+							id: msg.UserMocks[i].id,
+							max: msg.UserMocks[i].max,
+							min: msg.UserMocks[i].min,
+							idCode: msg.UserMocks[i].idCode
+						});
+						col.add(um);
 					}
-				},
-				error: function(msg) {
-					//console.log(msg);
+					if (callback) {
+						callback();
+					}
 				}
-			});
+			}
+
+			var rpc = new RPC('GET', 'json', url, form_data, successCallback, null);
 		}
 	});
 
@@ -511,7 +473,6 @@
 			shared.currentMock = this.model;
 			view.el.innerHTML = view.template(view.model.toJSON());
 			done(view.el);
-			//more views
 
 			//sub mocks
 			var callback = function(collection) {
@@ -521,8 +482,6 @@
 				subMocksTbl.render(function(el) {});
 			}
 			this.model.getMockChildren(callback);
-
-
 
 			view._buildJSONPExample();
 
@@ -673,7 +632,6 @@
 		_addMock: function() {
 
 			//remove old validation
-
 			$('.error').removeClass('error');
 
 			var name = $('#mockName').val();
