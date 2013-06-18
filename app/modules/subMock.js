@@ -10,21 +10,18 @@
 
 
     SubMock.Model.SubMock = Backbone.Model.extend({
-        save: function() {
-            //console.log(this);
+        save: function(callback) {
             var mdl = this;
             var form_data = {
                 id: mdl.get('id'),
                 objectName: mdl.get('objectName')
             };
 
-            console.log(form_data);
-
             var url = "index.php/submock/saveName";
-       
             var successCallback = function(msg) {
-                console.log(msg);
-                //do something
+                if(callback){
+                    callback();
+                }
             }
 
             var rpc = new RPC('POST', 'json', url, form_data, successCallback, null);
@@ -117,7 +114,7 @@
 
     SubMock.Views.SubMocksTableRow = Backbone.View.extend({
         tagName: "tr",
-        template: _.template("<td class='mock' id='<%=childTemplateId%>'><%=objectName%></td><td><button class='btn btn-small change_name' id='changeId_<%=id%>' type='button'>Change Name</button></td>"),
+        template: _.template("<td class='submock' id='<%=id%>'><%=objectName%></td><td><button class='btn btn-small change_name' id='changeId_<%=id%>' type='button'>Change Name</button></td>"),
         events: {
             "click .mock": "_showSubMock",
             "click .change_name": "_changeName"
@@ -223,8 +220,14 @@
             this.model.set({
                 objectName: objName
             });
-            this.model.save();
-            //save logic here
+
+            var successCallback = function() {
+               
+                $('.submock#' + view.model.get('id')).html(objName);
+            };
+            this.model.save(successCallback);
+
+            //update list logic here
             $('#changeSubMockName').modal('hide');
 
         },
