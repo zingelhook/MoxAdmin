@@ -221,7 +221,7 @@
 				var subMockSel = shared.currentMock.get('subMocks').where({
 					childTemplateId: singelMock.get('id')
 				});
-				//console.log(subMockSel);
+
 				if (subMockSel.length > 0) {
 					singelMock.set({
 						iconStatus: 'icon-ok'
@@ -294,7 +294,6 @@
 	Mock.Views.MocksTable = Backbone.View.extend({
 		initialize: function() {
 			_.bindAll(this, "render");
-			//this.collection.bind("all", this.render);
 		},
 		render: function() {
 			var view = this;
@@ -378,7 +377,8 @@
 
 
 	Mock.Views.MockInfo = Backbone.View.extend({
-		template: _.template("<div class='info'><ul class='unstyled'><li><h2>Name: <%=name%></h2><p><button class='btn btn-primary' id='edit-mock' type='button'>Edit Mock</button>&nbsp;&nbsp;<button class='btn btn-danger' id='delete-mock' type='button'>Delete Mock</button></p></li><li>Min: <%=min%></li><li>Max: <%=max%></li></ul><div class='btn-group'><a class='btn dropdown-toggle' data-toggle='dropdown' href='#'>Code Samples <span class='caret'></span></a><ul class='dropdown-menu'><li><a id='jsonp'>JSONP</a></li><li><a id='jsfiddle'>Jsfiddle</a></li></ul></div><p id='code-example'></p><p><a id='addfield' class='btn btn-primary btn-small'>Add Field</a></p><table id='mock-fields' class='table table-bordered'><thead><tr><th>Name</th><th>Options</th><th>Type</th><th>Sample Data</th></thead><tbody></tbody></table><a id='addsubmock' class='btn btn-primary'>Add Sub Mock</a><table id='subMocksTable' class='table table-striped table-bordered table-hover'><thead><tr><th>Name</th></tr></thead><tbody></tbody></table></div>"),
+		//template: _.template("<div class='info'><ul class='unstyled'><li><h2>Name: <%=name%></h2><p><button class='btn btn-primary' id='edit-mock' type='button'>Edit Mock</button>&nbsp;&nbsp;<button class='btn btn-danger' id='delete-mock' type='button'>Delete Mock</button></p></li><li>Min: <%=min%></li><li>Max: <%=max%></li></ul><div class='btn-group'><a class='btn dropdown-toggle' data-toggle='dropdown' href='#'>Code Samples <span class='caret'></span></a><ul class='dropdown-menu'><li><a id='jsonp'>JSONP</a></li><li><a id='jsfiddle'>Jsfiddle</a></li></ul></div><p id='code-example'></p><p><a id='addfield' class='btn btn-primary btn-small'>Add Field</a></p><table id='mock-fields' class='table table-bordered'><thead><tr><th>Name</th><th>Options</th><th>Type</th><th>Sample Data</th></thead><tbody></tbody></table><a id='addsubmock' class='btn btn-primary'>Add Sub Mock</a><table id='subMocksTable' class='table table-striped table-bordered table-hover'><thead><tr><th>Name</th></tr></thead><tbody></tbody></table></div>"),
+		template: "app/templates/mock-info.html",
 		initialize: function() {
 			_.bindAll(this, "render");
 		},
@@ -470,30 +470,38 @@
 		},
 		render: function(done) {
 			var view = this;
-			shared.currentMock = this.model;
-			view.el.innerHTML = view.template(view.model.toJSON());
-			done(view.el);
 
-			//sub mocks
-			var callback = function(collection) {
-				var subMocksTbl = new submock.Views.SubMocksTable({
-					collection: collection
+			// Fetch the template, render it to the View element and call done.
+			Suds.fetchTemplate(this.template, function(tmpl) {
+
+				shared.currentMock = this.model;
+				view.el.innerHTML = tmpl(view.model.toJSON());
+				done(view.el);
+
+				//sub mocks
+				var callback = function(collection) {
+					var subMocksTbl = new submock.Views.SubMocksTable({
+						collection: collection
+					});
+					subMocksTbl.render(function(el) {});
+				}
+				view.model.getMockChildren(callback);
+
+				view._buildJSONPExample();
+
+				view.model.getMockChildren();
+
+				var fieldTable = new Mock.Views.FieldTable({
+					collection: shared.currentMockFields
 				});
-				subMocksTbl.render(function(el) {});
-			}
-			this.model.getMockChildren(callback);
 
-			view._buildJSONPExample();
+				fieldTable.render(function(el) {
+					$("#mock-info").html(el);
+				});
 
-			view.model.getMockChildren();
-
-			var fieldTable = new Mock.Views.FieldTable({
-				collection: shared.currentMockFields
 			});
 
-			fieldTable.render(function(el) {
-				$("#mock-info").html(el);
-			});
+
 
 			return this;
 		}
