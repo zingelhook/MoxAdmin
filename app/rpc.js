@@ -21,6 +21,7 @@ var RPC = (function() {
 				}
 			},
 			error: function(msg) {
+				console.log(msg);
 				if (rpcObj.ErrorCallback) {
 					rpcObj.ErrorCallback(msg);
 				}
