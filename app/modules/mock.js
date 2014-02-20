@@ -394,7 +394,7 @@
 			var subMock = new submock.Views.AddSubMock({
 				model: view.model
 			})
-			//var addMock = new Mock.Views.AddMock();
+		
 			subMock.render(function(el) {
 				$("body").append(el);
 				$('#addSubMock').modal();
