@@ -1,6 +1,11 @@
 Setup on Windows
 Install WAMP
 Install MySQL Workbench
-Create a database called "mockJson"
-MAke sure database login is root/root
-Run sql script in th mockJson project.
+
+See quickstart on the service project:
+https://github.com/zingelhook/MoxJSON
+
+Once you have the admin(this) project set up. Check the application/config.php and make sure everthing is correct for your server.
+$config['base_url']	= 'http://localhost:8888//MoxAdmin/';
+
+Your database settings will be in application/database.php
