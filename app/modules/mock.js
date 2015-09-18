@@ -84,8 +84,7 @@
 				langVar: 'en:us',
 				childMocks: []
 			};
-
-
+			
 			shared.currentMock = this;
 			shared.currentMockFields.reset();
 
@@ -174,7 +173,6 @@
 			var rpc = new RPC('GET', 'json', url, form_data, successCallback, null);
 		}
 	});
-
 
 	Mock.Views.SubMocksTableRow = Backbone.View.extend({
 		tagName: "tr",
@@ -312,9 +310,7 @@
 			return this;
 		}
 	});
-
-
-
+	
 	Mock.Views.FieldTableRow = Backbone.View.extend({
 		tagName: "tr",
 		template: _.template("<td class='field' id='<%=id%>'><%=name%></td><td><%=options%></td><td><%=predefefinedSampleDataType%></td><td><%=sampleData%></td><td><button type='button' id='edit_<%=id%>' class='edit-mockfield btn btn-primary btn-small'>Edit</button>&nbsp;<button type='button' id='<%=id%>' class='del-field btn btn-danger btn-small'>Delete</button></td>"),
@@ -343,7 +339,8 @@
 			var currentField = shared.currentMockFields.get(id);
 
 			var callback = function(msg) {
-				//todo
+				//console.log(e.currentTarget);
+				 $(e.currentTarget).parent().parent().remove(); 
 			}
 			currentField.delete(callback);
 
