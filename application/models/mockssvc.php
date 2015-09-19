@@ -6,7 +6,7 @@ class mockssvc extends CI_Model{
 	//add sub mocks to mock
 	function addSubMocks($id,$smArray){
 
-		$this->deleteSubMocks($id);
+		//$this->deleteSubMocks($id);
 		if (is_array($smArray))
 		{		
 			foreach ($smArray as $sMock) {
@@ -19,7 +19,7 @@ class mockssvc extends CI_Model{
 	}
 
 	function deleteSubMocks($id){
-		$this->db->where('dataTemplateid',$id);
+		$this->db->where('childTemplateid',$id);
 		$this->db->delete('Service_DataTemplates_SubTemplates');
 		//$sql ="delete from Service_DataTemplates_SubTemplates where dataTemplateid=?";
 	 	//return $this->db->query($sql, array($id));
@@ -63,7 +63,6 @@ class mockssvc extends CI_Model{
 		return $this->db->query($sql, array($id))->result();
 	}
 	
-	
 	function updateServiceDataTemplate($data){
 		$Id = $data['sid'];
 		
@@ -98,6 +97,7 @@ class mockssvc extends CI_Model{
 			
 			$data = $this->deleteAllFieldsForMock($data);
 			
+			$this->deleteSubMocks($id);
 	
 			return $data;
 			}
