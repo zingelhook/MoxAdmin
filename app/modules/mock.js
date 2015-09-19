@@ -439,9 +439,7 @@
 			});
 		},
 		_deleteMock: function () {
-			
 			var callback = function (msg) {
-				console.log(msg);
 				$('#mock-info').empty();
 				$("#" + msg.id).remove();
 			}
@@ -592,6 +590,17 @@
 					fieldTable.render(function (el) {
 						$("#mock-info").append(el);
 					});
+
+
+					$("#" + msg.sid).remove();
+
+					var table = $("#mocksTable tbody");
+					var row = new Mock.Views.MocksTableRow({
+						model: shared.currentMock
+					});
+					table.append(row.render().el);
+
+
 				}
 				this.model.save(callback);
 			} else {
@@ -696,7 +705,7 @@
 					fieldTable.render(function (el) {
 						$("#mock-info").append(el);
 					});
-		
+
 					var table = $("#mocksTable tbody");
 					var row = new Mock.Views.MocksTableRow({
 						model: shared.currentMock
