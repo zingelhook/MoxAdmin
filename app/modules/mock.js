@@ -1,4 +1,4 @@
-(function(Mock) {
+(function (Mock) {
 	Mock.Model = Backbone.Model.extend({});
 	Mock.Collection = Backbone.Collection.extend({});
 	Mock.Router = Backbone.Router.extend({});
@@ -7,13 +7,13 @@
 	var mockfield = Suds.module("mockfield");
 	var codesamples = Suds.module("codesamples");
 	Mock.Model.Mock = Backbone.Model.extend({
-		getMockFields: function(callback) {
+		getMockFields: function (callback) {
 			var mdl = this;
 			var form_data = {
 				id: mdl.get('id')
 			};
 			//once the firlds are loaded, execute this
-			var successCallback = function(msg) {
+			var successCallback = function (msg) {
 				var count = msg.MockFields.length;
 				shared.currentMockFields = new mockfield.Collection.MockFields();;
 
@@ -38,11 +38,11 @@
 			var rpc = new RPC('GET', 'json', 'index.php/mock/GetMocksFields', form_data, successCallback, null);
 
 		},
-		getMockChildren: function(callback, failcallback) {
+		getMockChildren: function (callback, failcallback) {
 			var mdl = this;
 			var subModules = new submock.Collection.SubMocks();
 
-			var successCallback = function(msg) {
+			var successCallback = function (msg) {
 				if (msg.userid == false) { //session expired
 					Suds.app.currentUser.Logout();
 
@@ -74,7 +74,7 @@
 
 		},
 
-		save: function(callback) {
+		save: function (callback) {
 			var mdl = this;
 			var form_data = {
 				id: mdl.get('id'),
@@ -84,7 +84,7 @@
 				langVar: 'en:us',
 				childMocks: []
 			};
-			
+
 			shared.currentMock = this;
 			shared.currentMockFields.reset();
 
@@ -92,7 +92,7 @@
 			if (parseInt(mdl.get('id'), 10) > 0) {
 				url = "index.php/mock/update"
 			}
-			var successCallback = function(msg) {
+			var successCallback = function (msg) {
 				mdl.set({
 					id: msg
 				})
@@ -102,7 +102,7 @@
 			var rpc = new RPC('POST', 'json', url, form_data, successCallback, null);
 
 		},
-		addSubMocks: function(subMockCollection) {
+		addSubMocks: function (subMockCollection) {
 
 			var mdl = this;
 			var form_data = {
@@ -111,20 +111,20 @@
 			};
 			var url = "index.php/mock/AddSubMocks";
 
-			var successCallback = function() {
+			var successCallback = function () {
 				//do something
 			}
 
 			var rpc = new RPC('POST', 'json', url, form_data, successCallback, null);
 		},
-		delete: function(callback) {
+		delete: function (callback) {
 			var mdl = this;
 			var form_data = {
 				id: mdl.get('id'),
 				userid: Suds.app.currentUser.get('userId')
 			};
 			var url = "index.php/mock/delete";
-			var successCallback = function(msg) {
+			var successCallback = function (msg) {
 				if (msg.userid == false) { //session expired
 					Suds.app.currentUser.Logout();
 
@@ -140,7 +140,7 @@
 
 	Mock.Collection.Mocks = Backbone.Collection.extend({
 		model: Mock.Model.Mock,
-		loadUserMocks: function(callback, failcallback) {
+		loadUserMocks: function (callback, failcallback) {
 			var col = this;
 			var form_data = {
 				userid: Suds.app.currentUser.get('userId')
@@ -148,7 +148,7 @@
 
 			var url = "index.php/mock/GetUserMocks";
 
-			var successCallback = function(msg) {
+			var successCallback = function (msg) {
 				if (msg.userid == false) { //session expired
 					Suds.app.currentUser.Logout();
 
@@ -180,13 +180,12 @@
 		events: {
 			"click .sub-mock": "_toggleMock"
 		},
-		initialize: function() {
+		initialize: function () {
 			_.bindAll(this, "render");
 			this.subMocks = new submock.Collection.SubMocks();
-			//this.subMocks.getByParent
 
 		},
-		_toggleMock: function(e) {
+		_toggleMock: function (e) {
 			var mock = shared.userMocks.get(e.currentTarget.id.split("_")[1]);
 			if ($("#" + e.currentTarget.id + " i").hasClass('icon-ok')) {
 				$("#" + e.currentTarget.id + " i").removeClass('icon-ok').addClass('icon-remove');
@@ -195,7 +194,7 @@
 				$("#" + e.currentTarget.id + " i").removeClass('icon-remove').addClass('icon-ok');
 			}
 		},
-		render: function() {
+		render: function () {
 			var view = this;
 			var html = view.template(view.model.toJSON());
 			$(this.el).append(html);
@@ -205,14 +204,14 @@
 
 
 	Mock.Views.SubMocksTable = Backbone.View.extend({
-		initialize: function() {
+		initialize: function () {
 			_.bindAll(this, "render");
 		},
-		render: function() {
+		render: function () {
 			var view = this;
 			var table = $("#sub-mocksTable tbody");
 			table.empty();
-			this.collection.each(function(singelMock) {
+			this.collection.each(function (singelMock) {
 
 				//check to make sure the mock is already selected.childTemplateId
 				var subMockSel = shared.currentMock.get('subMocks').where({
@@ -249,10 +248,10 @@
 		events: {
 			"click .mock": "_showMock"
 		},
-		initialize: function() {
+		initialize: function () {
 			_.bindAll(this, "render");
 		},
-		_showMock: function(e) {
+		_showMock: function (e) {
 			var mock = shared.userMocks.get(e.currentTarget.id);
 			mock.set({
 				mode: 'none'
@@ -263,24 +262,24 @@
 				model: mock
 			});
 
-			info.render(function(el) {
+			info.render(function (el) {
 				$("#mock-info").html(el);
 			});
 
-			var callback = function(msg) {
+			var callback = function (msg) {
 
 				var fieldTable = new Mock.Views.FieldTable({
 					collection: shared.currentMockFields
 				});
 
-				fieldTable.render(function(el) {
+				fieldTable.render(function (el) {
 					$("#mock-info").html(el);
 				});
 
 			}
 			mock.getMockFields(callback);
 		},
-		render: function() {
+		render: function () {
 			var view = this;
 			var html = view.template(view.model.toJSON());
 			$(this.el).append(html);
@@ -289,14 +288,14 @@
 	});
 
 	Mock.Views.MocksTable = Backbone.View.extend({
-		initialize: function() {
+		initialize: function () {
 			_.bindAll(this, "render");
 		},
-		render: function() {
+		render: function () {
 			var view = this;
 			var table = $("#mocksTable tbody");
 			table.empty();
-			this.collection.each(function(singelMock) {
+			this.collection.each(function (singelMock) {
 				var row = new Mock.Views.MocksTableRow({
 					model: singelMock
 				});
@@ -310,7 +309,7 @@
 			return this;
 		}
 	});
-	
+
 	Mock.Views.FieldTableRow = Backbone.View.extend({
 		tagName: "tr",
 		template: _.template("<td class='field' id='<%=id%>'><%=name%></td><td><%=options%></td><td><%=predefefinedSampleDataType%></td><td><%=sampleData%></td><td><button type='button' id='edit_<%=id%>' class='edit-mockfield btn btn-primary btn-small'>Edit</button>&nbsp;<button type='button' id='<%=id%>' class='del-field btn btn-danger btn-small'>Delete</button></td>"),
@@ -318,10 +317,10 @@
 			"click .del-field": "_delField",
 			"click .edit-mockfield": "_editField"
 		},
-		initialize: function() {
+		initialize: function () {
 			_.bindAll(this, "render");
 		},
-		_editField: function(e) {
+		_editField: function (e) {
 
 			var id = e.currentTarget.id.replace("edit_", "");
 			var currentField = shared.currentMockFields.get(id);
@@ -329,23 +328,22 @@
 				model: currentField
 			});
 
-			editView.render(function(el) {
+			editView.render(function (el) {
 				$("#mock-info").html(el);
 			});
 		},
-		_delField: function(e) {
+		_delField: function (e) {
 
 			var id = e.currentTarget.id;
 			var currentField = shared.currentMockFields.get(id);
 
-			var callback = function(msg) {
-				//console.log(e.currentTarget);
-				 $(e.currentTarget).parent().parent().remove(); 
+			var callback = function (msg) {
+				$(e.currentTarget).parent().parent().remove();
 			}
 			currentField.delete(callback);
 
 		},
-		render: function() {
+		render: function () {
 			var view = this;
 			var html = view.template(view.model.toJSON());
 			$(this.el).append(html);
@@ -354,14 +352,14 @@
 	});
 
 	Mock.Views.FieldTable = Backbone.View.extend({
-		initialize: function() {
+		initialize: function () {
 			_.bindAll(this, "render");
 		},
-		render: function() {
+		render: function () {
 			var view = this;
 			var table = $("#mock-fields tbody");
 			table.empty();
-			this.collection.each(function(singelField) {
+			this.collection.each(function (singelField) {
 				var row = new Mock.Views.FieldTableRow({
 					model: singelField
 				});
@@ -374,7 +372,7 @@
 
 	Mock.Views.MockInfo = Backbone.View.extend({
 		template: "app/templates/mock-info.html",
-		initialize: function() {
+		initialize: function () {
 			_.bindAll(this, "render");
 		},
 		events: {
@@ -385,26 +383,26 @@
 			"click #jsfiddle": "_jsFiddle",
 			"click #jsonp": "_jsonp"
 		},
-		_addSubMock: function() {
+		_addSubMock: function () {
 			var view = this;
 			$("#addSubMock").remove();
 			var subMock = new submock.Views.AddSubMock({
 				model: view.model
 			})
 			//var addMock = new Mock.Views.AddMock();
-			subMock.render(function(el) {
+			subMock.render(function (el) {
 				$("body").append(el);
 				$('#addSubMock').modal();
 			});
 		},
-		_addField: function() {
+		_addField: function () {
 			var addMockFieldPage = new mockfield.Views.AddMockField();
 			// Attach the tutorial to the DOM
-			addMockFieldPage.render(function(el) {
+			addMockFieldPage.render(function (el) {
 				$("#mock-info").html(el);
 			});
 		},
-		_jsonp: function() {
+		_jsonp: function () {
 			//call edit mock view
 			this.model.set({
 				url: Suds.app.externalMoxURL
@@ -413,11 +411,11 @@
 				model: this.model
 			});
 
-			jsonp.render(function(el) {
+			jsonp.render(function (el) {
 				$("#code-example").html(el);
 			});
 		},
-		_jsFiddle: function() {
+		_jsFiddle: function () {
 			//call edit mock view
 			this.model.set({
 				url: Suds.app.externalMoxURL
@@ -426,27 +424,30 @@
 				model: this.model
 			});
 
-			jsFid.render(function(el) {
+			jsFid.render(function (el) {
 				$("#code-example").html(el);
 			});
 		},
-		_editMock: function() {
+		_editMock: function () {
 			//call edit mock view
 			var editMock = new Mock.Views.EditMock({
 				model: this.model
 			});
 
-			editMock.render(function(el) {
+			editMock.render(function (el) {
 				$("#mock-info").html(el);
 			});
 		},
-		_deleteMock: function() {
-			var callback = function(msg) {
+		_deleteMock: function () {
+			
+			var callback = function (msg) {
+				console.log(msg);
 				$('#mock-info').empty();
+				$("#" + msg.id).remove();
 			}
 			this.model.delete(callback);
 		},
-		_buildJSONPExample: function() {
+		_buildJSONPExample: function () {
 			var code = '$.ajax({type: "GET",dataType: "jsonp",jsonpCallback: "moxsvc",url:"';
 			code += Suds.app.externalMoxURL;
 			code += '?id=';
@@ -462,22 +463,22 @@
 			$('#code-example').html(pre);
 
 		},
-		render: function(done) {
+		render: function (done) {
 			var view = this;
 
 			// Fetch the template, render it to the View element and call done.
-			Suds.fetchTemplate(this.template, function(tmpl) {
-				
+			Suds.fetchTemplate(this.template, function (tmpl) {
+
 				shared.currentMock = view.model;
 				view.el.innerHTML = tmpl(view.model.toJSON());
 				done(view.el);
 
 				//sub mocks
-				var callback = function(collection) {
+				var callback = function (collection) {
 					var subMocksTbl = new submock.Views.SubMocksTable({
 						collection: collection
 					});
-					subMocksTbl.render(function(el) {});
+					subMocksTbl.render(function (el) { });
 				}
 				view.model.getMockChildren(callback);
 
@@ -489,7 +490,7 @@
 					collection: shared.currentMockFields
 				});
 
-				fieldTable.render(function(el) {
+				fieldTable.render(function (el) {
 					$("#mock-info").html(el);
 				});
 
@@ -505,13 +506,13 @@
 			"click #submitMox": "_editMock",
 			"click #cancel_btn": "_cancel"
 		},
-		_cancel: function() {
+		_cancel: function () {
 			$("#mock-info").empty();
 
 			var info = new Mock.Views.MockInfo({
 				model: shared.currentMock
 			});
-			info.render(function(el) {
+			info.render(function (el) {
 				$("#mock-info").html(el);
 			});
 
@@ -519,11 +520,11 @@
 				collection: shared.currentMockFields
 			});
 
-			fieldTable.render(function(el) {
+			fieldTable.render(function (el) {
 				$("#mock-info").append(el);
 			});
 		},
-		_editMock: function() {
+		_editMock: function () {
 			var view = this;
 			$('#invalid-mock').hide();
 			$('#error-list').empty();
@@ -574,13 +575,13 @@
 					max: max
 				});
 
-				var callback = function(msg) {
+				var callback = function (msg) {
 					$("#mock-info").empty();
 
 					var info = new Mock.Views.MockInfo({
 						model: shared.currentMock
 					});
-					info.render(function(el) {
+					info.render(function (el) {
 						$("#mock-info").html(el);
 					});
 
@@ -588,7 +589,7 @@
 						collection: shared.currentMockFields
 					});
 
-					fieldTable.render(function(el) {
+					fieldTable.render(function (el) {
 						$("#mock-info").append(el);
 					});
 				}
@@ -604,10 +605,10 @@
 				$('#invalid-mock').show();
 			}
 		},
-		render: function(done) {
+		render: function (done) {
 			var view = this;
 			// Fetch the template, render it to the View element and call done.
-			Suds.fetchTemplate(this.template, function(tmpl) {
+			Suds.fetchTemplate(this.template, function (tmpl) {
 				view.el.innerHTML = tmpl({
 					id: view.model.get("id"),
 					name: view.model.get("name"),
@@ -624,10 +625,10 @@
 			"click #submitMox": "_addMock",
 			"click #cancel_btn": "_cancel"
 		},
-		_cancel: function() {
+		_cancel: function () {
 			$("#mock-info").empty();
 		},
-		_addMock: function() {
+		_addMock: function () {
 
 			//remove old validation
 			$('.error').removeClass('error');
@@ -678,12 +679,13 @@
 					min: min,
 					max: max
 				});
-				var callback = function(msg) {
+				var callback = function (msg) {
 
 					var info = new Mock.Views.MockInfo({
 						model: shared.currentMock
 					});
-					info.render(function(el) {
+
+					info.render(function (el) {
 						$("#mock-info").html(el);
 					});
 
@@ -691,9 +693,16 @@
 						collection: shared.currentMockFields
 					});
 
-					fieldTable.render(function(el) {
+					fieldTable.render(function (el) {
 						$("#mock-info").append(el);
 					});
+		
+					var table = $("#mocksTable tbody");
+					var row = new Mock.Views.MocksTableRow({
+						model: shared.currentMock
+					});
+					table.append(row.render().el);
+
 				}
 				newMock.save(callback);
 
@@ -703,7 +712,7 @@
 					collection: shared.userMocks
 				});
 
-				mocksTable.render(function(el) {
+				mocksTable.render(function (el) {
 					$("#mocks-list").html(el);
 				});
 			} else {
@@ -718,10 +727,10 @@
 				}
 			}
 		},
-		render: function(done) {
+		render: function (done) {
 			var view = this;
 			// Fetch the template, render it to the View element and call done.
-			Suds.fetchTemplate(this.template, function(tmpl) {
+			Suds.fetchTemplate(this.template, function (tmpl) {
 				view.el.innerHTML = tmpl({});
 				done(view.el);
 			});
